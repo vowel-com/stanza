@@ -74,7 +74,7 @@
         "xmpp"
     ],
     "license": "MIT",
-    "main": "./dist/cjs/index.js",
+    "main": "./bin/npm/index.js",
     "prettier": {
         "tabWidth": 4,
         "printWidth": 100,
