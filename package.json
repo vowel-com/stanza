@@ -98,6 +98,7 @@
         "compile:webpack": "webpack --mode production",
         "license-check": "npx license-checker --production --excludePrivatePackages --summary",
         "lint": "eslint .",
+        "release": "npm run build && npm publish ./dist/npm",
         "test": "jest",
         "validate": "npm ls"
     }
