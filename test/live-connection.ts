@@ -50,13 +50,11 @@ test('End to end', done => {
     });
 
     client1.on('session:started', async () => {
-        console.log('c1 session:started');
         const roster = await client1.getRoster();
         expect(roster.items).toStrictEqual([]);
         client1.sendPresence();
 
         client2.on('session:started', async () => {
-            console.log('c2 session:started');
             await client2.getRoster();
             client2.sendPresence();
             client2.subscribe(client1.jid);
@@ -65,12 +63,9 @@ test('End to end', done => {
     });
 
     client1.on('available', async pres => {
-        console.log('c1 available');
         if (pres.from === client1.jid) {
             return;
         }
-        console.log(client1.jid);
-        console.log(pres);
         await client1.ping(pres.from);
 
         client1.sendMessage({
@@ -80,19 +75,17 @@ test('End to end', done => {
     });
 
     client1.on('subscribe', () => {
-        console.log('c1 subscribe');
         client1.acceptSubscription(client2.jid);
         client1.subscribe(client2.jid);
     });
 
     client2.on('subscribe', () => {
-        console.log('c2 subscribe');
         client2.acceptSubscription(client1.jid);
     });
 
     client2.on('message', msg => {
-        console.log('c2 message');
         expect(msg.body).toBe('test');
+
         client1.disconnect();
         client2.disconnect();
 
