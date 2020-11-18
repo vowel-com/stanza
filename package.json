@@ -96,9 +96,9 @@
         "compile:module": "tsc -p . --outDir ./dist/es --target es2015 --module es2015",
         "compile:rollup": "rollup -c rollup.config.js",
         "compile:webpack": "webpack --mode production",
+        "deploy": "npm run build && npm publish ./dist/npm",
         "license-check": "npx license-checker --production --excludePrivatePackages --summary",
         "lint": "eslint .",
-        "release": "npm run build && npm publish ./dist/npm",
         "test": "jest",
         "validate": "npm ls"
     }
