@@ -1,9 +1,9 @@
 {
-    "name": "stanza",
+    "name": "@vowel-com/stanza",
     "description": "Modern XMPP in the browser, with a JSON API",
-    "version": "12.15.0",
+    "version": "0.1.0",
     "author": "Lance Stout <lancestout@gmail.com>",
-    "bugs": "https://github.com/legastero/stanza/issues",
+    "bugs": "https://github.com/vowel-com/stanza/issues",
     "contributors": [
         "Philipp Hancke <fippo@andyet.net>",
         "Steven Lloyd Watkin <lloyd@evilprofessor.co.uk>"
@@ -65,7 +65,8 @@
         "coverageReporters": [
             "text",
             "html"
-        ]
+        ],
+        "testTimeout": 10000
     },
     "keywords": [
         "jingle",
@@ -83,11 +84,10 @@
         "trailingComma": "none",
         "arrowParens": "avoid"
     },
-    "private": true,
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/legastero/stanza.git"
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
     },
+    "repository": "git://github.com/vowel-com/stanza.git",
     "scripts": {
         "build": "ts-node scripts/build",
         "build:docs": "ts-node scripts/build-docs",
