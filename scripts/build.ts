@@ -48,6 +48,9 @@ FS.writeFileSync(
 
 const [name] = Pkg.name.split('/').reverse();
 
+// Copy to bin folder
+Child('cp -R dist/* bin/');
+
 // Create package bundle
 Child('cd dist/npm && npm pack');
 Child(`mv dist/npm/*.tgz ${__dirname}/../dist/${name}.tgz`);
