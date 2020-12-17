@@ -1,5 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 function default_1(client) {
     client.features = {
         handlers: Object.create(null),
@@ -15,7 +15,7 @@ function default_1(client) {
         this.features.order.sort((a, b) => a.priority - b.priority);
         this.features.handlers[name] = handler.bind(client);
     };
-    client.on('features', async (features) => {
+    client.on('features', async features => {
         const negotiated = client.features.negotiated;
         const handlers = client.features.handlers;
         const processingOrder = [];
@@ -29,8 +29,7 @@ function default_1(client) {
                 handlers[featureName](features, (command, message) => {
                     if (command) {
                         resolve({ command, message });
-                    }
-                    else {
+                    } else {
                         resolve();
                     }
                 });
@@ -48,8 +47,7 @@ function default_1(client) {
                     cmd = res.command;
                     msg = res.message || '';
                 }
-            }
-            catch (err) {
+            } catch (err) {
                 cmd = 'disconnect';
                 msg = err.message;
                 console.error(err);

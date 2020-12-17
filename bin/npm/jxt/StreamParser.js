@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * This file is derived from prior work.
  *
@@ -6,12 +6,12 @@
  *
  * Derived from: ltx, Copyright © 2010 Stephan Maka
  */
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const readable_stream_1 = require("readable-stream");
-const Element_1 = tslib_1.__importDefault(require("./Element"));
-const Error_1 = tslib_1.__importDefault(require("./Error"));
-const Parser_1 = tslib_1.__importDefault(require("./Parser"));
+Object.defineProperty(exports, '__esModule', { value: true });
+const tslib_1 = require('tslib');
+const readable_stream_1 = require('readable-stream');
+const Element_1 = tslib_1.__importDefault(require('./Element'));
+const Error_1 = tslib_1.__importDefault(require('./Error'));
+const Parser_1 = tslib_1.__importDefault(require('./Parser'));
 class StreamParser extends readable_stream_1.Transform {
     constructor(opts) {
         super({ objectMode: true });
@@ -55,19 +55,17 @@ class StreamParser extends readable_stream_1.Transform {
                         xml: el
                     });
                     return;
-                }
-                else {
+                } else {
                     return this.destroy(Error_1.default.notWellFormed());
                 }
             }
             if (!this.currentElement) {
                 this.currentElement = el;
-            }
-            else {
+            } else {
                 this.currentElement = this.currentElement.appendChild(el);
             }
         });
-        this.parser.on('endElement', (name) => {
+        this.parser.on('endElement', name => {
             if (this.destroyed) {
                 return;
             }
@@ -91,8 +89,7 @@ class StreamParser extends readable_stream_1.Transform {
             }
             if (this.currentElement.parent) {
                 this.currentElement = this.currentElement.parent;
-            }
-            else {
+            } else {
                 if (this.wrappedStream) {
                     this.currentElement.parent = this.rootElement;
                 }
@@ -111,7 +108,7 @@ class StreamParser extends readable_stream_1.Transform {
                 this.currentElement = undefined;
             }
         });
-        this.parser.on('text', (text) => {
+        this.parser.on('text', text => {
             if (this.currentElement) {
                 this.currentElement.children.push(text);
             }

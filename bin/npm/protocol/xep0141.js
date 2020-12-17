@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0141: Data Forms Layout
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0141.html
 // Version: 1.0 (2005-05-12)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const aliases = [
     'dataformLayout',
     {

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0004: Data Forms
 // --------------------------------------------------------------------
@@ -12,10 +12,10 @@
 // Source: https://xmpp.org/extensions/xep-0122.html
 // Version: 1.0.1 (2018-03-05)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = require("../Constants");
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const Constants_1 = require('../Constants');
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     {
         aliases: [{ path: 'message.forms', multiple: true }],
@@ -86,28 +86,30 @@ const Protocol = [
                 exporter(xml, data, context) {
                     const converter = jxt_1.multipleChildText(null, 'value');
                     let outputData = [];
-                    const rawData = context.data && context.data.rawValues
-                        ? context.data.rawValues[0]
-                        : undefined;
+                    const rawData =
+                        context.data && context.data.rawValues
+                            ? context.data.rawValues[0]
+                            : undefined;
                     if (typeof data === 'boolean') {
                         if (rawData === 'true' || rawData === 'false') {
                             outputData = [rawData];
-                        }
-                        else {
+                        } else {
                             outputData = [data ? '1' : '0'];
                         }
-                    }
-                    else if (!Array.isArray(data)) {
+                    } else if (!Array.isArray(data)) {
                         outputData = [data.toString()];
-                    }
-                    else {
+                    } else {
                         for (const value of data) {
                             outputData.push(value.toString());
                         }
                     }
-                    converter.exporter(xml, outputData, Object.assign({}, context, {
-                        namespace: Namespaces_1.NS_DATAFORM
-                    }));
+                    converter.exporter(
+                        xml,
+                        outputData,
+                        Object.assign({}, context, {
+                            namespace: Namespaces_1.NS_DATAFORM
+                        })
+                    );
                 }
             }
         },

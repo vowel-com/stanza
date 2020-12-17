@@ -1,9 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.SCRAM = exports.DIGEST = exports.OAUTH = exports.PLAIN = exports.EXTERNAL = exports.ANONYMOUS = exports.Hi = exports.HMAC = exports.H = exports.XOR = exports.createClientNonce = exports.Factory = exports.SimpleMech = void 0;
-const tslib_1 = require("tslib");
-const Hashes = tslib_1.__importStar(require("stanza-shims"));
-const stringprep_1 = require("../stringprep");
+const tslib_1 = require('tslib');
+const Hashes = tslib_1.__importStar(require('stanza-shims'));
+const stringprep_1 = require('../stringprep');
 class SimpleMech {
     constructor(name) {
         this.authenticated = false;
@@ -114,11 +114,9 @@ function escapeUsername(name) {
     for (const curr of name) {
         if (curr === ',') {
             escaped.push('=2C');
-        }
-        else if (curr === '=') {
+        } else if (curr === '=') {
             escaped.push('=3D');
-        }
-        else {
+        } else {
             escaped.push(curr);
         }
     }
@@ -159,11 +157,13 @@ class PLAIN extends SimpleMech {
         };
     }
     createResponse(credentials) {
-        return Buffer.from((credentials.authzid || '') +
-            '\x00' +
-            credentials.username +
-            '\x00' +
-            (credentials.password || credentials.token));
+        return Buffer.from(
+            (credentials.authzid || '') +
+                '\x00' +
+                credentials.username +
+                '\x00' +
+                (credentials.password || credentials.token)
+        );
     }
 }
 exports.PLAIN = PLAIN;
@@ -356,8 +356,7 @@ class SCRAM {
         if (credentials.tlsUnique) {
             if (!this.useChannelBinding) {
                 cbindHeader = 'y';
-            }
-            else {
+            } else {
                 cbindHeader = 'p=tls-unique';
             }
         }
@@ -384,14 +383,17 @@ class SCRAM {
         if (cached && credentials.clientKey && credentials.serverKey) {
             clientKey = Buffer.from(credentials.clientKey);
             serverKey = Buffer.from(credentials.serverKey);
-        }
-        else if (cached && credentials.saltedPassword) {
+        } else if (cached && credentials.saltedPassword) {
             saltedPassword = Buffer.from(credentials.saltedPassword);
             clientKey = HMAC(saltedPassword, CLIENT_KEY, this.algorithm);
             serverKey = HMAC(saltedPassword, SERVER_KEY, this.algorithm);
-        }
-        else {
-            saltedPassword = Hi(Buffer.from(stringprep_1.saslprep(credentials.password)), this.salt, this.iterationCount, this.algorithm);
+        } else {
+            saltedPassword = Hi(
+                Buffer.from(stringprep_1.saslprep(credentials.password)),
+                this.salt,
+                this.iterationCount,
+                this.algorithm
+            );
             clientKey = HMAC(saltedPassword, CLIENT_KEY, this.algorithm);
             serverKey = HMAC(saltedPassword, SERVER_KEY, this.algorithm);
         }

@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0131: Stanza Headers and Internet Metadata
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0131.html
 // Version: 1.2 (2006-07-12)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     jxt_1.extendMessage({
         headers: jxt_1.splicePath(Namespaces_1.NS_SHIM, 'headers', 'header', true)

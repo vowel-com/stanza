@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0280: Message Carbons
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0280.html
 // Version: 0.12.0 (2017-02-16)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     jxt_1.addAlias(Namespaces_1.NS_FORWARD_0, 'forwarded', ['message.carbon.forward']),
     {

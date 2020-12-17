@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * This file is derived from prior work.
  *
@@ -7,4 +7,4 @@
  * Derived from:
  * - strict-event-emitter-types, Copyright 2018 Brian Terlson
  */
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });

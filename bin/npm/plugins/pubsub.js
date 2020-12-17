@@ -1,8 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const JID = tslib_1.__importStar(require("../JID"));
-const Namespaces_1 = require("../Namespaces");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const tslib_1 = require('tslib');
+const JID = tslib_1.__importStar(require('../JID'));
+const Namespaces_1 = require('../Namespaces');
 function isPubsubMessage(msg) {
     return !!msg.pubsub;
 }
@@ -16,7 +16,7 @@ function isPubsubPurge(msg) {
     return msg.pubsub.eventType === 'purge';
 }
 function isPubsubDelete(msg) {
-    return msg.pubsub.eventType === 'purge';
+    return msg.pubsub.eventType === 'delete';
 }
 function isPubsubSubscription(msg) {
     return msg.pubsub.eventType === 'subscription';
@@ -72,8 +72,7 @@ function default_1(client) {
         if (typeof opts === 'string') {
             subscribe.node = opts;
             subscribe.jid = JID.toBare(client.jid);
-        }
-        else {
+        } else {
             subscribe.node = opts.node;
             subscribe.jid = opts.jid || (opts.useBareJID ? JID.toBare(client.jid) : client.jid);
             form = opts.options;
@@ -98,8 +97,7 @@ function default_1(client) {
         if (typeof opts === 'string') {
             unsubscribe.node = opts;
             unsubscribe.jid = JID.toBare(client.jid);
-        }
-        else {
+        } else {
             unsubscribe.node = opts.node;
             unsubscribe.subid = opts.subid;
             unsubscribe.jid = opts.jid || (opts.useBareJID ? JID.toBare(client.jid) : client.jid);
@@ -209,8 +207,8 @@ function default_1(client) {
             pubsub: {
                 configure: config
                     ? {
-                        form: config
-                    }
+                          form: config
+                      }
                     : undefined,
                 context: 'user',
                 create: {
@@ -252,8 +250,7 @@ function default_1(client) {
     client.getNodeSubscribers = (jid, node, opts = {}) => {
         if (typeof node === 'string') {
             opts.node = node;
-        }
-        else {
+        } else {
             opts = {
                 ...opts,
                 ...node
@@ -320,7 +317,7 @@ function default_1(client) {
         });
         return resp.pubsub.configure.form || {};
     };
-    client.getDefaultNodeConfig = async (jid) => {
+    client.getDefaultNodeConfig = async jid => {
         const resp = await client.sendIQ({
             pubsub: {
                 context: 'owner',
@@ -344,7 +341,7 @@ function default_1(client) {
             type: 'set'
         });
     };
-    client.getDefaultSubscriptionOptions = async (jid) => {
+    client.getDefaultSubscriptionOptions = async jid => {
         const resp = await client.sendIQ({
             pubsub: {
                 defaultSubscriptionOptions: {}

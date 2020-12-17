@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0357: Push Notifications
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0357.html
 // Version: 0.3 (2017-08-24)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     jxt_1.addAlias(Namespaces_1.NS_DATAFORM, 'x', ['iq.push.form', 'pushNotification.form']),
     {

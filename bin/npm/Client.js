@@ -1,17 +1,17 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const async_1 = require("async");
-const events_1 = require("events");
-const StreamManagement_1 = tslib_1.__importDefault(require("./helpers/StreamManagement"));
-const JID = tslib_1.__importStar(require("./JID"));
-const JXT = tslib_1.__importStar(require("./jxt"));
-const SASL = tslib_1.__importStar(require("./lib/sasl"));
-const plugins_1 = require("./plugins");
-const protocol_1 = tslib_1.__importDefault(require("./protocol"));
-const bosh_1 = tslib_1.__importDefault(require("./transports/bosh"));
-const websocket_1 = tslib_1.__importDefault(require("./transports/websocket"));
-const Utils_1 = require("./Utils");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const tslib_1 = require('tslib');
+const async_1 = require('async');
+const events_1 = require('events');
+const StreamManagement_1 = tslib_1.__importDefault(require('./helpers/StreamManagement'));
+const JID = tslib_1.__importStar(require('./JID'));
+const JXT = tslib_1.__importStar(require('./jxt'));
+const SASL = tslib_1.__importStar(require('./lib/sasl'));
+const plugins_1 = require('./plugins');
+const protocol_1 = tslib_1.__importDefault(require('./protocol'));
+const bosh_1 = tslib_1.__importDefault(require('./transports/bosh'));
+const websocket_1 = tslib_1.__importDefault(require('./transports/websocket'));
+const Utils_1 = require('./Utils');
 class Client extends events_1.EventEmitter {
     constructor(opts = {}) {
         super();
@@ -55,7 +55,7 @@ class Client extends events_1.EventEmitter {
         this.sm.on('end-resend', () => this.outgoingDataQueue.resume());
         // Create message:* flavors of stanza:* SM events
         for (const type of ['acked', 'hibernated', 'failed']) {
-            this.on(`stanza:${type}`, (data) => {
+            this.on(`stanza:${type}`, data => {
                 if (data.kind === 'message') {
                     this.emit(`message:${type}`, data.stanza);
                 }
@@ -69,13 +69,12 @@ class Client extends events_1.EventEmitter {
             const { kind, stanza } = task;
             this.emit(kind, stanza);
             if (stanza.id) {
-                this.emit((kind + ':id:' + stanza.id), stanza);
+                this.emit(kind + ':id:' + stanza.id, stanza);
             }
             if (kind === 'message' || kind === 'presence' || kind === 'iq') {
                 this.emit('stanza', stanza);
                 await this.sm.handle();
-            }
-            else if (kind === 'sm') {
+            } else if (kind === 'sm') {
                 if (stanza.type === 'ack') {
                     await this.sm.process(stanza);
                     this.emit('stream:management:ack', stanza);
@@ -95,8 +94,7 @@ class Client extends events_1.EventEmitter {
             if (kind === 'message') {
                 if (replay) {
                     this.emit('message:retry', stanza);
-                }
-                else {
+                } else {
                     this.emit('message:sent', stanza, false);
                 }
             }
@@ -106,18 +104,18 @@ class Client extends events_1.EventEmitter {
                 }
                 await this.transport.send(kind, stanza);
                 if (ackRequest) {
-                    (_a = this.transport) === null || _a === void 0 ? void 0 : _a.send('sm', { type: 'request' });
+                    (_a = this.transport) === null || _a === void 0
+                        ? void 0
+                        : _a.send('sm', { type: 'request' });
                 }
-            }
-            catch (err) {
+            } catch (err) {
                 if (['message', 'presence', 'iq'].includes(kind)) {
                     if (!this.sm.started || !this.sm.resumable) {
                         this.emit('stanza:failed', {
                             kind,
                             stanza
                         });
-                    }
-                    else if (this.sm.resumable && !this.transport) {
+                    } else if (this.sm.resumable && !this.transport) {
                         this.emit('stanza:hibernated', {
                             kind,
                             stanza
@@ -130,10 +128,13 @@ class Client extends events_1.EventEmitter {
             }
         }, 1);
         this.on('stream:data', (json, kind) => {
-            this.incomingDataQueue.push({
-                kind,
-                stanza: json
-            }, 0);
+            this.incomingDataQueue.push(
+                {
+                    kind,
+                    stanza: json
+                },
+                0
+            );
         });
         this.on('--transport-disconnected', async () => {
             const drains = [];
@@ -153,8 +154,12 @@ class Client extends events_1.EventEmitter {
                 this.reconnectAttempts += 1;
                 clearTimeout(this.reconnectTimer);
                 // [VOWEL]: extra debug
-                const delay = 1000 *
-                    Math.min(Math.pow(2, this.reconnectAttempts) + Math.random(), this.config.maxReconnectBackoff || 32);
+                const delay =
+                    1000 *
+                    Math.min(
+                        Math.pow(2, this.reconnectAttempts) + Math.random(),
+                        this.config.maxReconnectBackoff || 32
+                    );
                 this.emit('debug', `scheduled reconnect timer in: ${delay}ms`);
                 this.reconnectTimer = setTimeout(() => {
                     // [VOWEL]: extra debug
@@ -164,7 +169,7 @@ class Client extends events_1.EventEmitter {
             }
             this.emit('disconnected');
         });
-        this.on('iq', (iq) => {
+        this.on('iq', iq => {
             const iqType = iq.type;
             const payloadType = iq.payloadType;
             const iqEvent = 'iq:' + iqType + ':' + payloadType;
@@ -189,14 +194,14 @@ class Client extends events_1.EventEmitter {
             }
         });
         this.on('message', msg => {
-            const isChat = (msg.alternateLanguageBodies && msg.alternateLanguageBodies.length) ||
+            const isChat =
+                (msg.alternateLanguageBodies && msg.alternateLanguageBodies.length) ||
                 (msg.links && msg.links.length);
             const isMarker = msg.marker && msg.marker.type !== 'markable';
             if (isChat && !isMarker) {
                 if (msg.type === 'chat' || msg.type === 'normal') {
                     this.emit('chat', msg);
-                }
-                else if (msg.type === 'groupchat') {
+                } else if (msg.type === 'groupchat') {
                     this.emit('groupchat', msg);
                 }
             }
@@ -204,7 +209,7 @@ class Client extends events_1.EventEmitter {
                 this.emit('message:error', msg);
             }
         });
-        this.on('presence', (pres) => {
+        this.on('presence', pres => {
             let presType = pres.type || 'available';
             if (presType === 'error') {
                 presType = 'presence:error';
@@ -251,8 +256,7 @@ class Client extends events_1.EventEmitter {
             super.emit(`raw:${args[0]}`, args[1]);
             super.emit('raw:*', `raw:${args[0]}`, args[1]);
             super.emit('*', `raw:${args[0]}`, args[1]);
-        }
-        else {
+        } else {
             super.emit('*', name, ...args);
         }
         return res;
@@ -285,18 +289,18 @@ class Client extends events_1.EventEmitter {
             }
             if (typeof conf === 'string') {
                 conf = { url: conf };
-            }
-            else if (conf === true) {
+            } else if (conf === true) {
                 if (!endpoints) {
                     try {
                         endpoints = await this.discoverBindings(this.config.server);
-                    }
-                    catch (err) {
+                    } catch (err) {
                         console.error(err);
                         continue;
                     }
                 }
-                endpoints[name] = (endpoints[name] || []).filter(url => url.startsWith('wss:') || url.startsWith('https:'));
+                endpoints[name] = (endpoints[name] || []).filter(
+                    url => url.startsWith('wss:') || url.startsWith('https:')
+                );
                 if (!endpoints[name] || !endpoints[name].length) {
                     continue;
                 }
@@ -329,8 +333,7 @@ class Client extends events_1.EventEmitter {
         this.sessionStarted = false;
         if (this.transport) {
             this.transport.disconnect();
-        }
-        else {
+        } else {
             this.emit('--transport-disconnected');
         }
         this.outgoingDataQueue.resume();
@@ -341,7 +344,9 @@ class Client extends events_1.EventEmitter {
     }
     async send(kind, stanza, replay = false) {
         return new Promise((resolve, reject) => {
-            this.outgoingDataQueue.push({ kind, stanza, replay }, replay ? 0 : 1, err => err ? reject(err) : resolve());
+            this.outgoingDataQueue.push({ kind, stanza, replay }, replay ? 0 : 1, err =>
+                err ? reject(err) : resolve()
+            );
         });
     }
     sendMessage(data) {
@@ -370,7 +375,7 @@ class Client extends events_1.EventEmitter {
         const allowed = JID.allowedResponders(this.jid, data.to);
         const respEvent = 'iq:id:' + iq.id;
         const request = new Promise((resolve, reject) => {
-            const handler = (res) => {
+            const handler = res => {
                 // Only process result from the correct responder
                 if (!allowed.has(res.from)) {
                     return;
@@ -384,8 +389,7 @@ class Client extends events_1.EventEmitter {
                 this.off(respEvent, handler);
                 if (res.type === 'result') {
                     resolve(res);
-                }
-                else {
+                } else {
                     reject(res);
                 }
             };

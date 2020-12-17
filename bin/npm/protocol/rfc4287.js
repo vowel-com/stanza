@@ -1,12 +1,12 @@
-"use strict";
+'use strict';
 // ====================================================================
 // RFC 4287: The Atom Syndication Format
 // --------------------------------------------------------------------
 // Source: https://tools.ietf.org/html/rfc4287
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     {
         aliases: ['atomentry', ...jxt_1.pubsubItemContentAliases()],

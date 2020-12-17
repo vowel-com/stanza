@@ -22,7 +22,11 @@ export default class Client extends EventEmitter {
     sessionTerminating?: boolean;
     reconnectAttempts: number;
     transports: {
-        [key: string]: new (client: Agent, sm: StreamManagement, registry: JXT.Registry) => Transport;
+        [key: string]: new (
+            client: Agent,
+            sm: StreamManagement,
+            registry: JXT.Registry
+        ) => Transport;
     };
     sasl: SASL.Factory;
     incomingDataQueue: AsyncPriorityQueue<StreamData>;
@@ -30,9 +34,11 @@ export default class Client extends EventEmitter {
     private reconnectTimer;
     constructor(opts?: AgentConfig);
     updateConfig(opts?: AgentConfig): void;
-    get stream(): import("./protocol").Stream | undefined;
+    get stream(): import('./protocol').Stream | undefined;
     emit(name: string, ...args: any[]): boolean;
-    use(pluginInit: boolean | ((agent: Agent, registry: JXT.Registry, config: AgentConfig) => void)): void;
+    use(
+        pluginInit: boolean | ((agent: Agent, registry: JXT.Registry, config: AgentConfig) => void)
+    ): void;
     nextId(): string;
     getCredentials(): Promise<SASL.Credentials>;
     connect(): Promise<void>;

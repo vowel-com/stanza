@@ -1,8 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const async_1 = require("async");
-const Constants_1 = require("../Constants");
-const Utils_1 = require("../Utils");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const async_1 = require('async');
+const Constants_1 = require('../Constants');
+const Utils_1 = require('../Utils');
 const badRequest = { condition: Constants_1.StanzaErrorCondition.BadRequest };
 const unsupportedInfo = {
     condition: Constants_1.StanzaErrorCondition.FeatureNotImplemented,
@@ -14,7 +14,9 @@ class JingleSession {
         this.parent = opts.parent;
         this.sid = opts.sid || Utils_1.uuid();
         this.peerID = opts.peerID;
-        this.role = opts.initiator ? Constants_1.JingleSessionRole.Initiator : Constants_1.JingleSessionRole.Responder;
+        this.role = opts.initiator
+            ? Constants_1.JingleSessionRole.Initiator
+            : Constants_1.JingleSessionRole.Responder;
         this._sessionState = 'starting';
         this._connectionState = 'starting';
         // We track the intial pending description types in case
@@ -39,8 +41,7 @@ class JingleSession {
                 try {
                     const res = await task.handler();
                     task.resolve(res);
-                }
-                catch (err) {
+                } catch (err) {
                     task.reject(err);
                 }
                 if (next) {
@@ -100,7 +101,9 @@ class JingleSession {
         return this.role === Constants_1.JingleSessionRole.Initiator;
     }
     get peerRole() {
-        return this.isInitiator ? Constants_1.JingleSessionRole.Responder : Constants_1.JingleSessionRole.Initiator;
+        return this.isInitiator
+            ? Constants_1.JingleSessionRole.Responder
+            : Constants_1.JingleSessionRole.Initiator;
     }
     get state() {
         return this._sessionState;
@@ -144,8 +147,7 @@ class JingleSession {
         ]);
         if (requirePending.has(action)) {
             this.pendingAction = action;
-        }
-        else {
+        } else {
             this.pendingAction = undefined;
         }
         this.parent.signal(this, {
@@ -157,23 +159,27 @@ class JingleSession {
     }
     processLocal(name, handler) {
         return new Promise((resolve, reject) => {
-            this.processingQueue.push({
-                handler,
-                name,
-                reject,
-                resolve,
-                type: 'local'
-            }, 1 // Process local requests first
+            this.processingQueue.push(
+                {
+                    handler,
+                    name,
+                    reject,
+                    resolve,
+                    type: 'local'
+                },
+                1 // Process local requests first
             );
         });
     }
     process(action, changes, cb) {
-        this.processingQueue.push({
-            action,
-            cb,
-            changes,
-            type: 'remote'
-        }, 2 // Process remote requests second
+        this.processingQueue.push(
+            {
+                action,
+                cb,
+                changes,
+                type: 'remote'
+            },
+            2 // Process remote requests second
         );
     }
     start(_opts, _next) {
@@ -231,8 +237,7 @@ class JingleSession {
     onSessionInfo(changes, cb) {
         if (!changes.info) {
             cb();
-        }
-        else {
+        } else {
             cb(unsupportedInfo);
         }
     }

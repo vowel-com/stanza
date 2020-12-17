@@ -1,7 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const Namespaces_1 = require("../Namespaces");
-const Utils_1 = require("../Utils");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const Namespaces_1 = require('../Namespaces');
+const Utils_1 = require('../Utils');
 async function checkConnection(client) {
     if (client.sm.started) {
         return new Promise(resolve => {
@@ -11,12 +11,10 @@ async function checkConnection(client) {
     }
     try {
         await client.ping();
-    }
-    catch (err) {
+    } catch (err) {
         if (err.error && err.error.condition !== 'timeout') {
             return;
-        }
-        else {
+        } else {
             throw err;
         }
     }
@@ -40,7 +38,7 @@ function default_1(client) {
     });
     client.markActive = () => sendCSI(client, 'active');
     client.markInactive = () => sendCSI(client, 'inactive');
-    client.ping = async (jid) => {
+    client.ping = async jid => {
         await client.sendIQ({
             ping: true,
             to: jid,
@@ -57,8 +55,7 @@ function default_1(client) {
             if (client.sessionStarted) {
                 try {
                     await Utils_1.timeoutPromise(checkConnection(client), timeout * 1000);
-                }
-                catch (err) {
+                } catch (err) {
                     // Kill the apparently dead connection without closing
                     // the stream itself so we can reconnect and potentially
                     // resume the session.
@@ -96,7 +93,7 @@ function default_1(client) {
         if (!client.config.useStreamManagement) {
             return done();
         }
-        const smHandler = async (sm) => {
+        const smHandler = async sm => {
             switch (sm.type) {
                 case 'enabled':
                     await client.sm.enabled(sm);
@@ -123,16 +120,13 @@ function default_1(client) {
         if (!client.sm.id) {
             if (client.features.negotiated.bind) {
                 await client.sm.enable();
-            }
-            else {
+            } else {
                 client.off('sm', smHandler);
                 done();
             }
-        }
-        else if (client.sm.id && client.sm.allowResume) {
+        } else if (client.sm.id && client.sm.allowResume) {
             await client.sm.resume();
-        }
-        else {
+        } else {
             client.off('sm', smHandler);
             done();
         }

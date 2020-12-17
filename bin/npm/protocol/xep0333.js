@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0333: Chat Markers
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0333.html
 // Version: 0.3.0 (2017-09-11)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const path = 'message.marker';
 const Protocol = [
     {

@@ -103,11 +103,9 @@ function escapeUsername(name) {
     for (const curr of name) {
         if (curr === ',') {
             escaped.push('=2C');
-        }
-        else if (curr === '=') {
+        } else if (curr === '=') {
             escaped.push('=3D');
-        }
-        else {
+        } else {
             escaped.push(curr);
         }
     }
@@ -146,11 +144,13 @@ export class PLAIN extends SimpleMech {
         };
     }
     createResponse(credentials) {
-        return Buffer.from((credentials.authzid || '') +
-            '\x00' +
-            credentials.username +
-            '\x00' +
-            (credentials.password || credentials.token));
+        return Buffer.from(
+            (credentials.authzid || '') +
+                '\x00' +
+                credentials.username +
+                '\x00' +
+                (credentials.password || credentials.token)
+        );
     }
 }
 // ====================================================================
@@ -340,8 +340,7 @@ export class SCRAM {
         if (credentials.tlsUnique) {
             if (!this.useChannelBinding) {
                 cbindHeader = 'y';
-            }
-            else {
+            } else {
                 cbindHeader = 'p=tls-unique';
             }
         }
@@ -368,14 +367,17 @@ export class SCRAM {
         if (cached && credentials.clientKey && credentials.serverKey) {
             clientKey = Buffer.from(credentials.clientKey);
             serverKey = Buffer.from(credentials.serverKey);
-        }
-        else if (cached && credentials.saltedPassword) {
+        } else if (cached && credentials.saltedPassword) {
             saltedPassword = Buffer.from(credentials.saltedPassword);
             clientKey = HMAC(saltedPassword, CLIENT_KEY, this.algorithm);
             serverKey = HMAC(saltedPassword, SERVER_KEY, this.algorithm);
-        }
-        else {
-            saltedPassword = Hi(Buffer.from(saslprep(credentials.password)), this.salt, this.iterationCount, this.algorithm);
+        } else {
+            saltedPassword = Hi(
+                Buffer.from(saslprep(credentials.password)),
+                this.salt,
+                this.iterationCount,
+                this.algorithm
+            );
             clientKey = HMAC(saltedPassword, CLIENT_KEY, this.algorithm);
             serverKey = HMAC(saltedPassword, SERVER_KEY, this.algorithm);
         }

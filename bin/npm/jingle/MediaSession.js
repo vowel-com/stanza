@@ -1,17 +1,19 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const Constants_1 = require("../Constants");
-const ICESession_1 = tslib_1.__importDefault(require("./ICESession"));
-const Intermediate_1 = require("./sdp/Intermediate");
-const Protocol_1 = require("./sdp/Protocol");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const tslib_1 = require('tslib');
+const Constants_1 = require('../Constants');
+const ICESession_1 = tslib_1.__importDefault(require('./ICESession'));
+const Intermediate_1 = require('./sdp/Intermediate');
+const Protocol_1 = require('./sdp/Protocol');
 function applyStreamsCompatibility(content) {
     const application = content.application;
     /* signal .streams as a=ssrc: msid */
-    if (application.streams &&
+    if (
+        application.streams &&
         application.streams.length &&
         application.sources &&
-        application.sources.length) {
+        application.sources.length
+    ) {
         const msid = application.streams[0];
         application.sources[0].parameters.msid = `${msid.id} ${msid.track}`;
         if (application.sourceGroups && application.sourceGroups.length > 0) {
@@ -31,7 +33,7 @@ class MediaSession extends ICESession_1.default {
         this.includesAudio = false;
         this.includesVideo = false;
         this._ringing = false;
-        this.pc.addEventListener('track', (e) => {
+        this.pc.addEventListener('track', e => {
             this.onAddTrack(e.track, e.streams[0]);
         });
         if (opts.stream) {
@@ -71,7 +73,11 @@ class MediaSession extends ICESession_1.default {
             await this.processLocal(Constants_1.JingleAction.SessionInitiate, async () => {
                 const offer = await this.pc.createOffer(opts);
                 const json = Intermediate_1.importFromSDP(offer.sdp);
-                const jingle = Protocol_1.convertIntermediateToRequest(json, this.role, this.transportType);
+                const jingle = Protocol_1.convertIntermediateToRequest(
+                    json,
+                    this.role,
+                    this.transportType
+                );
                 jingle.sid = this.sid;
                 jingle.action = Constants_1.JingleAction.SessionInitiate;
                 for (const content of jingle.contents || []) {
@@ -82,8 +88,7 @@ class MediaSession extends ICESession_1.default {
                 this.send('session-initiate', jingle);
             });
             next();
-        }
-        catch (err) {
+        } catch (err) {
             this._log('error', 'Could not create WebRTC offer', err);
             this.end('failed-application', true);
         }
@@ -103,7 +108,11 @@ class MediaSession extends ICESession_1.default {
             await this.processLocal(Constants_1.JingleAction.SessionAccept, async () => {
                 const answer = await this.pc.createAnswer(opts);
                 const json = Intermediate_1.importFromSDP(answer.sdp);
-                const jingle = Protocol_1.convertIntermediateToRequest(json, this.role, this.transportType);
+                const jingle = Protocol_1.convertIntermediateToRequest(
+                    json,
+                    this.role,
+                    this.transportType
+                );
                 jingle.sid = this.sid;
                 jingle.action = Constants_1.JingleAction.SessionAccept;
                 for (const content of jingle.contents || []) {
@@ -114,8 +123,7 @@ class MediaSession extends ICESession_1.default {
                 this.send('session-accept', jingle);
             });
             next();
-        }
-        catch (err) {
+        } catch (err) {
             this._log('error', 'Could not create WebRTC answer', err);
             this.end('failed-application');
         }
@@ -194,8 +202,7 @@ class MediaSession extends ICESession_1.default {
         return this.processLocal('addtrack', async () => {
             if (this.pc.addTrack) {
                 this.pc.addTrack(track, stream);
-            }
-            else {
+            } else {
                 this.pc.addStream(stream);
             }
             if (cb) {
@@ -247,8 +254,7 @@ class MediaSession extends ICESession_1.default {
             await this.pc.setRemoteDescription({ type: 'offer', sdp });
             await this.processBufferedCandidates();
             return cb();
-        }
-        catch (err) {
+        } catch (err) {
             this._log('error', 'Could not create WebRTC answer', err);
             return cb({ condition: 'general-error' });
         }

@@ -1,6 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const events_1 = require("events");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const events_1 = require('events');
 const MAX_SEQ = Math.pow(2, 32);
 const mod = (v, n) => ((v % n) + n) % n;
 class StreamManagement extends events_1.EventEmitter {
@@ -162,8 +162,7 @@ class StreamManagement extends events_1.EventEmitter {
                 lastAck: this.lastAck,
                 unacked: this.unacked
             });
-        }
-        catch (err) {
+        } catch (err) {
             // TODO: Is there a good way to handle this?
             // istanbul ignore next
             console.error('Failed to cache stream state', err);

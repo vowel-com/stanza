@@ -1,9 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.saslprep = exports.resourceprep = exports.nodeprep = exports.NodePrepProhibited = exports.nameprep = exports.prepare = exports.D2 = exports.D1 = exports.C9 = exports.C8 = exports.C7 = exports.C6 = exports.C5 = exports.C4 = exports.C3 = exports.C22 = exports.C21 = exports.C12 = exports.C11 = exports.B3 = exports.B2 = exports.B1 = exports.A1 = exports.Table = void 0;
-const tslib_1 = require("tslib");
-const punycode_1 = tslib_1.__importDefault(require("punycode"));
-const Tables_1 = require("./Tables");
+const tslib_1 = require('tslib');
+const punycode_1 = tslib_1.__importDefault(require('punycode'));
+const Tables_1 = require('./Tables');
 class Table {
     constructor(name, points) {
         this.singles = new Set();
@@ -22,14 +22,15 @@ class Table {
                 });
             }
             if (data.m) {
-                this.mappings = new Map(data.m.split('|').map(m => {
-                    const [point, mapping] = m.split(':');
-                    const mappedPoints = mapping.split(';').map(p => parseInt(p, 32));
-                    return [parseInt(point, 32), mappedPoints];
-                }));
+                this.mappings = new Map(
+                    data.m.split('|').map(m => {
+                        const [point, mapping] = m.split(':');
+                        const mappedPoints = mapping.split(';').map(p => parseInt(p, 32));
+                        return [parseInt(point, 32), mappedPoints];
+                    })
+                );
             }
-        }
-        else if (points) {
+        } else if (points) {
             this.singles = new Set(points);
         }
     }
@@ -86,8 +87,8 @@ exports.D2 = new Table('D.2');
 exports.B1.map = () => {
     return null;
 };
-exports.C11.contains = (codePoint) => codePoint === 32;
-exports.C12.map = (codePoint) => {
+exports.C11.contains = codePoint => codePoint === 32;
+exports.C12.map = codePoint => {
     return exports.C12.contains(codePoint) ? 32 : null;
 };
 function prepare(profile, allowUnassigned, input = '') {
@@ -109,8 +110,7 @@ function prepare(profile, allowUnassigned, input = '') {
             }
             if (Array.isArray(mappedPoint)) {
                 mappedCodePoints = mappedCodePoints.concat(mappedPoint);
-            }
-            else {
+            } else {
                 mappedCodePoints.push(mappedPoint);
             }
         }
@@ -145,10 +145,14 @@ function prepare(profile, allowUnassigned, input = '') {
         if (hasRandALCat && hasLCat) {
             throw new Error('String contained both LCat and RandALCat code points');
         }
-        if (hasRandALCat &&
+        if (
+            hasRandALCat &&
             (!exports.D1.contains(normalizedCodePoints[0]) ||
-                !exports.D1.contains(normalizedCodePoints[normalizedCodePoints.length - 1]))) {
-            throw new Error('String containing RandALCat code points must start and end with RandALCat code points');
+                !exports.D1.contains(normalizedCodePoints[normalizedCodePoints.length - 1]))
+        ) {
+            throw new Error(
+                'String containing RandALCat code points must start and end with RandALCat code points'
+            );
         }
     }
     return punycode_1.default.ucs2.encode(normalizedCodePoints);
@@ -158,7 +162,17 @@ const NamePrepProfile = {
     bidirectional: true,
     mappings: [exports.B1, exports.B2],
     normalize: true,
-    prohibited: [exports.C12, exports.C22, exports.C3, exports.C4, exports.C5, exports.C6, exports.C7, exports.C8, exports.C9],
+    prohibited: [
+        exports.C12,
+        exports.C22,
+        exports.C3,
+        exports.C4,
+        exports.C5,
+        exports.C6,
+        exports.C7,
+        exports.C8,
+        exports.C9
+    ],
     unassigned: exports.A1
 };
 function nameprep(str, allowUnassigned = true) {
@@ -179,7 +193,20 @@ const NodePrepProfile = {
     bidirectional: true,
     mappings: [exports.B1, exports.B2],
     normalize: true,
-    prohibited: [exports.C11, exports.C12, exports.C21, exports.C22, exports.C3, exports.C4, exports.C5, exports.C6, exports.C7, exports.C8, exports.C9, exports.NodePrepProhibited],
+    prohibited: [
+        exports.C11,
+        exports.C12,
+        exports.C21,
+        exports.C22,
+        exports.C3,
+        exports.C4,
+        exports.C5,
+        exports.C6,
+        exports.C7,
+        exports.C8,
+        exports.C9,
+        exports.NodePrepProhibited
+    ],
     unassigned: exports.A1
 };
 function nodeprep(str, allowUnassigned = true) {
@@ -190,7 +217,18 @@ const ResourcePrepProfile = {
     bidirectional: true,
     mappings: [exports.B1],
     normalize: true,
-    prohibited: [exports.C12, exports.C21, exports.C22, exports.C3, exports.C4, exports.C5, exports.C6, exports.C7, exports.C8, exports.C9],
+    prohibited: [
+        exports.C12,
+        exports.C21,
+        exports.C22,
+        exports.C3,
+        exports.C4,
+        exports.C5,
+        exports.C6,
+        exports.C7,
+        exports.C8,
+        exports.C9
+    ],
     unassigned: exports.A1
 };
 function resourceprep(str, allowUnassigned = true) {
@@ -201,7 +239,18 @@ const SASLPrepProfile = {
     bidirectional: true,
     mappings: [exports.C12, exports.B1],
     normalize: true,
-    prohibited: [exports.C12, exports.C21, exports.C22, exports.C3, exports.C4, exports.C5, exports.C6, exports.C7, exports.C8, exports.C9],
+    prohibited: [
+        exports.C12,
+        exports.C21,
+        exports.C22,
+        exports.C3,
+        exports.C4,
+        exports.C5,
+        exports.C6,
+        exports.C7,
+        exports.C8,
+        exports.C9
+    ],
     unassigned: exports.A1
 };
 function saslprep(str, allowUnassigned = false) {

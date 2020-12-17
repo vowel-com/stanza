@@ -16,7 +16,7 @@ function isPubsubPurge(msg) {
     return msg.pubsub.eventType === 'purge';
 }
 function isPubsubDelete(msg) {
-    return msg.pubsub.eventType === 'purge';
+    return msg.pubsub.eventType === 'delete';
 }
 function isPubsubSubscription(msg) {
     return msg.pubsub.eventType === 'subscription';

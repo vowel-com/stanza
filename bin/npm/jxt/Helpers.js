@@ -1,8 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.pubsubItemContentAliases = exports.extendStanzaError = exports.extendStreamFeatures = exports.extendIQ = exports.extendPresence = exports.extendMessage = exports.addAlias = exports.childJID = exports.childJIDAttribute = exports.JIDAttribute = void 0;
-const Namespaces_1 = require("../Namespaces");
-const Types_1 = require("./Types");
+const Namespaces_1 = require('../Namespaces');
+const Types_1 = require('./Types');
 // ====================================================================
 // Useful XMPP Aliases
 // ====================================================================

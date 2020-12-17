@@ -1,10 +1,10 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const readable_stream_1 = require("readable-stream");
-const stanza_shims_1 = require("stanza-shims");
-const Constants_1 = require("../Constants");
-const jxt_1 = require("../jxt");
-const Utils_1 = require("../Utils");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const readable_stream_1 = require('readable-stream');
+const stanza_shims_1 = require('stanza-shims');
+const Constants_1 = require('../Constants');
+const jxt_1 = require('../jxt');
+const Utils_1 = require('../Utils');
 class RequestChannel {
     constructor(stream) {
         this.active = false;
@@ -19,30 +19,31 @@ class RequestChannel {
         while (attempts <= this.maxRetries) {
             attempts += 1;
             try {
-                const res = await Utils_1.timeoutPromise(stanza_shims_1.fetch(this.stream.url, {
-                    body,
-                    headers: {
-                        'Content-Type': this.stream.contentType
-                    },
-                    method: 'POST'
-                }), this.maxTimeout, () => new Error('Request timed out'));
+                const res = await Utils_1.timeoutPromise(
+                    stanza_shims_1.fetch(this.stream.url, {
+                        body,
+                        headers: {
+                            'Content-Type': this.stream.contentType
+                        },
+                        method: 'POST'
+                    }),
+                    this.maxTimeout,
+                    () => new Error('Request timed out')
+                );
                 if (!res.ok) {
                     throw new Error('HTTP Status Error: ' + res.status);
                 }
                 const result = await res.text();
                 this.active = false;
                 return result;
-            }
-            catch (err) {
+            } catch (err) {
                 if (attempts === 1) {
                     continue;
-                }
-                else if (attempts < this.maxRetries) {
+                } else if (attempts < this.maxRetries) {
                     const backoff = Math.min(this.maxTimeout, Math.pow(attempts, 2) * 1000);
                     await Utils_1.sleep(backoff + Math.random() * 1000);
                     continue;
-                }
-                else {
+                } else {
                     this.active = false;
                     throw err;
                 }
@@ -99,7 +100,7 @@ class BOSH extends readable_stream_1.Duplex {
             rootKey: 'bosh',
             wrappedStream: true
         });
-        parser.on('error', (err) => {
+        parser.on('error', err => {
             const streamError = {
                 condition: Constants_1.StreamErrorCondition.InvalidXML
             };
@@ -107,7 +108,7 @@ class BOSH extends readable_stream_1.Duplex {
             this.send('error', streamError);
             return this.disconnect();
         });
-        parser.on('data', (e) => {
+        parser.on('data', e => {
             if (e.event === 'stream-start') {
                 this.stream = e.stanza;
                 if (e.stanza.type === 'terminate') {
@@ -120,8 +121,7 @@ class BOSH extends readable_stream_1.Duplex {
                         this.client.emit('stream:end');
                         this.push(null);
                     }
-                }
-                else if (!this.hasStream) {
+                } else if (!this.hasStream) {
                     this.hasStream = true;
                     this.stream = e.stanza;
                     this.sid = e.stanza.sid || this.sid;
@@ -179,8 +179,7 @@ class BOSH extends readable_stream_1.Duplex {
             this._send({
                 type: 'terminate'
             });
-        }
-        else {
+        } else {
             this.stream = undefined;
             this.sid = undefined;
             this.rid = undefined;
@@ -191,7 +190,10 @@ class BOSH extends readable_stream_1.Duplex {
         var _a;
         let output;
         if (data) {
-            output = (_a = this.stanzas.export(dataOrName, data)) === null || _a === void 0 ? void 0 : _a.toString();
+            output =
+                (_a = this.stanzas.export(dataOrName, data)) === null || _a === void 0
+                    ? void 0
+                    : _a.toString();
         }
         if (!output) {
             return;
@@ -222,19 +224,18 @@ class BOSH extends readable_stream_1.Duplex {
         let body;
         if (payload) {
             body = [header.openTag(), payload, header.closeTag()].join('');
-        }
-        else {
+        } else {
             body = header.toString();
         }
         this.client.emit('raw', 'outgoing', body);
         this.sendingChannel
             .send(rid, body)
             .then(result => {
-            this.process(result);
-        })
+                this.process(result);
+            })
             .catch(err => {
-            this.end(err);
-        });
+                this.end(err);
+            });
         this.toggleChannel();
     }
     async _poll() {
@@ -244,19 +245,19 @@ class BOSH extends readable_stream_1.Duplex {
         const rid = this.rid++;
         const body = this.stanzas
             .export('bosh', {
-            rid,
-            sid: this.sid
-        })
+                rid,
+                sid: this.sid
+            })
             .toString();
         this.client.emit('raw', 'outgoing', body);
         this.pollingChannel
             .send(rid, body)
             .then(result => {
-            this.process(result);
-        })
+                this.process(result);
+            })
             .catch(err => {
-            this.end(err);
-        });
+                this.end(err);
+            });
     }
     scheduleRequests() {
         clearTimeout(this.idleTimeout);
@@ -273,8 +274,7 @@ class BOSH extends readable_stream_1.Duplex {
                 const [data, done] = this.queue.shift();
                 this._send({}, data);
                 done();
-            }
-            else {
+            } else {
                 this.scheduleRequests();
             }
             return;

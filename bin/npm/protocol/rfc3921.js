@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 // ====================================================================
 // RFC 3921: Extensible Messaging and Presence Protocol (XMPP): Core
 // --------------------------------------------------------------------
@@ -11,9 +11,9 @@
 // -------------------------------------------------------------------
 // Source: https://tools.ietf.org/html/draft-cridland-xmpp-session-01
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = {
     aliases: ['features.legacySession', 'iq.legacySession'],
     element: 'session',

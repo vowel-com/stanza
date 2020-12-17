@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0138: Stream Compression
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0138.html
 // Version: 2.0 (2009-05-27)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     {
         element: 'compression',
@@ -31,7 +31,11 @@ const Protocol = [
         aliases: ['error.compressionError'],
         element: 'failure',
         fields: {
-            condition: jxt_1.childEnum(null, ['unsupported-method', 'setup-failed', 'processing-failed'])
+            condition: jxt_1.childEnum(null, [
+                'unsupported-method',
+                'setup-failed',
+                'processing-failed'
+            ])
         },
         namespace: Namespaces_1.NS_COMPRESSION,
         path: 'compression',

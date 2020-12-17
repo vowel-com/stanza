@@ -1,9 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.toURI = exports.parseURI = exports.toBare = exports.getResource = exports.getDomain = exports.getLocal = exports.isBare = exports.isFull = exports.equalBare = exports.equal = exports.allowedResponders = exports.parse = exports.createFull = exports.create = exports.prepare = exports.unescapeLocal = exports.escapeLocal = void 0;
-const tslib_1 = require("tslib");
-const punycode_1 = tslib_1.__importDefault(require("punycode"));
-const stringprep_1 = require("./lib/stringprep");
+const tslib_1 = require('tslib');
+const punycode_1 = tslib_1.__importDefault(require('punycode'));
+const stringprep_1 = require('./lib/stringprep');
 function escapeLocal(val = '') {
     return val
         .replace(/^\s+|\s+$/g, '')
@@ -81,8 +81,7 @@ exports.create = create;
 function createFull(bare, resource) {
     if (resource) {
         return `${toBare(bare)}/${resource}`;
-    }
-    else {
+    } else {
         return toBare(bare);
     }
 }
@@ -108,10 +107,13 @@ function parse(jid = '') {
         resource
     });
     return {
-        bare: create({ local: prepped.local, domain: prepped.domain }, {
-            escaped: true,
-            prepared: true
-        }),
+        bare: create(
+            { local: prepped.local, domain: prepped.domain },
+            {
+                escaped: true,
+                prepared: true
+            }
+        ),
         domain: prepped.domain,
         full: create(prepped, {
             escaped: true,
@@ -147,9 +149,11 @@ function equal(jid1, jid2) {
     }
     const parsed1 = parse(jid1);
     const parsed2 = parse(jid2);
-    return (parsed1.local === parsed2.local &&
+    return (
+        parsed1.local === parsed2.local &&
         parsed1.domain === parsed2.domain &&
-        parsed1.resource === parsed2.resource);
+        parsed1.resource === parsed2.resource
+    );
 }
 exports.equal = equal;
 function equalBare(jid1, jid2) {
@@ -193,12 +197,15 @@ function parseURI(val) {
     }
     const identity = parsed.hostname
         ? parsed.username
-            ? create({
-                domain: decodeURIComponent(parsed.hostname),
-                local: decodeURIComponent(parsed.username)
-            }, {
-                escaped: true
-            })
+            ? create(
+                  {
+                      domain: decodeURIComponent(parsed.hostname),
+                      local: decodeURIComponent(parsed.username)
+                  },
+                  {
+                      escaped: true
+                  }
+              )
             : decodeURIComponent(parsed.hostname)
         : undefined;
     const jid = parse(decodeURIComponent(identity ? parsed.pathname.substr(1) : parsed.pathname))
@@ -208,20 +215,20 @@ function parseURI(val) {
         ? parsed.search.substr(parsed.search.indexOf(';') + 1)
         : '';
     const action = parsed.search
-        ? decodeURIComponent(parsed.search.substr(1, hasParameters ? parsed.search.indexOf(';') - 1 : undefined))
+        ? decodeURIComponent(
+              parsed.search.substr(1, hasParameters ? parsed.search.indexOf(';') - 1 : undefined)
+          )
         : undefined;
     const params = {};
     for (const token of parameterString.split(';')) {
         const [name, value] = token.split('=').map(decodeURIComponent);
         if (!params[name]) {
             params[name] = value;
-        }
-        else {
+        } else {
             const existing = params[name];
             if (Array.isArray(existing)) {
                 existing.push(value);
-            }
-            else {
+            } else {
                 params[name] = [existing, value];
             }
         }

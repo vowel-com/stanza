@@ -1,6 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const Definitions_1 = require("./Definitions");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const Definitions_1 = require('./Definitions');
 class XMLElement {
     constructor(name, attrs = {}, children = []) {
         this.name = name;
@@ -12,8 +12,7 @@ class XMLElement {
                 const xmlChild = new XMLElement(child.name, child.attributes, child.children);
                 xmlChild.parent = this;
                 this.children.push(xmlChild);
-            }
-            else {
+            } else {
                 this.children.push(child);
             }
         }
@@ -21,8 +20,7 @@ class XMLElement {
     getName() {
         if (this.name.indexOf(':') >= 0) {
             return this.name.substr(this.name.indexOf(':') + 1);
-        }
-        else {
+        } else {
             return this.name;
         }
     }
@@ -88,9 +86,11 @@ class XMLElement {
     getChildren(name, xmlns) {
         const result = [];
         for (const child of this.children) {
-            if (typeof child !== 'string' &&
+            if (
+                typeof child !== 'string' &&
                 child.getName() === name &&
-                (!xmlns || child.getNamespace() === xmlns)) {
+                (!xmlns || child.getNamespace() === xmlns)
+            ) {
                 result.push(child);
             }
         }
@@ -131,13 +131,13 @@ class XMLElement {
     toJSON() {
         const children = this.children
             .map(child => {
-            if (typeof child === 'string') {
-                return child;
-            }
-            if (child) {
-                return child.toJSON();
-            }
-        })
+                if (typeof child === 'string') {
+                    return child;
+                }
+                if (child) {
+                    return child.toJSON();
+                }
+            })
             .filter(child => !!child);
         // Strip any undefined/null attributes
         const attrs = {};
@@ -158,8 +158,7 @@ class XMLElement {
             for (const child of this.children) {
                 if (typeof child === 'string') {
                     output += Definitions_1.escapeXMLText(child);
-                }
-                else if (child) {
+                } else if (child) {
                     output += child.toString();
                 }
             }
@@ -177,8 +176,7 @@ class XMLElement {
         }
         if (allowSelfClose && this.children.length === 0) {
             output += '/>';
-        }
-        else {
+        } else {
             output += '>';
         }
         return output;
@@ -190,17 +188,14 @@ class XMLElement {
         if (!prefix) {
             if (this.attributes.xmlns) {
                 return this.attributes.xmlns;
-            }
-            else if (this.parent) {
+            } else if (this.parent) {
                 return this.parent.findNamespaceForPrefix();
             }
-        }
-        else {
+        } else {
             const attr = 'xmlns:' + prefix;
             if (this.attributes[attr]) {
                 return this.attributes[attr];
-            }
-            else if (this.parent) {
+            } else if (this.parent) {
                 return this.parent.findNamespaceForPrefix(prefix);
             }
         }

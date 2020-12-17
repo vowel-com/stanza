@@ -1,6 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const Namespaces_1 = require("../Namespaces");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const Namespaces_1 = require('../Namespaces');
 function default_1(client) {
     client.disco.addFeature(Namespaces_1.NS_ACTIVITY);
     client.disco.addFeature(Namespaces_1.NS_GEOLOC);
@@ -12,31 +12,31 @@ function default_1(client) {
     client.disco.addFeature(Namespaces_1.NS_PEP_NOTIFY(Namespaces_1.NS_MOOD));
     client.disco.addFeature(Namespaces_1.NS_PEP_NOTIFY(Namespaces_1.NS_NICK));
     client.disco.addFeature(Namespaces_1.NS_PEP_NOTIFY(Namespaces_1.NS_TUNE));
-    client.publishActivity = (data) => {
+    client.publishActivity = data => {
         return client.publish('', Namespaces_1.NS_ACTIVITY, {
             itemType: Namespaces_1.NS_ACTIVITY,
             ...data
         });
     };
-    client.publishGeoLoc = (data) => {
+    client.publishGeoLoc = data => {
         return client.publish('', Namespaces_1.NS_GEOLOC, {
             itemType: Namespaces_1.NS_GEOLOC,
             ...data
         });
     };
-    client.publishMood = (mood) => {
+    client.publishMood = mood => {
         return client.publish('', Namespaces_1.NS_MOOD, {
             itemType: Namespaces_1.NS_MOOD,
             ...mood
         });
     };
-    client.publishNick = (nick) => {
+    client.publishNick = nick => {
         return client.publish('', Namespaces_1.NS_NICK, {
             itemType: Namespaces_1.NS_NICK,
             nick
         });
     };
-    client.publishTune = (tune) => {
+    client.publishTune = tune => {
         return client.publish('', Namespaces_1.NS_TUNE, {
             itemType: Namespaces_1.NS_TUNE,
             ...tune

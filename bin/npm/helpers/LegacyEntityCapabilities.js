@@ -1,9 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.verify = exports.generate = void 0;
-const tslib_1 = require("tslib");
-const Hashes = tslib_1.__importStar(require("stanza-shims"));
-const Utils_1 = require("../Utils");
+const tslib_1 = require('tslib');
+const Hashes = tslib_1.__importStar(require('stanza-shims'));
+const Utils_1 = require('../Utils');
 function escape(value) {
     return Buffer.from(value.replace(/</g, '&lt;'), 'utf-8');
 }
@@ -45,20 +45,17 @@ function encodeFields(fields = []) {
                 name: escape(field.name),
                 values: field.rawValues.map(val => escape(val)).sort(Utils_1.octetCompare)
             });
-        }
-        else if (Array.isArray(field.value)) {
+        } else if (Array.isArray(field.value)) {
             sortedFields.push({
                 name: escape(field.name),
                 values: field.value.map(val => escape(val)).sort(Utils_1.octetCompare)
             });
-        }
-        else if (field.value === true || field.value === false) {
+        } else if (field.value === true || field.value === false) {
             sortedFields.push({
                 name: escape(field.name),
                 values: [escape(field.value ? '1' : '0')]
             });
-        }
-        else {
+        } else {
             sortedFields.push({
                 name: escape(field.name),
                 values: [escape(field.value || '')]
@@ -116,7 +113,7 @@ function encodeForms(extensions = []) {
 function generate(info, hashName) {
     const S = [];
     const separator = Buffer.from('<', 'utf8');
-    const append = (b1) => {
+    const append = b1 => {
         S.push(b1);
         S.push(separator);
     };

@@ -1,9 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.parameterMap = exports.childAlternateLanguageRawElement = exports.childLanguageRawElement = exports.childRawElement = exports.staticValue = exports.splicePath = exports.multipleChildEnum = exports.multipleChildAlternateLanguageText = exports.childAlternateLanguageText = exports.multipleChildIntegerAttribute = exports.multipleChildAttribute = exports.multipleChildText = exports.childDoubleEnum = exports.childEnum = exports.deepMultipleChildText = exports.deepChildBoolean = exports.deepChildInteger = exports.deepChildText = exports.childBoolean = exports.childTimezoneOffset = exports.childJSON = exports.childFloat = exports.childInteger = exports.childDate = exports.childTextBuffer = exports.childText = exports.childLanguageAttribute = exports.languageAttribute = exports.textBuffer = exports.textJSON = exports.text = exports.childDateAttribute = exports.childFloatAttribute = exports.childIntegerAttribute = exports.childBooleanAttribute = exports.childAttribute = exports.namespacedDateAttribute = exports.namespacedFloatAttribute = exports.namespacedIntegerAttribute = exports.namespacedBooleanAttribute = exports.namespacedAttribute = exports.dateAttribute = exports.floatAttribute = exports.integerAttribute = exports.booleanAttribute = exports.attribute = exports.findOrCreate = exports.findAll = exports.getTargetLang = exports.getLang = exports.createElement = void 0;
-const tslib_1 = require("tslib");
-const Element_1 = tslib_1.__importDefault(require("./Element"));
-const Parser_1 = require("./Parser");
+const tslib_1 = require('tslib');
+const Element_1 = tslib_1.__importDefault(require('./Element'));
+const Parser_1 = require('./Parser');
 function createElement(namespace, name, parentNamespace, parent) {
     if (parent) {
         namespace = namespace || parent.getNamespace();
@@ -32,9 +32,12 @@ function getTargetLang(children, context) {
     let targetLanguage;
     if (!context.resolveLanguage) {
         targetLanguage = context.lang;
-    }
-    else {
-        targetLanguage = context.resolveLanguage(availableLanguages, context.acceptLanguages || [], context.lang);
+    } else {
+        targetLanguage = context.resolveLanguage(
+            availableLanguages,
+            context.acceptLanguages || [],
+            context.lang
+        );
     }
     return targetLanguage || '';
 }
@@ -50,8 +53,7 @@ function findAll(xml, namespace, element, lang) {
                     return true;
                 }
             });
-        }
-        else {
+        } else {
             return existing;
         }
     }
@@ -92,14 +94,12 @@ function createAttributeField(opts) {
             }
             if (!opts.namespace || !opts.prefix) {
                 xml.setAttribute(opts.name, output, opts.emitEmpty);
-            }
-            else {
+            } else {
                 let prefix;
                 const root = xml.getNamespaceRoot(opts.namespace);
                 if (root) {
                     prefix = root.useNamespace(opts.prefix, opts.namespace);
-                }
-                else {
+                } else {
                     const namespaces = xml.getNamespaceContext();
                     if (!namespaces[opts.namespace]) {
                         prefix = xml.useNamespace(opts.prefix, opts.namespace);
@@ -134,7 +134,8 @@ function createNamespacedAttributeType(parser, createOpts) {
     };
 }
 function createChildAttributeField(opts) {
-    const converter = opts.converter ||
+    const converter =
+        opts.converter ||
         createAttributeField({
             ...opts,
             namespace: opts.attributeNamespace
@@ -211,11 +212,21 @@ function createChildTextField(opts) {
         },
         exporter(xml, value, context) {
             if (!value && opts.emitEmpty) {
-                findOrCreate(xml, opts.namespace || xml.getNamespace(), opts.element, opts.matchLanguage ? context.lang : undefined);
+                findOrCreate(
+                    xml,
+                    opts.namespace || xml.getNamespace(),
+                    opts.element,
+                    opts.matchLanguage ? context.lang : undefined
+                );
                 return;
             }
             if (value !== undefined && value !== opts.staticDefault) {
-                const child = findOrCreate(xml, opts.namespace || xml.getNamespace(), opts.element, opts.matchLanguage ? context.lang : undefined);
+                const child = findOrCreate(
+                    xml,
+                    opts.namespace || xml.getNamespace(),
+                    opts.element,
+                    opts.matchLanguage ? context.lang : undefined
+                );
                 converter.exporter(child, value, context);
             }
         }
@@ -264,11 +275,9 @@ const bufferParser = (encoding = 'utf8') => ({
         let data;
         if (typeof v === 'string') {
             data = Buffer.from(v).toString(encoding);
-        }
-        else if (v) {
+        } else if (v) {
             data = v.toString(encoding);
-        }
-        else {
+        } else {
             data = '';
         }
         if (encoding === 'base64') {
@@ -292,8 +301,7 @@ const tzOffsetParser = {
     writeValue: v => {
         if (typeof v === 'string') {
             return v;
-        }
-        else {
+        } else {
             let formatted = '-';
             if (v < 0) {
                 v = -v;
@@ -328,14 +336,16 @@ exports.childBooleanAttribute = createChildAttributeType(boolParser);
 exports.childIntegerAttribute = createChildAttributeType(integerParser);
 exports.childFloatAttribute = createChildAttributeType(floatParser);
 exports.childDateAttribute = createChildAttributeType(dateParser);
-exports.text = (defaultValue) => createTextField({
-    staticDefault: defaultValue,
-    ...stringParser
-});
+exports.text = defaultValue =>
+    createTextField({
+        staticDefault: defaultValue,
+        ...stringParser
+    });
 exports.textJSON = () => createTextField({ ...jsonParser });
-exports.textBuffer = (encoding = 'utf8') => createTextField({
-    ...bufferParser(encoding)
-});
+exports.textBuffer = (encoding = 'utf8') =>
+    createTextField({
+        ...bufferParser(encoding)
+    });
 function languageAttribute() {
     return {
         importer(xml, context) {
@@ -344,57 +354,63 @@ function languageAttribute() {
         exporter(xml, value, context) {
             if (value && value.toLowerCase() !== context.lang) {
                 xml.setAttribute('xml:lang', value);
-            }
-            else {
+            } else {
                 xml.setAttribute('xml:lang', undefined);
             }
         }
     };
 }
 exports.languageAttribute = languageAttribute;
-exports.childLanguageAttribute = (namespace, element) => createChildAttributeField({
-    converter: languageAttribute(),
-    element,
-    name: 'xml:lang',
-    namespace,
-    ...stringParser
-});
-exports.childText = (namespace, element, defaultValue, emitEmpty = false) => createChildTextField({
-    element,
-    emitEmpty,
-    matchLanguage: true,
-    namespace,
-    staticDefault: defaultValue,
-    ...stringParser
-});
-exports.childTextBuffer = (namespace, element, encoding = 'utf8') => createChildTextField({
-    element,
-    matchLanguage: true,
-    namespace,
-    ...bufferParser(encoding)
-});
-exports.childDate = (namespace, element) => createChildTextField({
-    element,
-    namespace,
-    ...dateParser
-});
-exports.childInteger = (namespace, element, defaultValue) => createChildTextField({
-    element,
-    namespace,
-    staticDefault: defaultValue,
-    ...integerParser
-});
-exports.childFloat = (namespace, element, defaultValue) => createChildTextField({
-    element,
-    namespace,
-    staticDefault: defaultValue,
-    ...floatParser
-});
-exports.childJSON = (namespace, element) => createChildTextField({
-    element,
-    namespace,
-    ...jsonParser
-});
+exports.childLanguageAttribute = (namespace, element) =>
+    createChildAttributeField({
+        converter: languageAttribute(),
+        element,
+        name: 'xml:lang',
+        namespace,
+        ...stringParser
+    });
+exports.childText = (namespace, element, defaultValue, emitEmpty = false) =>
+    createChildTextField({
+        element,
+        emitEmpty,
+        matchLanguage: true,
+        namespace,
+        staticDefault: defaultValue,
+        ...stringParser
+    });
+exports.childTextBuffer = (namespace, element, encoding = 'utf8') =>
+    createChildTextField({
+        element,
+        matchLanguage: true,
+        namespace,
+        ...bufferParser(encoding)
+    });
+exports.childDate = (namespace, element) =>
+    createChildTextField({
+        element,
+        namespace,
+        ...dateParser
+    });
+exports.childInteger = (namespace, element, defaultValue) =>
+    createChildTextField({
+        element,
+        namespace,
+        staticDefault: defaultValue,
+        ...integerParser
+    });
+exports.childFloat = (namespace, element, defaultValue) =>
+    createChildTextField({
+        element,
+        namespace,
+        staticDefault: defaultValue,
+        ...floatParser
+    });
+exports.childJSON = (namespace, element) =>
+    createChildTextField({
+        element,
+        namespace,
+        ...jsonParser
+    });
 function childTimezoneOffset(namespace, element) {
     return createChildTextField({
         element,
@@ -461,8 +477,7 @@ function deepChildInteger(path, defaultValue) {
             const data = current.getText();
             if (data) {
                 return parseInt(data, 10);
-            }
-            else if (defaultValue) {
+            } else if (defaultValue) {
                 return defaultValue;
             }
         },
@@ -490,7 +505,11 @@ function deepChildBoolean(path) {
             }
             let current = xml;
             for (const node of path) {
-                current = findOrCreate(current, node.namespace || current.getNamespace(), node.element);
+                current = findOrCreate(
+                    current,
+                    node.namespace || current.getNamespace(),
+                    node.element
+                );
             }
         }
     };
@@ -508,7 +527,11 @@ function deepMultipleChildText(path) {
                 }
             }
             const result = [];
-            const children = findAll(current, finalChild.namespace || current.getNamespace(), finalChild.element);
+            const children = findAll(
+                current,
+                finalChild.namespace || current.getNamespace(),
+                finalChild.element
+            );
             const targetLanguage = getTargetLang(children, context);
             for (const child of children) {
                 if (getLang(child, context.lang) === targetLanguage) {
@@ -523,11 +546,20 @@ function deepMultipleChildText(path) {
             }
             let current = xml;
             for (const node of path) {
-                current = findOrCreate(current, node.namespace || current.getNamespace(), node.element);
+                current = findOrCreate(
+                    current,
+                    node.namespace || current.getNamespace(),
+                    node.element
+                );
             }
             const { namespace, element } = finalChild;
             for (const value of values) {
-                const child = createElement(namespace || current.getNamespace(), element, context.namespace, current);
+                const child = createElement(
+                    namespace || current.getNamespace(),
+                    element,
+                    context.namespace,
+                    current
+                );
                 child.children.push(value);
                 current.appendChild(child);
             }
@@ -542,8 +574,7 @@ function childEnum(namespace, elements, defaultValue) {
         if (typeof el === 'string') {
             elementNames.set(el, el);
             valueNames.set(el, el);
-        }
-        else {
+        } else {
             elementNames.set(el[1], el[0]);
             valueNames.set(el[0], el[1]);
         }
@@ -553,9 +584,10 @@ function childEnum(namespace, elements, defaultValue) {
             for (const child of xml.children) {
                 if (typeof child === 'string') {
                     continue;
-                }
-                else if (child.getNamespace() === (namespace || xml.getNamespace()) &&
-                    elementNames.has(child.getName())) {
+                } else if (
+                    child.getNamespace() === (namespace || xml.getNamespace()) &&
+                    elementNames.has(child.getName())
+                ) {
                     return elementNames.get(child.getName());
                 }
             }
@@ -577,15 +609,17 @@ function childDoubleEnum(namespace, parentElements, childElements, defaultValue)
             for (const parent of xml.children) {
                 if (typeof parent === 'string') {
                     continue;
-                }
-                else if (parent.getNamespace() === (namespace || xml.getNamespace()) &&
-                    parentNames.has(parent.getName())) {
+                } else if (
+                    parent.getNamespace() === (namespace || xml.getNamespace()) &&
+                    parentNames.has(parent.getName())
+                ) {
                     for (const child of parent.children) {
                         if (typeof child === 'string') {
                             continue;
-                        }
-                        else if (child.getNamespace() === (namespace || xml.getNamespace()) &&
-                            childNames.has(child.getName())) {
+                        } else if (
+                            child.getNamespace() === (namespace || xml.getNamespace()) &&
+                            childNames.has(child.getName())
+                        ) {
                             return [parent.getName(), child.getName()];
                         }
                     }
@@ -618,7 +652,12 @@ function multipleChildText(namespace, element) {
         },
         exporter(xml, values, context) {
             for (const value of values) {
-                const child = createElement(namespace || xml.getNamespace(), element, context.namespace, xml);
+                const child = createElement(
+                    namespace || xml.getNamespace(),
+                    element,
+                    context.namespace,
+                    xml
+                );
                 child.children.push(value);
                 xml.appendChild(child);
             }
@@ -641,7 +680,12 @@ function multipleChildAttribute(namespace, element, name) {
         },
         exporter(xml, values, context) {
             for (const value of values) {
-                const child = createElement(namespace || xml.getNamespace(), element, context.namespace, xml);
+                const child = createElement(
+                    namespace || xml.getNamespace(),
+                    element,
+                    context.namespace,
+                    xml
+                );
                 child.setAttribute(name, value);
                 xml.appendChild(child);
             }
@@ -664,7 +708,12 @@ function multipleChildIntegerAttribute(namespace, element, name) {
         },
         exporter(xml, values, context) {
             for (const value of values) {
-                const child = createElement(namespace || xml.getNamespace(), element, context.namespace, xml);
+                const child = createElement(
+                    namespace || xml.getNamespace(),
+                    element,
+                    context.namespace,
+                    xml
+                );
                 child.setAttribute(name, value.toString());
                 xml.appendChild(child);
             }
@@ -695,7 +744,12 @@ function childAlternateLanguageText(namespace, element) {
             for (const entry of values) {
                 const val = entry.value;
                 if (val) {
-                    const child = createElement(namespace || xml.getNamespace(), element, context.namespace, xml);
+                    const child = createElement(
+                        namespace || xml.getNamespace(),
+                        element,
+                        context.namespace,
+                        xml
+                    );
                     if (entry.lang !== context.lang) {
                         child.setAttribute('xml:lang', entry.lang);
                     }
@@ -733,7 +787,12 @@ function multipleChildAlternateLanguageText(namespace, element) {
         exporter(xml, values, context) {
             for (const entry of values) {
                 for (const val of entry.value) {
-                    const child = createElement(namespace || xml.getNamespace(), element, context.namespace, xml);
+                    const child = createElement(
+                        namespace || xml.getNamespace(),
+                        element,
+                        context.namespace,
+                        xml
+                    );
                     if (entry.lang !== context.lang) {
                         child.setAttribute('xml:lang', entry.lang);
                     }
@@ -752,8 +811,7 @@ function multipleChildEnum(namespace, elements) {
         if (typeof el === 'string') {
             elementNames.set(el, el);
             valueNames.set(el, el);
-        }
-        else {
+        } else {
             elementNames.set(el[1], el[0]);
             valueNames.set(el[0], el[1]);
         }
@@ -764,9 +822,10 @@ function multipleChildEnum(namespace, elements) {
             for (const child of xml.children) {
                 if (typeof child === 'string') {
                     continue;
-                }
-                else if (child.getNamespace() === (namespace || xml.getNamespace()) &&
-                    elementNames.has(child.getName())) {
+                } else if (
+                    child.getNamespace() === (namespace || xml.getNamespace()) &&
+                    elementNames.has(child.getName())
+                ) {
                     results.push(elementNames.get(child.getName()));
                 }
             }
@@ -805,8 +864,7 @@ function splicePath(namespace, element, path, multiple = false) {
             let values = [];
             if (!Array.isArray(data)) {
                 values = [data];
-            }
-            else {
+            } else {
                 values = data;
             }
             const children = [];
@@ -846,15 +904,16 @@ function childRawElement(namespace, element, sanitizer) {
             if (child) {
                 if (sanitizer) {
                     return context.sanitizers[sanitizer](child.toJSON());
-                }
-                else {
+                } else {
                     return child.toJSON();
                 }
             }
         },
         exporter(xml, value, context) {
             if (typeof value === 'string') {
-                const wrapped = Parser_1.parse(`<${element} xmlns="${namespace || xml.getNamespace()}">${value}</${element}>`);
+                const wrapped = Parser_1.parse(
+                    `<${element} xmlns="${namespace || xml.getNamespace()}">${value}</${element}>`
+                );
                 value = wrapped.toJSON();
             }
             if (sanitizer) {
@@ -864,7 +923,9 @@ function childRawElement(namespace, element, sanitizer) {
                 value = context.sanitizers[sanitizer](value);
             }
             if (value) {
-                xml.appendChild(new Element_1.default(value.name, value.attributes, value.children));
+                xml.appendChild(
+                    new Element_1.default(value.name, value.attributes, value.children)
+                );
             }
         }
     };
@@ -882,8 +943,7 @@ function childLanguageRawElement(namespace, element, sanitizer) {
                 if (getLang(child, context.lang) === targetLanguage) {
                     if (sanitizer) {
                         return context.sanitizers[sanitizer](child.toJSON());
-                    }
-                    else {
+                    } else {
                         return child.toJSON();
                     }
                 }
@@ -891,15 +951,16 @@ function childLanguageRawElement(namespace, element, sanitizer) {
             if (children[0]) {
                 if (sanitizer) {
                     return context.sanitizers[sanitizer](children[0].toJSON());
-                }
-                else {
+                } else {
                     return children[0].toJSON();
                 }
             }
         },
         exporter(xml, value, context) {
             if (typeof value === 'string') {
-                const wrapped = Parser_1.parse(`<${element} xmlns="${namespace || xml.getNamespace()}">${value}</${element}>`);
+                const wrapped = Parser_1.parse(
+                    `<${element} xmlns="${namespace || xml.getNamespace()}">${value}</${element}>`
+                );
                 value = wrapped.toJSON();
             }
             if (value && sanitizer) {
@@ -911,13 +972,19 @@ function childLanguageRawElement(namespace, element, sanitizer) {
             if (!value) {
                 return;
             }
-            const rawElement = findOrCreate(xml, namespace || xml.getNamespace(), element, context.lang);
+            const rawElement = findOrCreate(
+                xml,
+                namespace || xml.getNamespace(),
+                element,
+                context.lang
+            );
             for (const child of value.children) {
                 if (typeof child === 'string') {
                     rawElement.appendChild(child);
-                }
-                else if (child) {
-                    rawElement.appendChild(new Element_1.default(child.name, child.attributes, child.children));
+                } else if (child) {
+                    rawElement.appendChild(
+                        new Element_1.default(child.name, child.attributes, child.children)
+                    );
                 }
             }
         }
@@ -953,7 +1020,11 @@ function childAlternateLanguageRawElement(namespace, element, sanitizer) {
             for (const entry of values) {
                 let value = entry.value;
                 if (typeof value === 'string') {
-                    const wrapped = Parser_1.parse(`<${element} xmlns="${namespace || xml.getNamespace()}">${value}</${element}>`);
+                    const wrapped = Parser_1.parse(
+                        `<${element} xmlns="${
+                            namespace || xml.getNamespace()
+                        }">${value}</${element}>`
+                    );
                     value = wrapped.toJSON();
                 }
                 if (value && sanitizer) {
@@ -963,7 +1034,12 @@ function childAlternateLanguageRawElement(namespace, element, sanitizer) {
                     value = context.sanitizers[sanitizer](value);
                 }
                 if (value) {
-                    const rawElement = createElement(namespace || xml.getNamespace(), element, context.namespace, xml);
+                    const rawElement = createElement(
+                        namespace || xml.getNamespace(),
+                        element,
+                        context.namespace,
+                        xml
+                    );
                     xml.appendChild(rawElement);
                     if (entry.lang !== context.lang) {
                         rawElement.setAttribute('xml:lang', entry.lang);
@@ -971,9 +1047,10 @@ function childAlternateLanguageRawElement(namespace, element, sanitizer) {
                     for (const child of value.children) {
                         if (typeof child === 'string') {
                             rawElement.appendChild(child);
-                        }
-                        else {
-                            rawElement.appendChild(new Element_1.default(child.name, child.attributes, child.children));
+                        } else {
+                            rawElement.appendChild(
+                                new Element_1.default(child.name, child.attributes, child.children)
+                            );
                         }
                     }
                 }

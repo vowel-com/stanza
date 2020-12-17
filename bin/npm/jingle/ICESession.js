@@ -1,12 +1,12 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const SDPUtils = tslib_1.__importStar(require("sdp"));
-const Constants_1 = require("../Constants");
-const Namespaces_1 = require("../Namespaces");
-const Intermediate_1 = require("./sdp/Intermediate");
-const Protocol_1 = require("./sdp/Protocol");
-const Session_1 = tslib_1.__importDefault(require("./Session"));
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const tslib_1 = require('tslib');
+const SDPUtils = tslib_1.__importStar(require('sdp'));
+const Constants_1 = require('../Constants');
+const Namespaces_1 = require('../Namespaces');
+const Intermediate_1 = require('./sdp/Intermediate');
+const Protocol_1 = require('./sdp/Protocol');
+const Session_1 = tslib_1.__importDefault(require('./Session'));
 class ICESession extends Session_1.default {
     constructor(opts) {
         super(opts);
@@ -26,8 +26,7 @@ class ICESession extends Session_1.default {
         this.pc.onicecandidate = e => {
             if (e.candidate) {
                 this.onIceCandidate(e);
-            }
-            else {
+            } else {
                 this.onIceEndOfCandidates();
             }
         };
@@ -56,14 +55,16 @@ class ICESession extends Session_1.default {
                     contents: json.media.map(media => ({
                         creator: Constants_1.JingleSessionRole.Initiator,
                         name: media.mid,
-                        transport: Protocol_1.convertIntermediateToTransport(media, this.transportType)
+                        transport: Protocol_1.convertIntermediateToTransport(
+                            media,
+                            this.transportType
+                        )
                     })),
                     sid: this.sid
                 });
                 await this.pc.setLocalDescription(offer);
             });
-        }
-        catch (err) {
+        } catch (err) {
             this._log('error', 'Could not create WebRTC offer', err);
             this.end(Constants_1.JingleReasonCondition.FailedTransport, true);
         }
@@ -88,14 +89,12 @@ class ICESession extends Session_1.default {
                 }
                 if (maximumBitrate === 0) {
                     delete parameters.encodings[0].maxBitrate;
-                }
-                else {
+                } else {
                     parameters.encodings[0].maxBitrate = maximumBitrate;
                 }
                 await sender.setParameters(parameters);
             });
-        }
-        catch (err) {
+        } catch (err) {
             this._log('error', 'Set maximumBitrate failed', err);
         }
     }
@@ -103,22 +102,21 @@ class ICESession extends Session_1.default {
     // Jingle action handers
     // ----------------------------------------------------------------
     async onTransportInfo(changes, cb) {
-        if (changes.contents &&
+        if (
+            changes.contents &&
             changes.contents[0] &&
-            changes.contents[0].transport.gatheringComplete) {
+            changes.contents[0].transport.gatheringComplete
+        ) {
             const candidate = { sdpMid: changes.contents[0].name, candidate: '' };
             try {
                 if (this.pc.signalingState === 'stable') {
                     await this.pc.addIceCandidate(candidate);
-                }
-                else {
+                } else {
                     this.candidateBuffer.push(candidate);
                 }
-            }
-            catch (err) {
+            } catch (err) {
                 this._log('debug', 'Could not add null end-of-candidate');
-            }
-            finally {
+            } finally {
                 cb();
             }
             return;
@@ -129,8 +127,7 @@ class ICESession extends Session_1.default {
             const remoteJSON = Intermediate_1.importFromSDP(remoteDescription.sdp);
             const remoteMedia = remoteJSON.media.find(m => m.mid === changes.contents[0].name);
             const currentUsernameFragment = remoteMedia.iceParameters.usernameFragment;
-            const remoteUsernameFragment = changes.contents[0].transport
-                .usernameFragment;
+            const remoteUsernameFragment = changes.contents[0].transport.usernameFragment;
             if (remoteUsernameFragment && currentUsernameFragment !== remoteUsernameFragment) {
                 for (const [idx, content] of changes.contents.entries()) {
                     const transport = content.transport;
@@ -154,16 +151,17 @@ class ICESession extends Session_1.default {
                             contents: json.media.map(media => ({
                                 creator: Constants_1.JingleSessionRole.Initiator,
                                 name: media.mid,
-                                transport: Protocol_1.convertIntermediateToTransport(media, this.transportType)
+                                transport: Protocol_1.convertIntermediateToTransport(
+                                    media,
+                                    this.transportType
+                                )
                             })),
                             sid: this.sid
                         });
-                    }
-                    else {
+                    } else {
                         this.restartingIce = false;
                     }
-                }
-                catch (err) {
+                } catch (err) {
                     this._log('error', 'Could not do remote ICE restart', err);
                     cb(err);
                     this.end(Constants_1.JingleReasonCondition.FailedTransport);
@@ -173,17 +171,17 @@ class ICESession extends Session_1.default {
         }
         const all = (changes.contents || []).map(content => {
             const sdpMid = content.name;
-            const results = (content.transport.candidates || []).map(async (json) => {
-                const candidate = SDPUtils.writeCandidate(Protocol_1.convertCandidateToIntermediate(json));
+            const results = (content.transport.candidates || []).map(async json => {
+                const candidate = SDPUtils.writeCandidate(
+                    Protocol_1.convertCandidateToIntermediate(json)
+                );
                 if (this.pc.remoteDescription && this.pc.signalingState === 'stable') {
                     try {
                         await this.pc.addIceCandidate({ sdpMid, candidate });
-                    }
-                    catch (err) {
+                    } catch (err) {
                         this._log('error', 'Could not add ICE candidate', err);
                     }
-                }
-                else {
+                } else {
                     this.candidateBuffer.push({ sdpMid, candidate });
                 }
             });
@@ -192,8 +190,7 @@ class ICESession extends Session_1.default {
         try {
             await Promise.all(all);
             cb();
-        }
-        catch (err) {
+        } catch (err) {
             this._log('error', `Could not process transport-info: ${err}`);
             cb(err);
         }
@@ -207,8 +204,7 @@ class ICESession extends Session_1.default {
             await this.processBufferedCandidates();
             this.parent.emit('accepted', this, undefined);
             cb();
-        }
-        catch (err) {
+        } catch (err) {
             this._log('error', `Could not process WebRTC answer: ${err}`);
             cb({ condition: 'general-error' });
         }
@@ -274,8 +270,7 @@ class ICESession extends Session_1.default {
             case 'disconnected':
                 if (this.pc.signalingState === 'stable') {
                     this.connectionState = 'interrupted';
-                }
-                else {
+                } else {
                     this.connectionState = 'disconnected';
                 }
                 if (this.restartingIce) {
@@ -296,8 +291,7 @@ class ICESession extends Session_1.default {
                 this.connectionState = 'disconnected';
                 if (this.restartingIce) {
                     this.end(Constants_1.JingleReasonCondition.FailedTransport);
-                }
-                else {
+                } else {
                     this.end();
                 }
                 break;
@@ -307,8 +301,7 @@ class ICESession extends Session_1.default {
         for (const candidate of this.candidateBuffer) {
             try {
                 await this.pc.addIceCandidate(candidate);
-            }
-            catch (err) {
+            } catch (err) {
                 this._log('error', 'Could not add ICE candidate', err);
             }
         }
@@ -321,8 +314,10 @@ class ICESession extends Session_1.default {
      */
     restrictRelayBandwidth() {
         this.pc.addEventListener('iceconnectionstatechange', async () => {
-            if (this.pc.iceConnectionState !== 'completed' &&
-                this.pc.iceConnectionState !== 'connected') {
+            if (
+                this.pc.iceConnectionState !== 'completed' &&
+                this.pc.iceConnectionState !== 'connected'
+            ) {
                 return;
             }
             const stats = await this.pc.getStats();
@@ -371,8 +366,7 @@ class ICESession extends Session_1.default {
                 this.maximumBitrate = this.maxRelayBandwidth;
                 if (this.currentBitrate) {
                     this.setMaximumBitrate(Math.min(this.currentBitrate, this.maximumBitrate));
-                }
-                else {
+                } else {
                     this.setMaximumBitrate(this.maximumBitrate);
                 }
             }

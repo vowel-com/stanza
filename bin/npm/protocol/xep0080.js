@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0080: User Location
 // --------------------------------------------------------------------
@@ -12,9 +12,9 @@
 // Source: https://xmpp.org/extensions/xep-0350.html
 // Version: 0.2 (2017-09-11)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = {
     aliases: [
         { path: 'message.geoloc', impliedType: true },

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0167: Jingle RTP Sessions
 // --------------------------------------------------------------------
@@ -34,10 +34,10 @@
 // Source: https://xmpp.org/extensions/xep-0339.html
 // Version: 0.3 (2017-09-11)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = require("../Constants");
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const Constants_1 = require('../Constants');
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 function rtcpFeedback() {
     return {
         importer(xml, context) {
@@ -65,13 +65,22 @@ function rtcpFeedback() {
             for (const fb of values) {
                 let child;
                 if (fb.type === 'trr-int') {
-                    child = jxt_1.createElement(Namespaces_1.NS_JINGLE_RTP_RTCP_FB_0, 'rtcp-fb-trr-int', context.namespace, xml);
+                    child = jxt_1.createElement(
+                        Namespaces_1.NS_JINGLE_RTP_RTCP_FB_0,
+                        'rtcp-fb-trr-int',
+                        context.namespace,
+                        xml
+                    );
                     if (fb.parameter) {
                         valueExporter(child, fb.parameter, context);
                     }
-                }
-                else {
-                    child = jxt_1.createElement(Namespaces_1.NS_JINGLE_RTP_RTCP_FB_0, 'rtcp-fb', context.namespace, xml);
+                } else {
+                    child = jxt_1.createElement(
+                        Namespaces_1.NS_JINGLE_RTP_RTCP_FB_0,
+                        'rtcp-fb',
+                        context.namespace,
+                        xml
+                    );
                     typeExporter(child, fb.type, context);
                     if (fb.parameter) {
                         subtypeExporter(child, fb.parameter, context);
@@ -150,7 +159,12 @@ const Protocol = [
             id: jxt_1.attribute('id'),
             maxptime: jxt_1.integerAttribute('maxptime'),
             name: jxt_1.attribute('name'),
-            parameters: jxt_1.parameterMap(Namespaces_1.NS_JINGLE_RTP_1, 'parameter', 'name', 'value'),
+            parameters: jxt_1.parameterMap(
+                Namespaces_1.NS_JINGLE_RTP_1,
+                'parameter',
+                'name',
+                'value'
+            ),
             ptime: jxt_1.integerAttribute('ptime'),
             rtcpFeedback: rtcpFeedback()
         },
@@ -166,7 +180,12 @@ const Protocol = [
         ],
         element: 'source',
         fields: {
-            parameters: jxt_1.parameterMap(Namespaces_1.NS_JINGLE_RTP_SSMA_0, 'parameter', 'name', 'value'),
+            parameters: jxt_1.parameterMap(
+                Namespaces_1.NS_JINGLE_RTP_SSMA_0,
+                'parameter',
+                'name',
+                'value'
+            ),
             ssrc: jxt_1.attribute('ssrc')
         },
         namespace: Namespaces_1.NS_JINGLE_RTP_SSMA_0
@@ -202,7 +221,12 @@ const Protocol = [
         namespace: Namespaces_1.NS_JINGLE_RTP_MSID_0
     },
     {
-        aliases: [{ path: 'iq.jingle.contents.application.encryption', selector: Namespaces_1.NS_JINGLE_RTP_1 }],
+        aliases: [
+            {
+                path: 'iq.jingle.contents.application.encryption',
+                selector: Namespaces_1.NS_JINGLE_RTP_1
+            }
+        ],
         element: 'encryption',
         fields: {
             required: jxt_1.booleanAttribute('required')

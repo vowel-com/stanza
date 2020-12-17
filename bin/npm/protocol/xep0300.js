@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0300: Use of Cryptographic Hash Functions in XMPP
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0300.html
 // Version: 0.5.3 (2018-02-14)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     {
         defaultType: '2',

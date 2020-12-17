@@ -1,15 +1,15 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0060: Publish-Subscribe
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0060.html
 // Version: 1.15.1 (2018-02-02)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = require("../Constants");
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
-const dateOrPresenceAttribute = (name) => ({
+Object.defineProperty(exports, '__esModule', { value: true });
+const Constants_1 = require('../Constants');
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
+const dateOrPresenceAttribute = name => ({
     importer(xml) {
         const data = xml.getAttribute(name);
         if (data === 'presence') {
@@ -23,8 +23,7 @@ const dateOrPresenceAttribute = (name) => ({
         let data;
         if (typeof value === 'string') {
             data = value;
-        }
-        else {
+        } else {
             data = value.toISOString();
         }
         xml.setAttribute(name, data);
@@ -83,8 +82,15 @@ const Protocol = [
     ]),
     jxt_1.addAlias(Namespaces_1.NS_RSM, 'set', ['iq.pubsub.fetch.paging']),
     jxt_1.extendStanzaError({
-        pubsubError: jxt_1.childEnum(Namespaces_1.NS_PUBSUB_ERRORS, Object.values(Constants_1.PubsubErrorCondition)),
-        pubsubUnsupportedFeature: jxt_1.childAttribute(Namespaces_1.NS_PUBSUB_ERRORS, 'unsupported', 'feature')
+        pubsubError: jxt_1.childEnum(
+            Namespaces_1.NS_PUBSUB_ERRORS,
+            Object.values(Constants_1.PubsubErrorCondition)
+        ),
+        pubsubUnsupportedFeature: jxt_1.childAttribute(
+            Namespaces_1.NS_PUBSUB_ERRORS,
+            'unsupported',
+            'feature'
+        )
     }),
     {
         element: 'subscribe',

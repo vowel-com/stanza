@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0084: User Avatar
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0084.html
 // Version: 1.1.1 (2016-07-09)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     {
         aliases: jxt_1.pubsubItemContentAliases(),

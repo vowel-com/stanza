@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 // ================================================================
 // RFCS
 // ================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.NS_JINGLE_RTP_MSID_0 = exports.NS_XRD = exports.NS_JSON_MESSAGE_0 = exports.NS_OMEMO_AXOLOTL_BUNDLE = exports.NS_OMEMO_AXOLOTL_BUNDLES = exports.NS_OMEMO_AXOLOTL_DEVICELIST = exports.NS_OMEMO_AXOLOTL = exports.NS_SPOILER_0 = exports.NS_EME_0 = exports.NS_REFERENCE_0 = exports.NS_JINGLE_ICE_0 = exports.NS_JINGLE_HTTP_UPLOAD_0 = exports.NS_JINGLE_HTTP_0 = exports.NS_HTTP_UPLOAD_0 = exports.NS_SID_0 = exports.NS_JINGLE_PUB_1 = exports.NS_PUSH_0 = exports.NS_DELEGATION_1 = exports.NS_JINGLE_MSG_INITIATE_0 = exports.NS_CSI_0 = exports.NS_JINGLE_DTLS_SCTP_1 = exports.NS_JINGLE_RTP_SSMA_0 = exports.NS_JINGLE_GROUPING_0 = exports.NS_JSON_0 = exports.NS_HINTS = exports.NS_CHAT_MARKERS_0 = exports.NS_JINGLE_DTLS_0 = exports.NS_IDLE_1 = exports.NS_HATS_0 = exports.NS_MAM_2 = exports.NS_MAM_1 = exports.NS_MAM_0 = exports.NS_MAM_TMP = exports.NS_PSA = exports.NS_CORRECTION_0 = exports.NS_MUC_UNIQUE = exports.NS_RTT_0 = exports.NS_HASH_NAME = exports.NS_HASHES_2 = exports.NS_HASHES_1 = exports.NS_FORWARD_0 = exports.NS_JINGLE_RTP_HDREXT_0 = exports.NS_JINGLE_RTP_RTCP_FB_0 = exports.NS_CARBONS_2 = exports.NS_DECLOAKING_0 = exports.NS_THUMBS_1 = exports.NS_THUMBS_0 = exports.NS_JINGLE_RTP_ZRTP_1 = exports.NS_JINGLE_IBB_1 = exports.NS_JINGLE_SOCKS5_1 = exports.NS_SEC_LABEL_ESS_0 = exports.NS_SEC_LABEL_CATALOG_2 = exports.NS_SEC_LABEL_0 = exports.NS_MUC_DIRECT_INVITE = exports.NS_JINGLE_XML_0 = exports.NS_JINGLE_FILE_TRANSFER_5 = exports.NS_JINGLE_FILE_TRANSFER_4 = exports.NS_JINGLE_FILE_TRANSFER_3 = exports.NS_SOFTWARE_INFO = exports.NS_BOB = exports.NS_ATTENTION_0 = exports.NS_DATAFORM_MEDIA = exports.NS_DISCO_EXTERNAL_2 = exports.NS_DISCO_EXTERNAL_1 = exports.NS_BOSH_XMPP = exports.NS_DELAY = exports.NS_TIME = exports.NS_PING = exports.NS_SMACKS_3 = exports.NS_BLOCKING_ERRORS = exports.NS_BLOCKING = exports.NS_INVISIBLE_0 = exports.NS_RECEIPTS = exports.NS_JINGLE_RAW_UDP_1 = exports.NS_JINGLE_ICE_UDP_1 = exports.NS_NICK = exports.NS_LANG_TRANS_ITEMS = exports.NS_LANG_TRANS = exports.NS_JINGLE_RTP_VIDEO = exports.NS_JINGLE_RTP_AUDIO = exports.NS_JINGLE_RTP_INFO_1 = exports.NS_JINGLE_RTP_ERRORS_1 = exports.NS_JINGLE_RTP_1 = exports.NS_JINGLE_ERRORS_1 = exports.NS_JINGLE_1 = exports.NS_PEP_NOTIFY = exports.NS_CAPTCHA = exports.NS_ALT_CONNECTIONS_XBOSH = exports.NS_ALT_CONNECTIONS_WEBSOCKET = exports.NS_VCARD_TEMP_UPDATE = exports.NS_REACH_0 = exports.NS_ROSTER_NOTES = exports.NS_ROSTER_EXCHANGE = exports.NS_DATAFORM_LAYOUT = exports.NS_COMPRESSION = exports.NS_COMPRESSION_FEATURE = exports.NS_SHIM = exports.NS_BOSH = exports.NS_DATAFORM_VALIDATION = exports.NS_TUNE = exports.NS_DISCO_LEGACY_CAPS = exports.NS_COMPONENT = exports.NS_ACTIVITY = exports.NS_MOOD = exports.NS_VERSION = exports.NS_CHAT_STATES = exports.NS_AVATAR_METADATA = exports.NS_AVATAR_DATA = exports.NS_ROSTER_DELIMITER = exports.NS_GEOLOC = exports.NS_AMP = exports.NS_INBAND_REGISTRATION = exports.NS_REGISTER = exports.NS_XHTML_IM = exports.NS_XHTML = exports.NS_HTTP_AUTH = exports.NS_OOB_TRANSFER = exports.NS_OOB = exports.NS_SOCKS5 = exports.NS_PUBSUB_OWNER = exports.NS_PUBSUB_EVENT = exports.NS_PUBSUB_ERRORS = exports.NS_PUBSUB = exports.NS_RSM = exports.NS_SEARCH = exports.NS_VCARD_TEMP = exports.NS_ADHOC_COMMANDS = exports.NS_PRIVATE = exports.NS_BOOKMARKS = exports.NS_IBB = exports.NS_MUC_USER = exports.NS_MUC_OWNER = exports.NS_MUC_ADMIN = exports.NS_MUC = exports.NS_ADDRESS = exports.NS_DISCO_ITEMS = exports.NS_DISCO_INFO = exports.NS_LEGACY_CHAT_EVENTS = exports.NS_PRIVACY = exports.NS_LAST_ACTIVITY = exports.NS_RPC = exports.NS_DATAFORM = exports.NS_FRAMING = exports.NS_SUBSCRIPTION_PREAPPROVAL = exports.NS_ROSTER_VERSIONING = exports.NS_ROSTER = exports.NS_STARTTLS = exports.NS_STREAMS = exports.NS_STREAM = exports.NS_STANZAS = exports.NS_SESSION = exports.NS_SERVER = exports.NS_SASL = exports.NS_CLIENT = exports.NS_BIND = exports.NS_ATOM = void 0;
 // RFC 4287
 exports.NS_ATOM = 'http://www.w3.org/2005/Atom';
@@ -125,7 +125,7 @@ exports.NS_ALT_CONNECTIONS_XBOSH = 'urn:xmpp:alt-connections:xbosh';
 // XEP-0158
 exports.NS_CAPTCHA = 'urn:xmpp:captcha';
 // XEP-0163
-exports.NS_PEP_NOTIFY = (ns) => `${ns}+notify`;
+exports.NS_PEP_NOTIFY = ns => `${ns}+notify`;
 // XEP-0166
 exports.NS_JINGLE_1 = 'urn:xmpp:jingle:1';
 exports.NS_JINGLE_ERRORS_1 = 'urn:xmpp:jingle:errors:1';
@@ -206,7 +206,7 @@ exports.NS_FORWARD_0 = 'urn:xmpp:forward:0';
 // XEP-0300
 exports.NS_HASHES_1 = 'urn:xmpp:hashes:1';
 exports.NS_HASHES_2 = 'urn:xmpp:hashes:2';
-exports.NS_HASH_NAME = (name) => `urn:xmpp:hash-function-text-names:${name}`;
+exports.NS_HASH_NAME = name => `urn:xmpp:hash-function-text-names:${name}`;
 // XEP-0301
 exports.NS_RTT_0 = 'urn:xmpp:rtt:0';
 // XEP-0307
@@ -268,7 +268,7 @@ exports.NS_OMEMO_AXOLOTL = 'eu.siacs.conversations.axolotl';
 exports.NS_OMEMO_AXOLOTL_DEVICELIST = 'eu.siacs.conversations.axolotl.devicelist';
 exports.NS_OMEMO_AXOLOTL_BUNDLES = 'eu.siacs.conversations.axolotl.bundles';
 // istanbul ignore next
-exports.NS_OMEMO_AXOLOTL_BUNDLE = (deviceId) => `${exports.NS_OMEMO_AXOLOTL_BUNDLES}:${deviceId}`;
+exports.NS_OMEMO_AXOLOTL_BUNDLE = deviceId => `${exports.NS_OMEMO_AXOLOTL_BUNDLES}:${deviceId}`;
 // XEP-0432
 exports.NS_JSON_MESSAGE_0 = 'urn:xmpp:json-msg:0';
 // ================================================================

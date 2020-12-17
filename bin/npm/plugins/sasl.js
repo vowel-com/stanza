@@ -1,9 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 function default_1(client) {
     client.registerFeature('sasl', 100, async (features, done) => {
         const mech = client.sasl.createMechanism(features.sasl.mechanisms);
-        const saslHandler = async (sasl) => {
+        const saslHandler = async sasl => {
             if (!mech) {
                 return;
             }
@@ -21,15 +21,14 @@ function default_1(client) {
                 case 'challenge': {
                     mech.processChallenge(sasl.value);
                     try {
-                        const credentials = (await client.getCredentials());
+                        const credentials = await client.getCredentials();
                         const resp = mech.createResponse(credentials);
                         if (resp || resp === '') {
                             client.send('sasl', {
                                 type: 'response',
                                 value: resp
                             });
-                        }
-                        else {
+                        } else {
                             client.send('sasl', {
                                 type: 'response'
                             });
@@ -45,8 +44,7 @@ function default_1(client) {
                             };
                             client.emit('credentials:update', client.config.credentials);
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         console.error(err);
                         client.send('sasl', {
                             type: 'abort'
@@ -74,14 +72,13 @@ function default_1(client) {
             client.off('sasl', saslHandler);
         });
         try {
-            const credentials = (await client.getCredentials());
+            const credentials = await client.getCredentials();
             client.send('sasl', {
                 mechanism: mech.name,
                 type: 'auth',
                 value: mech.createResponse(credentials)
             });
-        }
-        catch (err) {
+        } catch (err) {
             console.error(err);
             client.send('sasl', {
                 type: 'abort'

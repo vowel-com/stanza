@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0050: Ad-Hoc Commands
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0050.html
 // Version: 1.2.2 (2016-12-03)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     jxt_1.addAlias(Namespaces_1.NS_DATAFORM, 'x', ['iq.command.form']),
     jxt_1.extendStanzaError({

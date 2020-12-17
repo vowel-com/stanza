@@ -1,8 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.convertRequestToIntermediate = exports.convertContentToIntermediate = exports.convertIntermediateToRequest = exports.convertIntermediateToTransport = exports.convertCandidateToIntermediate = exports.convertIntermediateToCandidate = exports.convertIntermediateToApplication = void 0;
-const Constants_1 = require("../../Constants");
-const Namespaces_1 = require("../../Namespaces");
+const Constants_1 = require('../../Constants');
+const Namespaces_1 = require('../../Namespaces');
 function convertIntermediateToApplication(media, role) {
     const rtp = media.rtpParameters;
     const rtcp = media.rtcpParameters || {};
@@ -84,11 +84,9 @@ function convertIntermediateToCandidate(candidate) {
     let component;
     if (candidate.component === 'rtp') {
         component = 1;
-    }
-    else if (candidate.component === 'rtcp') {
+    } else if (candidate.component === 'rtcp') {
         component = 2;
-    }
-    else {
+    } else {
         component = candidate.component;
     }
     return {
@@ -111,9 +109,10 @@ exports.convertIntermediateToCandidate = convertIntermediateToCandidate;
 function convertCandidateToIntermediate(candidate) {
     return {
         address: candidate.ip,
-        component: candidate.component === 1
-            ? 'rtp'
-            : candidate.component === 2
+        component:
+            candidate.component === 1
+                ? 'rtp'
+                : candidate.component === 2
                 ? 'rtcp'
                 : candidate.component,
         foundation: candidate.foundation,
@@ -166,9 +165,9 @@ function convertIntermediateToRequest(session, role, transportType) {
                 application: isRTP
                     ? convertIntermediateToApplication(media, role)
                     : {
-                        applicationType: 'datachannel',
-                        protocol: media.protocol
-                    },
+                          applicationType: 'datachannel',
+                          protocol: media.protocol
+                      },
                 creator: Constants_1.JingleSessionRole.Initiator,
                 name: media.mid,
                 senders: Constants_1.directionToSenders(role, media.direction),
@@ -177,9 +176,9 @@ function convertIntermediateToRequest(session, role, transportType) {
         }),
         groups: session.groups
             ? session.groups.map(group => ({
-                contents: group.mids,
-                semantics: group.semantics
-            }))
+                  contents: group.mids,
+                  semantics: group.semantics
+              }))
             : []
     };
 }

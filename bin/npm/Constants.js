@@ -1,8 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.directionToSenders = exports.sendersToDirection = exports.JINGLE_INFO_RECEIVED_5 = exports.JINGLE_INFO_CHECKSUM_5 = exports.JINGLE_INFO_RINGING = exports.JINGLE_INFO_ACTIVE = exports.JINGLE_INFO_UNHOLD = exports.JINGLE_INFO_HOLD = exports.JINGLE_INFO_UNMUTE = exports.JINGLE_INFO_MUTE = exports.JINGLE_INFO = exports.USER_ACTIVITY_SPECIFIC = exports.USER_ACTIVITY_GENERAL = exports.USER_MOODS = exports.JingleReasonCondition = exports.JingleErrorCondition = exports.JingleAction = exports.JingleContentSenders = exports.JingleApplicationDirection = exports.JingleSessionRole = exports.ChatState = exports.PubsubErrorCondition = exports.MUCStatusCode = exports.MUCRole = exports.MUCAffiliation = exports.DataFormFieldType = exports.DataFormType = exports.RosterSubscription = exports.PresenceShow = exports.IQType = exports.PresenceType = exports.MessageType = exports.StanzaErrorCondition = exports.StreamErrorCondition = exports.SASLFailureCondition = exports.StreamType = exports.VERSION = void 0;
-const Namespaces_1 = require("./Namespaces");
-exports.VERSION = '12.15.0';
+const Namespaces_1 = require('./Namespaces');
+exports.VERSION = '0.1.2';
 // ====================================================================
 // Frequently Used Values
 // ====================================================================
@@ -442,8 +442,14 @@ exports.JINGLE_INFO_HOLD = exports.JINGLE_INFO(Namespaces_1.NS_JINGLE_RTP_INFO_1
 exports.JINGLE_INFO_UNHOLD = exports.JINGLE_INFO(Namespaces_1.NS_JINGLE_RTP_INFO_1, 'unhold');
 exports.JINGLE_INFO_ACTIVE = exports.JINGLE_INFO(Namespaces_1.NS_JINGLE_RTP_INFO_1, 'active');
 exports.JINGLE_INFO_RINGING = exports.JINGLE_INFO(Namespaces_1.NS_JINGLE_RTP_INFO_1, 'ringing');
-exports.JINGLE_INFO_CHECKSUM_5 = exports.JINGLE_INFO(Namespaces_1.NS_JINGLE_FILE_TRANSFER_5, 'checksum');
-exports.JINGLE_INFO_RECEIVED_5 = exports.JINGLE_INFO(Namespaces_1.NS_JINGLE_FILE_TRANSFER_5, 'received');
+exports.JINGLE_INFO_CHECKSUM_5 = exports.JINGLE_INFO(
+    Namespaces_1.NS_JINGLE_FILE_TRANSFER_5,
+    'checksum'
+);
+exports.JINGLE_INFO_RECEIVED_5 = exports.JINGLE_INFO(
+    Namespaces_1.NS_JINGLE_FILE_TRANSFER_5,
+    'received'
+);
 // ====================================================================
 // Helper Functions
 // ====================================================================
@@ -468,9 +474,13 @@ function directionToSenders(role, direction = exports.JingleApplicationDirection
     const isInitiator = role === exports.JingleSessionRole.Initiator;
     switch (direction) {
         case exports.JingleApplicationDirection.Send:
-            return isInitiator ? exports.JingleContentSenders.Initiator : exports.JingleContentSenders.Responder;
+            return isInitiator
+                ? exports.JingleContentSenders.Initiator
+                : exports.JingleContentSenders.Responder;
         case exports.JingleApplicationDirection.Receive:
-            return isInitiator ? exports.JingleContentSenders.Responder : exports.JingleContentSenders.Initiator;
+            return isInitiator
+                ? exports.JingleContentSenders.Responder
+                : exports.JingleContentSenders.Initiator;
         case exports.JingleApplicationDirection.SendReceive:
             return exports.JingleContentSenders.Both;
     }

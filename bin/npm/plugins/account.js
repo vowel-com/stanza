@@ -1,8 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const Namespaces_1 = require("../Namespaces");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const Namespaces_1 = require('../Namespaces');
 function default_1(client) {
-    client.getAccountInfo = async (jid) => {
+    client.getAccountInfo = async jid => {
         const resp = await client.sendIQ({
             account: {},
             to: jid,
@@ -17,7 +17,7 @@ function default_1(client) {
             type: 'set'
         });
     };
-    client.deleteAccount = (jid) => {
+    client.deleteAccount = jid => {
         return client.sendIQ({
             account: {
                 remove: true
@@ -26,7 +26,7 @@ function default_1(client) {
             type: 'set'
         });
     };
-    client.getPrivateData = async (key) => {
+    client.getPrivateData = async key => {
         const res = await client.sendIQ({
             privateStorage: {
                 [key]: {}
@@ -43,7 +43,7 @@ function default_1(client) {
             type: 'set'
         });
     };
-    client.getVCard = async (jid) => {
+    client.getVCard = async jid => {
         const resp = await client.sendIQ({
             to: jid,
             type: 'get',
@@ -53,7 +53,7 @@ function default_1(client) {
         });
         return resp.vcard;
     };
-    client.publishVCard = async (vcard) => {
+    client.publishVCard = async vcard => {
         await client.sendIQ({
             type: 'set',
             vcard

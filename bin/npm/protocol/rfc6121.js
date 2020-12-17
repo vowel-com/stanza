@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // RFC 6121: Extensible Messaging and Presence Protocol (XMPP):
 //      Instant Messaging and Presence
 // --------------------------------------------------------------------
 // Source: https://tools.ietf.org/html/rfc6121
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     jxt_1.extendStreamFeatures({
         rosterPreApproval: jxt_1.childBoolean(Namespaces_1.NS_SUBSCRIPTION_PREAPPROVAL, 'sub'),

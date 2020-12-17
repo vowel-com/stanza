@@ -1,14 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.Receiver = exports.Sender = void 0;
-const tslib_1 = require("tslib");
-const events_1 = require("events");
-const Hashes = tslib_1.__importStar(require("stanza-shims"));
-const Constants_1 = require("../Constants");
-const Namespaces_1 = require("../Namespaces");
-const ICESession_1 = tslib_1.__importDefault(require("./ICESession"));
-const Intermediate_1 = require("./sdp/Intermediate");
-const Protocol_1 = require("./sdp/Protocol");
+const tslib_1 = require('tslib');
+const events_1 = require('events');
+const Hashes = tslib_1.__importStar(require('stanza-shims'));
+const Constants_1 = require('../Constants');
+const Namespaces_1 = require('../Namespaces');
+const ICESession_1 = tslib_1.__importDefault(require('./ICESession'));
+const Intermediate_1 = require('./sdp/Intermediate');
+const Protocol_1 = require('./sdp/Protocol');
 class Sender extends events_1.EventEmitter {
     constructor(opts = {}) {
         super();
@@ -43,7 +43,7 @@ class Sender extends events_1.EventEmitter {
         channel.onbufferedamountlow = () => {
             sliceFile();
         };
-        fileReader.addEventListener('load', (event) => {
+        fileReader.addEventListener('load', event => {
             const data = event.target.result;
             pendingRead = false;
             offset += data.byteLength;
@@ -55,8 +55,7 @@ class Sender extends events_1.EventEmitter {
                     sliceFile();
                 }
                 // Otherwise wait for bufferedamountlow event to trigger reading more data
-            }
-            else {
+            } else {
                 this.emit('progress', file.size, file.size, null);
                 this.emit('sentFile', {
                     algorithm: this.config.hash,
@@ -98,8 +97,7 @@ class Receiver extends events_1.EventEmitter {
                 this.metadata.actualhash = this.hash.digest('hex');
                 this.emit('receivedFile', new Blob(this.receiveBuffer), this.metadata);
                 this.receiveBuffer = [];
-            }
-            else if (this.received > this.metadata.size) {
+            } else if (this.received > this.metadata.size) {
                 // FIXME
                 console.error('received more than expected, discarding...');
                 this.receiveBuffer = []; // just discard...
@@ -159,7 +157,11 @@ class FileTransferSession extends ICESession_1.default {
                     offerToReceiveVideo: false
                 });
                 const json = Intermediate_1.importFromSDP(offer.sdp);
-                const jingle = Protocol_1.convertIntermediateToRequest(json, this.role, this.transportType);
+                const jingle = Protocol_1.convertIntermediateToRequest(
+                    json,
+                    this.role,
+                    this.transportType
+                );
                 this.contentName = jingle.contents[0].name;
                 jingle.sid = this.sid;
                 jingle.action = Constants_1.JingleAction.SessionInitiate;
@@ -180,8 +182,7 @@ class FileTransferSession extends ICESession_1.default {
                 await this.pc.setLocalDescription(offer);
             });
             next();
-        }
-        catch (err) {
+        } catch (err) {
             this._log('error', 'Could not create WebRTC offer', err);
             return this.end('failed-application', true);
         }
@@ -195,7 +196,11 @@ class FileTransferSession extends ICESession_1.default {
             await this.processLocal(Constants_1.JingleAction.SessionAccept, async () => {
                 const answer = await this.pc.createAnswer();
                 const json = Intermediate_1.importFromSDP(answer.sdp);
-                const jingle = Protocol_1.convertIntermediateToRequest(json, this.role, this.transportType);
+                const jingle = Protocol_1.convertIntermediateToRequest(
+                    json,
+                    this.role,
+                    this.transportType
+                );
                 jingle.sid = this.sid;
                 jingle.action = 'session-accept';
                 for (const content of jingle.contents) {
@@ -207,8 +212,7 @@ class FileTransferSession extends ICESession_1.default {
                 await this.processBufferedCandidates();
             });
             next();
-        }
-        catch (err) {
+        } catch (err) {
             this._log('error', 'Could not create WebRTC answer', err);
             this.end('failed-application');
         }
@@ -239,8 +243,7 @@ class FileTransferSession extends ICESession_1.default {
             await this.pc.setRemoteDescription({ type: 'offer', sdp });
             await this.processBufferedCandidates();
             cb();
-        }
-        catch (err) {
+        } catch (err) {
             this._log('error', 'Could not create WebRTC answer', err);
             cb({ condition: 'general-error' });
         }

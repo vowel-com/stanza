@@ -1,9 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const DataForms_1 = require("../helpers/DataForms");
-const JID = tslib_1.__importStar(require("../JID"));
-const Namespaces_1 = require("../Namespaces");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const tslib_1 = require('tslib');
+const DataForms_1 = require('../helpers/DataForms');
+const JID = tslib_1.__importStar(require('../JID'));
+const Namespaces_1 = require('../Namespaces');
 function default_1(client) {
     client.getHistorySearchForm = async (jid, opts = {}) => {
         const res = await client.sendIQ({
@@ -21,8 +21,7 @@ function default_1(client) {
         let jid = '';
         if (typeof jidOrOpts === 'string') {
             jid = jidOrOpts;
-        }
-        else {
+        } else {
             jid = jidOrOpts.to || '';
             opts = jidOrOpts;
         }
@@ -62,7 +61,7 @@ function default_1(client) {
         opts.form = form;
         const allowed = JID.allowedResponders(client.jid, jid);
         const results = [];
-        const collector = (msg) => {
+        const collector = msg => {
             if (allowed.has(msg.from) && msg.archive && msg.archive.queryId === queryid) {
                 results.push(msg.archive);
             }
@@ -79,8 +78,7 @@ function default_1(client) {
                 ...resp.archive,
                 results
             };
-        }
-        finally {
+        } finally {
             client.off('mam:item', collector);
         }
     };
@@ -93,7 +91,7 @@ function default_1(client) {
         });
         return resp.archive;
     };
-    client.setHistoryPreferences = (opts) => {
+    client.setHistoryPreferences = opts => {
         return client.sendIQ({
             archive: {
                 type: 'preferences',

@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0234: Jingle File Transfer
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0234.html
 // Version: Version 0.18.3 (2017-08-24)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 let Protocol = [
     jxt_1.addAlias(Namespaces_1.NS_HASHES_2, 'hash', [
         { path: 'file.hashes', multiple: true },
@@ -17,10 +17,17 @@ let Protocol = [
         { path: 'file.hashes', multiple: true },
         { path: 'file.range.hashes', multiple: true }
     ]),
-    jxt_1.addAlias(Namespaces_1.NS_HASHES_2, 'hash-used', [{ path: 'file.hashesUsed', multiple: true }]),
-    jxt_1.addAlias(Namespaces_1.NS_THUMBS_1, 'thumbnail', [{ path: 'file.thumbnails', multiple: true }])
+    jxt_1.addAlias(Namespaces_1.NS_HASHES_2, 'hash-used', [
+        { path: 'file.hashesUsed', multiple: true }
+    ]),
+    jxt_1.addAlias(Namespaces_1.NS_THUMBS_1, 'thumbnail', [
+        { path: 'file.thumbnails', multiple: true }
+    ])
 ];
-for (const ftVersion of [Namespaces_1.NS_JINGLE_FILE_TRANSFER_4, Namespaces_1.NS_JINGLE_FILE_TRANSFER_5]) {
+for (const ftVersion of [
+    Namespaces_1.NS_JINGLE_FILE_TRANSFER_4,
+    Namespaces_1.NS_JINGLE_FILE_TRANSFER_5
+]) {
     Protocol = Protocol.concat([
         {
             aliases: [

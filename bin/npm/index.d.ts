@@ -11,7 +11,17 @@ import * as LibSASL from './lib/sasl';
 import StrictEventEmitter from './lib/StrictEventEmitter';
 import * as Namespaces from './Namespaces';
 import * as Stanzas from './protocol';
-import { CSI, IQ, Message, Presence, SASL, Stream, StreamError, StreamFeatures, StreamManagement } from './protocol';
+import {
+    CSI,
+    IQ,
+    Message,
+    Presence,
+    SASL,
+    Stream,
+    StreamError,
+    StreamFeatures,
+    StreamManagement
+} from './protocol';
 import * as Utils from './Utils';
 export * from './helpers/StreamManagement';
 export interface TopLevelElements {
@@ -55,36 +65,45 @@ export interface AgentEvents {
     'session:prebind': string;
     'session:bound': string;
     'session:end': undefined;
-    'stanza:failed': {
-        kind: 'message';
-        stanza: Stanzas.Message;
-    } | {
-        kind: 'presence';
-        stanza: Stanzas.Presence;
-    } | {
-        kind: 'iq';
-        stanza: Stanzas.IQ;
-    };
-    'stanza:hibernated': {
-        kind: 'message';
-        stanza: Stanzas.Message;
-    } | {
-        kind: 'presence';
-        stanza: Stanzas.Presence;
-    } | {
-        kind: 'iq';
-        stanza: Stanzas.IQ;
-    };
-    'stanza:acked': {
-        kind: 'message';
-        stanza: Stanzas.Message;
-    } | {
-        kind: 'presence';
-        stanza: Stanzas.Presence;
-    } | {
-        kind: 'iq';
-        stanza: Stanzas.IQ;
-    };
+    'stanza:failed':
+        | {
+              kind: 'message';
+              stanza: Stanzas.Message;
+          }
+        | {
+              kind: 'presence';
+              stanza: Stanzas.Presence;
+          }
+        | {
+              kind: 'iq';
+              stanza: Stanzas.IQ;
+          };
+    'stanza:hibernated':
+        | {
+              kind: 'message';
+              stanza: Stanzas.Message;
+          }
+        | {
+              kind: 'presence';
+              stanza: Stanzas.Presence;
+          }
+        | {
+              kind: 'iq';
+              stanza: Stanzas.IQ;
+          };
+    'stanza:acked':
+        | {
+              kind: 'message';
+              stanza: Stanzas.Message;
+          }
+        | {
+              kind: 'presence';
+              stanza: Stanzas.Presence;
+          }
+        | {
+              kind: 'iq';
+              stanza: Stanzas.IQ;
+          };
     'raw:incoming': string;
     'raw:outgoing': string;
     'raw:*': (direction: 'incoming' | 'outgoing', data: string) => void;
@@ -226,6 +245,6 @@ export interface TransportConfig {
     wait?: number;
 }
 export { Client, Constants, JXT, JID, Namespaces, Stanzas, Jingle, Utils, RTT, LibSASL as SASL };
-export declare const VERSION = "__STANZAJS_VERSION__";
+export declare const VERSION = '__STANZAJS_VERSION__';
 export * from './plugins';
 export declare function createClient(opts: AgentConfig): Agent;

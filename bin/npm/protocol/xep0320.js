@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0320: Use of DTLS-SRTP in Jingle Sessions
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0320.html
 // Version: 0.3.1 (2015-10-15)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = {
     aliases: [
         {

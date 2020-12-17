@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0012: Last Activity
 // --------------------------------------------------------------------
@@ -12,9 +12,9 @@
 // Source: https://xmpp.org/extensions/xep-0256.html
 // Version: 1.1 (2009-09-15)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     {
         aliases: ['presence.legacyLastActivity', 'iq.lastActivity'],

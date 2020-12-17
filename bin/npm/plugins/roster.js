@@ -1,7 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const JID = tslib_1.__importStar(require("../JID"));
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const tslib_1 = require('tslib');
+const JID = tslib_1.__importStar(require('../JID'));
 function default_1(client) {
     client.on('iq:set:roster', iq => {
         const allowed = JID.allowedResponders(client.jid);
@@ -47,12 +47,11 @@ function default_1(client) {
             }
             resp.roster.items = resp.roster.items || [];
             return resp.roster;
-        }
-        else {
+        } else {
             return { items: [] };
         }
     };
-    client.updateRosterItem = async (item) => {
+    client.updateRosterItem = async item => {
         await client.sendIQ({
             roster: {
                 items: [item]
@@ -60,19 +59,19 @@ function default_1(client) {
             type: 'set'
         });
     };
-    client.removeRosterItem = (jid) => {
+    client.removeRosterItem = jid => {
         return client.updateRosterItem({ jid, subscription: 'remove' });
     };
-    client.subscribe = (jid) => {
+    client.subscribe = jid => {
         client.sendPresence({ type: 'subscribe', to: jid });
     };
-    client.unsubscribe = (jid) => {
+    client.unsubscribe = jid => {
         client.sendPresence({ type: 'unsubscribe', to: jid });
     };
-    client.acceptSubscription = (jid) => {
+    client.acceptSubscription = jid => {
         client.sendPresence({ type: 'subscribed', to: jid });
     };
-    client.denySubscription = (jid) => {
+    client.denySubscription = jid => {
         client.sendPresence({ type: 'unsubscribed', to: jid });
     };
     client.getBlocked = async () => {
@@ -96,8 +95,8 @@ function default_1(client) {
             type: 'set'
         });
     }
-    client.block = async (jid) => toggleBlock('block', jid);
-    client.unblock = async (jid) => toggleBlock('unblock', jid);
+    client.block = async jid => toggleBlock('block', jid);
+    client.unblock = async jid => toggleBlock('unblock', jid);
     client.goInvisible = async (probe = false) => {
         await client.sendIQ({
             type: 'set',

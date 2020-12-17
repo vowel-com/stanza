@@ -1,9 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const readable_stream_1 = require("readable-stream");
-const stanza_shims_1 = require("stanza-shims");
-const Constants_1 = require("../Constants");
-const jxt_1 = require("../jxt");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const readable_stream_1 = require('readable-stream');
+const stanza_shims_1 = require('stanza-shims');
+const Constants_1 = require('../Constants');
+const jxt_1 = require('../jxt');
 const WS_OPEN = 1;
 class WSConnection extends readable_stream_1.Duplex {
     constructor(client, sm, stanzas) {
@@ -51,7 +51,7 @@ class WSConnection extends readable_stream_1.Duplex {
             registry: this.stanzas,
             wrappedStream: false
         });
-        this.parser.on('data', (e) => {
+        this.parser.on('data', e => {
             const name = e.kind;
             const stanzaObj = e.stanza;
             if (name === 'stream') {
@@ -67,7 +67,7 @@ class WSConnection extends readable_stream_1.Duplex {
             }
             this.push({ kind: e.kind, stanza: e.stanza });
         });
-        this.parser.on('error', (err) => {
+        this.parser.on('error', err => {
             const streamError = {
                 condition: Constants_1.StreamErrorCondition.InvalidXML
             };
@@ -101,8 +101,7 @@ class WSConnection extends readable_stream_1.Duplex {
         if (this.socket && !this.closing && this.hasStream && clean) {
             this.closing = true;
             this.write(this.closeHeader());
-        }
-        else {
+        } else {
             this.hasStream = false;
             this.stream = undefined;
             if (this.socket) {
@@ -121,7 +120,10 @@ class WSConnection extends readable_stream_1.Duplex {
         var _a;
         let output;
         if (data) {
-            output = (_a = this.stanzas.export(dataOrName, data)) === null || _a === void 0 ? void 0 : _a.toString();
+            output =
+                (_a = this.stanzas.export(dataOrName, data)) === null || _a === void 0
+                    ? void 0
+                    : _a.toString();
         }
         if (!output) {
             return;

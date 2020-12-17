@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0166: Jingle
 // --------------------------------------------------------------------
@@ -8,13 +8,16 @@
 // Additional:
 // - Added unknown-content error
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = require("../Constants");
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const Constants_1 = require('../Constants');
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     jxt_1.extendStanzaError({
-        jingleError: jxt_1.childEnum(Namespaces_1.NS_JINGLE_ERRORS_1, Object.values(Constants_1.JingleErrorCondition))
+        jingleError: jxt_1.childEnum(
+            Namespaces_1.NS_JINGLE_ERRORS_1,
+            Object.values(Constants_1.JingleErrorCondition)
+        )
     }),
     {
         element: 'jingle',

@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0124: Bidirectional-streams Over Synchronous HTTP (BOSH)
 // --------------------------------------------------------------------
@@ -12,9 +12,9 @@
 // Source: https://xmpp.org/extensions/xep-0206.html
 // Version: 1.4 (2014-04-09)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = {
     element: 'body',
     fields: {
@@ -46,16 +46,28 @@ const Protocol = {
         type: jxt_1.attribute('type'),
         version: jxt_1.attribute('ver'),
         // XEP-0206
-        xmppRestart: jxt_1.namespacedBooleanAttribute('xmpp', Namespaces_1.NS_BOSH_XMPP, 'restart', undefined, {
-            writeValue: (value) => {
-                return value ? 'true' : 'false';
+        xmppRestart: jxt_1.namespacedBooleanAttribute(
+            'xmpp',
+            Namespaces_1.NS_BOSH_XMPP,
+            'restart',
+            undefined,
+            {
+                writeValue: value => {
+                    return value ? 'true' : 'false';
+                }
             }
-        }),
-        xmppRestartLogic: jxt_1.namespacedBooleanAttribute('xmpp', Namespaces_1.NS_BOSH_XMPP, 'restartlogic', undefined, {
-            writeValue: (value) => {
-                return value ? 'true' : 'false';
+        ),
+        xmppRestartLogic: jxt_1.namespacedBooleanAttribute(
+            'xmpp',
+            Namespaces_1.NS_BOSH_XMPP,
+            'restartlogic',
+            undefined,
+            {
+                writeValue: value => {
+                    return value ? 'true' : 'false';
+                }
             }
-        }),
+        ),
         xmppVersion: jxt_1.namespacedAttribute('xmpp', Namespaces_1.NS_BOSH_XMPP, 'version')
     },
     namespace: Namespaces_1.NS_BOSH,

@@ -1,14 +1,14 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const events_1 = require("events");
-const stanza_shims_1 = require("stanza-shims");
-const Constants_1 = require("../Constants");
-const Namespaces_1 = require("../Namespaces");
-const Utils_1 = require("../Utils");
-const FileTransferSession_1 = tslib_1.__importDefault(require("./FileTransferSession"));
-const MediaSession_1 = tslib_1.__importDefault(require("./MediaSession"));
-const Session_1 = tslib_1.__importDefault(require("./Session"));
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const tslib_1 = require('tslib');
+const events_1 = require('events');
+const stanza_shims_1 = require('stanza-shims');
+const Constants_1 = require('../Constants');
+const Namespaces_1 = require('../Namespaces');
+const Utils_1 = require('../Utils');
+const FileTransferSession_1 = tslib_1.__importDefault(require('./FileTransferSession'));
+const MediaSession_1 = tslib_1.__importDefault(require('./MediaSession'));
+const Session_1 = tslib_1.__importDefault(require('./Session'));
 const MAX_RELAY_BANDWIDTH = 768 * 1024; // maximum bandwidth used via TURN.
 function isICEServer(val) {
     return !val.type && (val.urls || val.url);
@@ -23,35 +23,37 @@ class SessionManager extends events_1.EventEmitter {
         this.iceServers = conf.iceServers || [];
         this.prepareSession =
             conf.prepareSession ||
-                (opts => {
-                    if (!this.config.hasRTCPeerConnection) {
-                        return;
-                    }
-                    if (opts.applicationTypes.indexOf(Namespaces_1.NS_JINGLE_RTP_1) >= 0) {
-                        return new MediaSession_1.default(opts);
-                    }
-                    if (opts.applicationTypes.indexOf(Namespaces_1.NS_JINGLE_FILE_TRANSFER_5) >= 0) {
-                        return new FileTransferSession_1.default(opts);
-                    }
-                });
+            (opts => {
+                if (!this.config.hasRTCPeerConnection) {
+                    return;
+                }
+                if (opts.applicationTypes.indexOf(Namespaces_1.NS_JINGLE_RTP_1) >= 0) {
+                    return new MediaSession_1.default(opts);
+                }
+                if (opts.applicationTypes.indexOf(Namespaces_1.NS_JINGLE_FILE_TRANSFER_5) >= 0) {
+                    return new FileTransferSession_1.default(opts);
+                }
+            });
         this.performTieBreak =
             conf.performTieBreak ||
-                ((sess, req) => {
-                    const applicationTypes = (req.jingle.contents || []).map(content => {
-                        if (content.application) {
-                            return content.application.applicationType;
-                        }
-                    });
-                    const intersection = (sess.pendingApplicationTypes || []).filter(appType => applicationTypes.includes(appType));
-                    return intersection.length > 0;
-                });
-        this.createPeerConnection =
-            conf.createPeerConnection ||
-                ((session, opts) => {
-                    if (stanza_shims_1.RTCPeerConnection) {
-                        return new stanza_shims_1.RTCPeerConnection(opts);
+            ((sess, req) => {
+                const applicationTypes = (req.jingle.contents || []).map(content => {
+                    if (content.application) {
+                        return content.application.applicationType;
                     }
                 });
+                const intersection = (sess.pendingApplicationTypes || []).filter(appType =>
+                    applicationTypes.includes(appType)
+                );
+                return intersection.length > 0;
+            });
+        this.createPeerConnection =
+            conf.createPeerConnection ||
+            ((session, opts) => {
+                if (stanza_shims_1.RTCPeerConnection) {
+                    return new stanza_shims_1.RTCPeerConnection(opts);
+                }
+            });
         this.config = {
             debug: false,
             hasRTCPeerConnection: !!stanza_shims_1.RTCPeerConnection,
@@ -93,8 +95,7 @@ class SessionManager extends events_1.EventEmitter {
                 urls: [uri],
                 username: server.username
             });
-        }
-        else if (server.type === 'stun' || server.type === 'stuns') {
+        } else if (server.type === 'stun' || server.type === 'stuns') {
             this.iceServers.push({ urls: [uri] });
         }
     }
@@ -178,8 +179,7 @@ class SessionManager extends events_1.EventEmitter {
             const isTieBreak = req.error && req.error.jingleError === 'tie-break';
             if (session && session.state === 'pending' && isTieBreak) {
                 return session.end('alternative-session', true);
-            }
-            else {
+            } else {
                 if (session) {
                     session.pendingAction = undefined;
                 }
@@ -245,8 +245,7 @@ class SessionManager extends events_1.EventEmitter {
                     });
                 }
             }
-        }
-        else if (session) {
+        } else if (session) {
             // Don't accept a new session if we already have one.
             if (session.peerID !== sender) {
                 this._log('error', 'Duplicate sid from new sender');
@@ -257,17 +256,18 @@ class SessionManager extends events_1.EventEmitter {
             // Check if we need to have a tie breaker because both parties
             // happened to pick the same random sid.
             if (session.state === 'pending') {
-                if (this.selfID &&
+                if (
+                    this.selfID &&
                     this.selfID > session.peerID &&
-                    this.performTieBreak(session, req)) {
+                    this.performTieBreak(session, req)
+                ) {
                     this._log('error', 'Tie break new session because of duplicate sids');
                     return this._sendError(sender, rid, {
                         condition: 'conflict',
                         jingleError: 'tie-break'
                     });
                 }
-            }
-            else {
+            } else {
                 // The other side is just doing it wrong.
                 this._log('error', 'Someone is doing this wrong');
                 return this._sendError(sender, rid, {
@@ -275,18 +275,19 @@ class SessionManager extends events_1.EventEmitter {
                     jingleError: 'out-of-order'
                 });
             }
-        }
-        else if (this.peers[sender] && this.peers[sender].length) {
+        } else if (this.peers[sender] && this.peers[sender].length) {
             // Check if we need to have a tie breaker because we already have
             // a different session with this peer that is using the requested
             // content application types.
             for (let i = 0, len = this.peers[sender].length; i < len; i++) {
                 const sess = this.peers[sender][i];
-                if (sess &&
+                if (
+                    sess &&
                     sess.state === 'pending' &&
                     sid &&
                     Utils_1.octetCompare(sess.sid, sid) > 0 &&
-                    this.performTieBreak(sess, req)) {
+                    this.performTieBreak(sess, req)
+                ) {
                     this._log('info', 'Tie break session-initiate');
                     return this._sendError(sender, rid, {
                         condition: 'conflict',
@@ -302,24 +303,26 @@ class SessionManager extends events_1.EventEmitter {
                     condition: 'bad-request'
                 });
             }
-            session = this._createIncomingSession({
-                applicationTypes,
-                config: this.config.peerConnectionConfig,
-                constraints: this.config.peerConnectionConstraints,
-                iceServers: this.iceServers,
-                initiator: false,
-                parent: this,
-                peerID: sender,
-                sid,
-                transportTypes
-            }, req);
+            session = this._createIncomingSession(
+                {
+                    applicationTypes,
+                    config: this.config.peerConnectionConfig,
+                    constraints: this.config.peerConnectionConstraints,
+                    iceServers: this.iceServers,
+                    initiator: false,
+                    parent: this,
+                    peerID: sender,
+                    sid,
+                    transportTypes
+                },
+                req
+            );
         }
-        session.process(action, req.jingle, (err) => {
+        session.process(action, req.jingle, err => {
             if (err) {
                 this._log('error', 'Could not process request', req, err);
                 this._sendError(sender, rid, err);
-            }
-            else {
+            } else {
                 this.emit('send', {
                     id: rid,
                     to: sender,

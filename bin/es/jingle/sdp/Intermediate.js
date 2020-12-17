@@ -45,8 +45,7 @@ export function importFromSDP(sdp) {
             media.rtcpParameters = SDP.parseRtcpParameters(mediaSection);
             const msid = SDP.parseMsid(mediaSection);
             media.streams = msid ? [msid] : [];
-        }
-        else if (kind === 'application') {
+        } else if (kind === 'application') {
             media.sctp = SDP.parseSctpDescription(mediaSection);
         }
         media.candidates = SDP.matchPrefix(mediaSection, 'a=candidate:').map(SDP.parseCandidate);
@@ -59,9 +58,14 @@ export function importFromSDP(sdp) {
 // ====================================================================
 export function exportToSDP(session) {
     const output = [];
-    output.push(SDP.writeSessionBoilerplate(session.sessionId, session.sessionVersion), 'a=msid-semantic:WMS *\r\n');
-    if (session.iceLite ||
-        session.media.filter(m => m.iceParameters && m.iceParameters.iceLite).length > 0) {
+    output.push(
+        SDP.writeSessionBoilerplate(session.sessionId, session.sessionVersion),
+        'a=msid-semantic:WMS *\r\n'
+    );
+    if (
+        session.iceLite ||
+        session.media.filter(m => m.iceParameters && m.iceParameters.iceLite).length > 0
+    ) {
         output.push('a=ice-lite\r\n');
     }
     for (const group of session.groups || []) {
@@ -71,8 +75,7 @@ export function exportToSDP(session) {
         const isRejected = !(media.iceParameters && media.dtlsParameters);
         if (media.kind === 'application' && media.sctp) {
             output.push(SDP.writeSctpDescription(media, media.sctp));
-        }
-        else if (media.rtpParameters) {
+        } else if (media.rtpParameters) {
             let mline = SDP.writeRtpDescription(media.kind, media.rtpParameters);
             if (isRejected) {
                 mline = mline.replace(`m=${media.kind} 9 `, `m=${media.kind} 0 `);
@@ -88,7 +91,9 @@ export function exportToSDP(session) {
                     if (media.rtpEncodingParameters && media.rtpEncodingParameters[0].rtx) {
                         const params = media.rtpEncodingParameters[0];
                         output.push(`a=ssrc-group:FID ${params.ssrc} ${params.rtx.ssrc}\r\n`);
-                        output.push(`a=ssrc:${params.rtx.ssrc} cname:${media.rtcpParameters.cname}\r\n`);
+                        output.push(
+                            `a=ssrc:${params.rtx.ssrc} cname:${media.rtcpParameters.cname}\r\n`
+                        );
                     }
                 }
             }
@@ -97,11 +102,13 @@ export function exportToSDP(session) {
             output.push(`a=mid:${media.mid}\r\n`);
         }
         if (media.iceParameters) {
-            output.push(SDP.writeIceParameters({
-                // Ignoring iceLite, since we already output ice-lite at session level
-                usernameFragment: media.iceParameters.usernameFragment,
-                password: media.iceParameters.password
-            }));
+            output.push(
+                SDP.writeIceParameters({
+                    // Ignoring iceLite, since we already output ice-lite at session level
+                    usernameFragment: media.iceParameters.usernameFragment,
+                    password: media.iceParameters.password
+                })
+            );
         }
         if (media.dtlsParameters && media.setup) {
             output.push(SDP.writeDtlsParameters(media.dtlsParameters, media.setup));

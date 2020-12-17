@@ -1,5 +1,13 @@
 /// <reference types="node" />
-import { IQType, MessageType, PresenceType, SASLFailureCondition, StanzaErrorCondition, StreamErrorCondition, StreamType } from '../Constants';
+import {
+    IQType,
+    MessageType,
+    PresenceType,
+    SASLFailureCondition,
+    StanzaErrorCondition,
+    StreamErrorCondition,
+    StreamType
+} from '../Constants';
 import { DefinitionOptions, LanguageSet } from '../jxt';
 import { IQ, Message, Presence } from './';
 declare module './' {

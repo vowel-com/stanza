@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0033: Extended Stanza Addressing
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0033.html
 // Version:	1.2.1 (2017-01-11)
 // --------------------------------------------------------------------
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     jxt_1.extendMessage({
         addresses: jxt_1.splicePath(Namespaces_1.NS_ADDRESS, 'addresses', 'extendedAddress', true)

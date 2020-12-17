@@ -1,5 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.mergeFields = void 0;
 function mergeFields(original, updated) {
     const merged = [];
@@ -18,8 +18,7 @@ function mergeFields(original, updated) {
                 ...mappedUpdates.get(field.name)
             });
             usedUpdates.add(field.name);
-        }
-        else {
+        } else {
             merged.push({ ...field });
         }
     }

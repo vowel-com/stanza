@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0045: Multi-User Chat
 // --------------------------------------------------------------------
@@ -18,9 +18,9 @@
 // Source: https://xmpp.org/extensions/xep-0307.html
 // Version: 0.1 (2011-11-10)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     jxt_1.addAlias(Namespaces_1.NS_DATAFORM, 'x', [{ path: 'iq.muc.form', selector: 'configure' }]),
     {
@@ -204,9 +204,9 @@ const Protocol = [
                 }
                 return context.registry
                     ? context.registry.import(confElement, {
-                        ...context,
-                        path: 'message'
-                    })
+                          ...context,
+                          path: 'message'
+                      })
                     : undefined;
             },
             importOrder: -1

@@ -1,5 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 function default_1(client) {
     client.registerFeature('bind', 300, async (features, cb) => {
         try {
@@ -11,14 +11,14 @@ function default_1(client) {
             });
             client.features.negotiated.bind = true;
             client.emit('session:prebind', resp.bind.jid);
-            const canStartSession = !features.legacySession ||
+            const canStartSession =
+                !features.legacySession ||
                 (features.legacySession && features.legacySession.optional);
             if (!client.sessionStarted && canStartSession) {
                 client.emit('session:started', client.jid);
             }
             return cb();
-        }
-        catch (err) {
+        } catch (err) {
             console.error(err);
             return cb('disconnect', 'JID binding failed');
         }
@@ -39,8 +39,7 @@ function default_1(client) {
                 client.emit('session:started', client.jid);
             }
             return cb();
-        }
-        catch (err) {
+        } catch (err) {
             return cb('disconnect', 'Session requeset failed');
         }
     });

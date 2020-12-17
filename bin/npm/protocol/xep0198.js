@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0198: Stream Management
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0198.html
 // Version: 1.5.2 (2016-12-08)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     jxt_1.extendStreamFeatures({
         streamManagement: jxt_1.childBoolean(Namespaces_1.NS_SMACKS_3, 'sm')

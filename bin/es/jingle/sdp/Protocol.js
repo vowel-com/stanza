@@ -80,11 +80,9 @@ export function convertIntermediateToCandidate(candidate) {
     let component;
     if (candidate.component === 'rtp') {
         component = 1;
-    }
-    else if (candidate.component === 'rtcp') {
+    } else if (candidate.component === 'rtcp') {
         component = 2;
-    }
-    else {
+    } else {
         component = candidate.component;
     }
     return {
@@ -106,9 +104,10 @@ export function convertIntermediateToCandidate(candidate) {
 export function convertCandidateToIntermediate(candidate) {
     return {
         address: candidate.ip,
-        component: candidate.component === 1
-            ? 'rtp'
-            : candidate.component === 2
+        component:
+            candidate.component === 1
+                ? 'rtp'
+                : candidate.component === 2
                 ? 'rtcp'
                 : candidate.component,
         foundation: candidate.foundation,
@@ -159,9 +158,9 @@ export function convertIntermediateToRequest(session, role, transportType) {
                 application: isRTP
                     ? convertIntermediateToApplication(media, role)
                     : {
-                        applicationType: 'datachannel',
-                        protocol: media.protocol
-                    },
+                          applicationType: 'datachannel',
+                          protocol: media.protocol
+                      },
                 creator: JingleSessionRole.Initiator,
                 name: media.mid,
                 senders: directionToSenders(role, media.direction),
@@ -170,9 +169,9 @@ export function convertIntermediateToRequest(session, role, transportType) {
         }),
         groups: session.groups
             ? session.groups.map(group => ({
-                contents: group.mids,
-                semantics: group.semantics
-            }))
+                  contents: group.mids,
+                  semantics: group.semantics
+              }))
             : []
     };
 }

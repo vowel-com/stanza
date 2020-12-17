@@ -1,6 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const Namespaces_1 = require("../Namespaces");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const Namespaces_1 = require('../Namespaces');
 function default_1(client) {
     client.disco.addFeature(Namespaces_1.NS_PEP_NOTIFY(Namespaces_1.NS_AVATAR_METADATA));
     client.on('pubsub:published', msg => {
@@ -28,17 +28,27 @@ function default_1(client) {
         }
     });
     client.publishAvatar = (id, data) => {
-        return client.publish('', Namespaces_1.NS_AVATAR_DATA, {
-            data,
-            itemType: Namespaces_1.NS_AVATAR_DATA
-        }, id);
+        return client.publish(
+            '',
+            Namespaces_1.NS_AVATAR_DATA,
+            {
+                data,
+                itemType: Namespaces_1.NS_AVATAR_DATA
+            },
+            id
+        );
     };
     client.useAvatars = (versions, pointers = []) => {
-        return client.publish('', Namespaces_1.NS_AVATAR_METADATA, {
-            itemType: Namespaces_1.NS_AVATAR_METADATA,
-            pointers,
-            versions
-        }, 'current');
+        return client.publish(
+            '',
+            Namespaces_1.NS_AVATAR_METADATA,
+            {
+                itemType: Namespaces_1.NS_AVATAR_METADATA,
+                pointers,
+                versions
+            },
+            'current'
+        );
     };
     client.getAvatar = (jid, id) => {
         return client.getItem(jid, Namespaces_1.NS_AVATAR_DATA, id);

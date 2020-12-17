@@ -1,7 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const EntityCaps = tslib_1.__importStar(require("./LegacyEntityCapabilities"));
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const tslib_1 = require('tslib');
+const EntityCaps = tslib_1.__importStar(require('./LegacyEntityCapabilities'));
 class Disco {
     constructor() {
         this.capsAlgorithms = ['sha-1'];

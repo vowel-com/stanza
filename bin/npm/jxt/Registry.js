@@ -1,9 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const Definitions_1 = require("./Definitions");
-const XHTMLIM_1 = tslib_1.__importDefault(require("./sanitizers/XHTMLIM"));
-const Translator_1 = tslib_1.__importDefault(require("./Translator"));
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const tslib_1 = require('tslib');
+const Definitions_1 = require('./Definitions');
+const XHTMLIM_1 = tslib_1.__importDefault(require('./sanitizers/XHTMLIM'));
+const Translator_1 = tslib_1.__importDefault(require('./Translator'));
 class Registry {
     constructor() {
         this.translators = new Map();
@@ -81,14 +81,12 @@ class Registry {
             for (const def of defs) {
                 if (typeof def === 'object') {
                     this.define(def);
-                }
-                else {
+                } else {
                     def(this);
                 }
             }
             return;
-        }
-        else if (typeof defs !== 'object') {
+        } else if (typeof defs !== 'object') {
             defs(this);
             return;
         }
@@ -100,10 +98,10 @@ class Registry {
         const aliases = definition.aliases
             .map(alias => (typeof alias === 'string' ? { path: alias } : alias))
             .sort((a, b) => {
-            const aLen = a.path.split('.').length;
-            const bLen = b.path.split('.').length;
-            return bLen - aLen;
-        });
+                const aLen = a.path.split('.').length;
+                const bLen = b.path.split('.').length;
+                return bLen - aLen;
+            });
         let translator;
         if (this.hasTranslator(definition.namespace, definition.element)) {
             // Get existing translator
@@ -116,8 +114,7 @@ class Registry {
                 if (t && !t.placeholder) {
                     translator = t;
                     break;
-                }
-                else if (t) {
+                } else if (t) {
                     placeholder = t;
                 }
             }
@@ -180,7 +177,16 @@ class Registry {
             typeOrder: definition.typeOrder
         });
         for (const link of aliases) {
-            this.alias(definition.namespace, definition.element, link.path, link.multiple, link.selector, link.contextField, definition.type, link.impliedType);
+            this.alias(
+                definition.namespace,
+                definition.element,
+                link.path,
+                link.multiple,
+                link.selector,
+                link.contextField,
+                definition.type,
+                link.impliedType
+            );
         }
         for (const alias of aliases) {
             const existing = this.walkToTranslator(alias.path.split('.'));
@@ -189,7 +195,16 @@ class Registry {
             }
         }
     }
-    alias(namespace, element, path, multiple = false, selector, contextField, contextType, contextImpliedType = false) {
+    alias(
+        namespace,
+        element,
+        path,
+        multiple = false,
+        selector,
+        contextField,
+        contextType,
+        contextImpliedType = false
+    ) {
         const linkedTranslator = this.getOrCreateTranslator(namespace, element);
         linkedTranslator.placeholder = false;
         const keys = path.split('.').filter(key => {
@@ -199,7 +214,14 @@ class Registry {
         const translator = this.walkToTranslator(keys, true);
         const xid = `{${namespace}}${element}`;
         if (contextType && (contextField || contextImpliedType)) {
-            linkedTranslator.addContext(path, selector, contextField, xid, contextType, contextImpliedType);
+            linkedTranslator.addContext(
+                path,
+                selector,
+                contextField,
+                xid,
+                contextType,
+                contextImpliedType
+            );
         }
         translator.addChild(finalKey, linkedTranslator, multiple, selector, xid);
     }
@@ -212,8 +234,7 @@ class Registry {
                     next = new Translator_1.default();
                     next.placeholder = true;
                     translator.addChild(key, next);
-                }
-                else {
+                } else {
                     return;
                 }
             }

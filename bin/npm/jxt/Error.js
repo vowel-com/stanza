@@ -1,13 +1,13 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.JXTErrorCondition = void 0;
 var JXTErrorCondition;
 (function (JXTErrorCondition) {
-    JXTErrorCondition["NotWellFormed"] = "not-well-formed";
-    JXTErrorCondition["RestrictedXML"] = "restricted-xml";
-    JXTErrorCondition["AlreadyClosed"] = "already-closed";
-    JXTErrorCondition["UnknownRoot"] = "unknown-stream-root";
-})(JXTErrorCondition = exports.JXTErrorCondition || (exports.JXTErrorCondition = {}));
+    JXTErrorCondition['NotWellFormed'] = 'not-well-formed';
+    JXTErrorCondition['RestrictedXML'] = 'restricted-xml';
+    JXTErrorCondition['AlreadyClosed'] = 'already-closed';
+    JXTErrorCondition['UnknownRoot'] = 'unknown-stream-root';
+})((JXTErrorCondition = exports.JXTErrorCondition || (exports.JXTErrorCondition = {})));
 class JXTError extends Error {
     constructor(opts) {
         super(opts.text);

@@ -1,9 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const hashes = tslib_1.__importStar(require("stanza-shims"));
-const Constants_1 = require("../Constants");
-const Namespaces_1 = require("../Namespaces");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const tslib_1 = require('tslib');
+const hashes = tslib_1.__importStar(require('stanza-shims'));
+const Constants_1 = require('../Constants');
+const Namespaces_1 = require('../Namespaces');
 function default_1(client) {
     client.disco.addFeature('jid\\20escaping');
     client.disco.addFeature(Namespaces_1.NS_DELAY);
@@ -35,7 +35,7 @@ function default_1(client) {
             }
         });
     });
-    client.on('iq:get:time', (iq) => {
+    client.on('iq:get:time', iq => {
         const time = new Date();
         client.sendIQResult(iq, {
             time: {
@@ -44,7 +44,7 @@ function default_1(client) {
             }
         });
     });
-    client.getSoftwareVersion = async (jid) => {
+    client.getSoftwareVersion = async jid => {
         const resp = await client.sendIQ({
             softwareVersion: {},
             to: jid,
@@ -52,7 +52,7 @@ function default_1(client) {
         });
         return resp.softwareVersion;
     };
-    client.getTime = async (jid) => {
+    client.getTime = async jid => {
         const resp = await client.sendIQ({
             time: {},
             to: jid,
@@ -60,7 +60,7 @@ function default_1(client) {
         });
         return resp.time;
     };
-    client.getLastActivity = async (jid) => {
+    client.getLastActivity = async jid => {
         const resp = await client.sendIQ({
             lastActivity: {},
             to: jid,

@@ -1,18 +1,19 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const JID = tslib_1.__importStar(require("../JID"));
-const Namespaces_1 = require("../Namespaces");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const tslib_1 = require('tslib');
+const JID = tslib_1.__importStar(require('../JID'));
+const Namespaces_1 = require('../Namespaces');
 const ACK_TYPES = new Set(['chat', 'headline', 'normal']);
 const ALLOWED_CHAT_STATE_TYPES = new Set(['chat', 'groupchat', 'normal']);
-const isReceivedCarbon = (msg) => !!msg.carbon && msg.carbon.type === 'received';
-const isSentCarbon = (msg) => !!msg.carbon && msg.carbon.type === 'sent';
-const isChatState = (msg) => !!msg.chatState;
-const isReceiptMessage = (msg) => !!msg.receipt;
-const hasRTT = (msg) => !!msg.rtt;
-const isCorrection = (msg) => !!msg.replace;
-const isMarkable = (msg, client) => msg.marker && msg.marker.type === 'markable' && client.config.chatMarkers !== false;
-const isFormsMessage = (msg) => !!msg.forms && msg.forms.length > 0;
+const isReceivedCarbon = msg => !!msg.carbon && msg.carbon.type === 'received';
+const isSentCarbon = msg => !!msg.carbon && msg.carbon.type === 'sent';
+const isChatState = msg => !!msg.chatState;
+const isReceiptMessage = msg => !!msg.receipt;
+const hasRTT = msg => !!msg.rtt;
+const isCorrection = msg => !!msg.replace;
+const isMarkable = (msg, client) =>
+    msg.marker && msg.marker.type === 'markable' && client.config.chatMarkers !== false;
+const isFormsMessage = msg => !!msg.forms && msg.forms.length > 0;
 async function toggleCarbons(client, action) {
     await client.sendIQ({
         carbons: {
@@ -43,9 +44,9 @@ function default_1(client) {
     client.disco.addFeature(Namespaces_1.NS_RTT_0);
     client.enableCarbons = () => toggleCarbons(client, 'enable');
     client.disableCarbons = () => toggleCarbons(client, 'disable');
-    client.markReceived = (msg) => sendMarker(client, msg, 'received');
-    client.markDisplayed = (msg) => sendMarker(client, msg, 'displayed');
-    client.markAcknowledged = (msg) => sendMarker(client, msg, 'acknowledged');
+    client.markReceived = msg => sendMarker(client, msg, 'received');
+    client.markDisplayed = msg => sendMarker(client, msg, 'displayed');
+    client.markAcknowledged = msg => sendMarker(client, msg, 'acknowledged');
     client.getAttention = (jid, opts = {}) => {
         return client.sendMessage({
             ...opts,
@@ -94,9 +95,11 @@ function default_1(client) {
         }
         if (isReceiptMessage(msg)) {
             const sendReceipts = client.config.sendReceipts !== false;
-            if (sendReceipts &&
+            if (
+                sendReceipts &&
                 ACK_TYPES.has(msg.type || 'normal') &&
-                msg.receipt.type === 'request') {
+                msg.receipt.type === 'request'
+            ) {
                 client.sendMessage({
                     id: msg.id,
                     receipt: {

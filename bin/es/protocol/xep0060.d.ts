@@ -82,7 +82,13 @@ export interface PubsubSubscriptions {
     jid?: JID;
     items?: PubsubSubscription[];
 }
-declare type PubsubAffiliationState = 'member' | 'none' | 'outcast' | 'owner' | 'publisher' | 'publish-only';
+declare type PubsubAffiliationState =
+    | 'member'
+    | 'none'
+    | 'outcast'
+    | 'owner'
+    | 'publisher'
+    | 'publish-only';
 export interface PubsubAffiliation {
     node?: string;
     affiliation?: PubsubAffiliationState;
@@ -114,7 +120,8 @@ export interface PubsubFetch<T extends PubsubItemContent = PubsubItemContent> {
     max?: number;
     items?: PubsubItem<T>[];
 }
-export interface PubsubFetchResult<T extends PubsubItemContent = PubsubItemContent> extends PubsubFetch<T> {
+export interface PubsubFetchResult<T extends PubsubItemContent = PubsubItemContent>
+    extends PubsubFetch<T> {
     paging?: Paging;
 }
 export interface PubsubSubscriptionOptions {

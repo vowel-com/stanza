@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // RFC 6120: Extensible Messaging and Presence Protocol (XMPP): Core
 // --------------------------------------------------------------------
 // Source: https://tools.ietf.org/html/rfc6120
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const Constants_1 = require("../Constants");
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const Constants_1 = require('../Constants');
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const _Stream = {
     defaultType: 'stream',
     element: 'stream',
@@ -32,8 +32,15 @@ const _StreamError = {
     element: 'error',
     fields: {
         alternateLanguageText: jxt_1.childAlternateLanguageText(Namespaces_1.NS_STREAMS, 'text'),
-        condition: jxt_1.childEnum(Namespaces_1.NS_STREAMS, Object.values(Constants_1.StreamErrorCondition), Constants_1.StreamErrorCondition.UndefinedCondition),
-        seeOtherHost: jxt_1.childText(Namespaces_1.NS_STREAMS, Constants_1.StreamErrorCondition.SeeOtherHost),
+        condition: jxt_1.childEnum(
+            Namespaces_1.NS_STREAMS,
+            Object.values(Constants_1.StreamErrorCondition),
+            Constants_1.StreamErrorCondition.UndefinedCondition
+        ),
+        seeOtherHost: jxt_1.childText(
+            Namespaces_1.NS_STREAMS,
+            Constants_1.StreamErrorCondition.SeeOtherHost
+        ),
         text: jxt_1.childText(Namespaces_1.NS_STREAMS, 'text')
     },
     namespace: Namespaces_1.NS_STREAM,
@@ -47,9 +54,16 @@ const _StanzaError = Object.values(Constants_1.StreamType).map(streamNS => ({
     fields: {
         alternateLanguageText: jxt_1.childAlternateLanguageText(Namespaces_1.NS_STANZAS, 'text'),
         by: jxt_1.JIDAttribute('by'),
-        condition: jxt_1.childEnum(Namespaces_1.NS_STANZAS, Object.values(Constants_1.StanzaErrorCondition), Constants_1.StanzaErrorCondition.UndefinedCondition),
+        condition: jxt_1.childEnum(
+            Namespaces_1.NS_STANZAS,
+            Object.values(Constants_1.StanzaErrorCondition),
+            Constants_1.StanzaErrorCondition.UndefinedCondition
+        ),
         gone: jxt_1.childText(Namespaces_1.NS_STANZAS, Constants_1.StanzaErrorCondition.Gone),
-        redirect: jxt_1.childText(Namespaces_1.NS_STANZAS, Constants_1.StanzaErrorCondition.Redirect),
+        redirect: jxt_1.childText(
+            Namespaces_1.NS_STANZAS,
+            Constants_1.StanzaErrorCondition.Redirect
+        ),
         text: jxt_1.childText(Namespaces_1.NS_STANZAS, 'text'),
         type: jxt_1.attribute('type')
     },
@@ -68,7 +82,7 @@ const baseIQFields = new Set([
     'error',
     'streamType'
 ]);
-const _IQ = Object.values(Constants_1.StreamType).map((streamNS) => ({
+const _IQ = Object.values(Constants_1.StreamType).map(streamNS => ({
     childrenExportOrder: {
         error: 200000
     },
@@ -81,12 +95,10 @@ const _IQ = Object.values(Constants_1.StreamType).map((streamNS) => ({
         payloadType: {
             order: -10000,
             importer(xml, context) {
-                if (context.data.type !== 'get' &&
-                    context.data.type !== 'set') {
+                if (context.data.type !== 'get' && context.data.type !== 'set') {
                     return;
                 }
-                const childCount = xml.children.filter(child => typeof child !== 'string')
-                    .length;
+                const childCount = xml.children.filter(child => typeof child !== 'string').length;
                 if (childCount !== 1) {
                     return 'invalid-payload-count';
                 }
@@ -203,7 +215,10 @@ const _SASL = [
         element: 'failure',
         fields: {
             alternateLanguageText: jxt_1.childAlternateLanguageText(Namespaces_1.NS_SASL, 'text'),
-            condition: jxt_1.childEnum(Namespaces_1.NS_SASL, Object.values(Constants_1.SASLFailureCondition)),
+            condition: jxt_1.childEnum(
+                Namespaces_1.NS_SASL,
+                Object.values(Constants_1.SASLFailureCondition)
+            ),
             text: jxt_1.childText(Namespaces_1.NS_SASL, 'text')
         },
         namespace: Namespaces_1.NS_SASL,

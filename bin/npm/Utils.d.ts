@@ -7,7 +7,11 @@
  * - uuid, Copyright (c) 2010-2016 Robert Kieffer and other contributors
  */
 /// <reference types="node" />
-export declare function timeoutPromise<T>(target: Promise<T>, delay: number, rejectValue?: () => any): Promise<T>;
+export declare function timeoutPromise<T>(
+    target: Promise<T>,
+    delay: number,
+    rejectValue?: () => any
+): Promise<T>;
 export declare function sleep(time: number): Promise<void>;
 export declare function octetCompare(str1: string | Buffer, str2: string | Buffer): number;
 export declare function uuid(): string;

@@ -1,18 +1,22 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.getHostMeta = void 0;
-const tslib_1 = require("tslib");
-const stanza_shims_1 = require("stanza-shims");
-const JXT = tslib_1.__importStar(require("../jxt"));
-const Namespaces_1 = require("../Namespaces");
+const tslib_1 = require('tslib');
+const stanza_shims_1 = require('stanza-shims');
+const JXT = tslib_1.__importStar(require('../jxt'));
+const Namespaces_1 = require('../Namespaces');
 async function promiseAny(promises) {
     try {
-        const errors = await Promise.all(promises.map(p => {
-            return p.then(val => Promise.reject(val), err => Promise.resolve(err));
-        }));
+        const errors = await Promise.all(
+            promises.map(p => {
+                return p.then(
+                    val => Promise.reject(val),
+                    err => Promise.resolve(err)
+                );
+            })
+        );
         return Promise.reject(errors);
-    }
-    catch (val) {
+    } catch (val) {
         return Promise.resolve(val);
     }
 }
@@ -28,13 +32,15 @@ async function getHostMeta(registry, opts) {
     };
     const scheme = config.ssl ? 'https://' : 'http://';
     return promiseAny([
-        stanza_shims_1.fetch(`${scheme}${config.host}/.well-known/host-meta.json`).then(async (res) => {
-            if (!res.ok) {
-                throw new Error('could-not-fetch-json');
-            }
-            return res.json();
-        }),
-        stanza_shims_1.fetch(`${scheme}${config.host}/.well-known/host-meta`).then(async (res) => {
+        stanza_shims_1
+            .fetch(`${scheme}${config.host}/.well-known/host-meta.json`)
+            .then(async res => {
+                if (!res.ok) {
+                    throw new Error('could-not-fetch-json');
+                }
+                return res.json();
+            }),
+        stanza_shims_1.fetch(`${scheme}${config.host}/.well-known/host-meta`).then(async res => {
             if (!res.ok) {
                 throw new Error('could-not-fetch-xml');
             }
@@ -48,7 +54,7 @@ async function getHostMeta(registry, opts) {
 }
 exports.getHostMeta = getHostMeta;
 function default_1(client, stanzas) {
-    client.discoverBindings = async (server) => {
+    client.discoverBindings = async server => {
         try {
             const data = await getHostMeta(stanzas, server);
             const results = {
@@ -65,8 +71,7 @@ function default_1(client, stanzas) {
                 }
             }
             return results;
-        }
-        catch (err) {
+        } catch (err) {
             return {};
         }
     };

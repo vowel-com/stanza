@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0115: Entity Capabilities
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0115.html
 // Version: 1.5.1 (2016-10-06)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = {
     aliases: [
         { path: 'presence.legacyCapabilities', multiple: true },

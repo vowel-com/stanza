@@ -3,7 +3,31 @@ import { priorityQueue } from 'async';
 import { EventEmitter } from 'events';
 import Punycode from 'punycode';
 import { Transform, Duplex } from 'readable-stream';
-import { getMediaSections, getDescription, matchPrefix, getKind, isRejected, parseMLine, getDirection, getMid, getIceParameters, getDtlsParameters, parseRtpParameters, parseRtpEncodingParameters, parseRtcpParameters, parseMsid, parseSctpDescription, parseCandidate, writeSessionBoilerplate, writeSctpDescription, writeRtpDescription, writeRtcpParameters, writeIceParameters, writeDtlsParameters, writeCandidate } from 'sdp';
+import {
+    getMediaSections,
+    getDescription,
+    matchPrefix,
+    getKind,
+    isRejected,
+    parseMLine,
+    getDirection,
+    getMid,
+    getIceParameters,
+    getDtlsParameters,
+    parseRtpParameters,
+    parseRtpEncodingParameters,
+    parseRtcpParameters,
+    parseMsid,
+    parseSctpDescription,
+    parseCandidate,
+    writeSessionBoilerplate,
+    writeSctpDescription,
+    writeRtpDescription,
+    writeRtcpParameters,
+    writeIceParameters,
+    writeDtlsParameters,
+    writeCandidate
+} from 'sdp';
 
 const MAX_SEQ = Math.pow(2, 32);
 const mod = (v, n) => ((v % n) + n) % n;
@@ -189,8 +213,7 @@ class StreamManagement extends EventEmitter {
                     lastAck: this.lastAck,
                     unacked: this.unacked
                 });
-            }
-            catch (err) {
+            } catch (err) {
                 // TODO: Is there a good way to handle this?
                 // istanbul ignore next
                 console.error('Failed to cache stream state', err);
@@ -209,22 +232,30 @@ class StreamManagement extends EventEmitter {
 
 const TABLE_DATA = {
     'A.1': {
-        r: 'hk:if|le:lf|nf:nv|qg:qv|rg:rj|rm:rp|rr:rt|rv:s3|vn:vv|17m:17n|17q:17v|18g:19g|1an:1ao|1cb:1cg|1e5:1ef|1fb:1ff|1fl:1gb|1gd:1gq|1gs:1gu|1hr:1hv|1im:1iv|1ne:1nf|1pd:1pf|1qb:1rv|1ti:280|29q:29r|2ae:2af|2al:2an|2bh:2c0|2cd:2ce|2ch:2ci|2dj:2dl|2dq:2dr|2e5:2e6|2e9:2ea|2ee:2em|2eo:2er|2f4:2f5|2fr:2g1|2g3:2g4|2gb:2ge|2gh:2gi|2hq:2hr|2i3:2i6|2i9:2ia|2ie:2io|2iv:2j5|2jl:2k0|2lq:2lr|2me:2mf|2mh:2mv|2n1:2n5|2ng:2o0|2od:2oe|2oh:2oi|2pk:2pl|2pq:2pr|2q4:2q6|2q9:2qa|2qe:2ql|2qo:2qr|2r2:2r5|2rh:2s1|2sb:2sd|2sm:2so|2t0:2t2|2t5:2t7|2tb:2td|2tq:2tt|2u3:2u5|2ue:2um|2uo:2v6|2vj:300|31q:31t|32e:32k|32n:32v|332:335|33g:341|35q:35t|36e:36k|36n:36t|372:375|37g:381|39q:39t|3a4:3a5|3ae:3am|3ao:3av|3b2:3b5|3bg:3c1|3cn:3cp|3du:3dv|3e7:3e9|3eb:3ee|3f0:3fh|3fl:3g0|3hr:3hu|3is:3k0|3k5:3k6|3kb:3kc|3ke:3kj|3l8:3l9|3lu:3lv|3me:3mf|3mq:3mr|3mu:3nv|3rb:3rg|3sc:3sf|3ud:3ue|3ug:3vv|41j:41l|41q:41v|42q:44v|466:46f|47p:47q|47s:47v|4aq:4au|4d3:4d7|4fq:4fv|4ie:4if|4iu:4iv|4ke:4kf|4lm:4ln|4m6:4m7|4om:4on|4qr:4r0|4rt:4sv|4vl:500|5jn:5jv|5kt:5kv|5nh:5nv|5ol:5ov|5pn:5pv|5qk:5qv|5rk:5rv|5ut:5uv|5va:5vv|60q:60v|63o:63v|65a:7fv|7ks:7kv|7nq:7nv|7om:7on|7ou:7ov|7q6:7q7|7qe:7qf|7ru:7rv|7uk:7ul|7vg:7vh|82j:82m|82o:82u|834:839|83i:83j|84f:84v|85i:86f|87b:87v|89r:89s|8ac:8ai|8c4:8cf|8uf:8vv|917:91v|92b:92v|9gk:9gl|9ju:9jv|9ka:9o0|9oa:9ob|9qj:9ql|9qv:9r0|9sl:9sn|9tv:9uf|9vc:9vf|ao0:bjv|bnk:bnv|bum:bvf|bvs:bvv|c4n:c4o|c80:c84|c9d:c9g|cdo:cff|cgt:cgv|ci4:cig|cjs:cju|cmc:cmf|crn:crq|cuu:cuv|jdm:jfv|17t6:17vv|194d:194f|1967:1avv|1lt4:1lvv|1uhe:1uhf|1ujb:1unv|1uo7:1uoi|1uoo:1uos|1uti:1uui|1va0:1vaf|1vcg:1vch|1ve8:1vef|1vft:1vfv|1vgg:1vgv|1vh4:1vhf|1vi7:1vi8|1vjc:1vjf|1vnt:1vnu|1vtv:1vu1|1vu8:1vu9|1vug:1vuh|1vuo:1vup|1vut:1vuv|1vvf:1vvo|2000:20nv|20p4:20pf|20qb:20vv|2116:2117|212e:3jvv|3k7m:3k7v|3k97:3k99|3keu:3kvv|3l50:3l51|3l53:3l54|3l57:3l58|3l8b:3l8c|3la7:3la9|3ll4:3ll7|3lua:3lud|3m00:3vvt|59mn:5tvv|5ugu:5vvt|6000:7vvt|8000:9vvt|a000:bvvt|c000:dvvt|e000:fvvt|g000:hvvt|i000:jvvt|k000:lvvt|m000:nvvt|o000:pvvt|q000:rvvt|s002:s00v|s040:tvvt',
-        s: '9p8|9qc|9qe|9qn|9tg|147|bkq|3l2l|3l4t|3l5d|3l5q|3l5s|3l61|3l64|3l86|3l8l|3l8t|3l9q|3l9v|3la5|3lah|16f|c20|ccf|cnv|cvv|1b0|1c8|1d2|1dq|1h0|1nv|1oe|284|2c4|2d9|2dh|2dt|2eu|2h9|2hh|2hk|2hn|2ht|2it|2k4|2kc|2ke|2ki|2l9|2lh|2lk|2m6|2ma|2o4|2p9|2ph|2qu|2s4|2sh|2sr|2st|2tm|2u9|304|30d|30h|319|31k|325|329|344|34d|34h|359|35k|365|369|36v|384|38d|38h|399|3a9|3c4|3di|3ds|3el|3en|3k3|3k9|3ko|3l0|3l4|3l6|3lc|3lq|3m5|3m7|3q8|3so|3tt|412|418|41b|4g7|4i7|4i9|4in|4ip|4k7|4k9|4lf|4lh|4lv|4m1|4mf|4mn|4nf|4of|4oh|4ov|4q7|h1|5od|5rd|5rh|60f|1upn|1upt|1upv|1uq2|1uq5|1vij|1vj7|1vjl|1vo0|1vv7|20ov|7qo|7qq|7qs|7qu|7tl|7u5|7us|7vl|7vv|sb|sd|s000|t2|97v|uf|9go|9o5'
+        r:
+            'hk:if|le:lf|nf:nv|qg:qv|rg:rj|rm:rp|rr:rt|rv:s3|vn:vv|17m:17n|17q:17v|18g:19g|1an:1ao|1cb:1cg|1e5:1ef|1fb:1ff|1fl:1gb|1gd:1gq|1gs:1gu|1hr:1hv|1im:1iv|1ne:1nf|1pd:1pf|1qb:1rv|1ti:280|29q:29r|2ae:2af|2al:2an|2bh:2c0|2cd:2ce|2ch:2ci|2dj:2dl|2dq:2dr|2e5:2e6|2e9:2ea|2ee:2em|2eo:2er|2f4:2f5|2fr:2g1|2g3:2g4|2gb:2ge|2gh:2gi|2hq:2hr|2i3:2i6|2i9:2ia|2ie:2io|2iv:2j5|2jl:2k0|2lq:2lr|2me:2mf|2mh:2mv|2n1:2n5|2ng:2o0|2od:2oe|2oh:2oi|2pk:2pl|2pq:2pr|2q4:2q6|2q9:2qa|2qe:2ql|2qo:2qr|2r2:2r5|2rh:2s1|2sb:2sd|2sm:2so|2t0:2t2|2t5:2t7|2tb:2td|2tq:2tt|2u3:2u5|2ue:2um|2uo:2v6|2vj:300|31q:31t|32e:32k|32n:32v|332:335|33g:341|35q:35t|36e:36k|36n:36t|372:375|37g:381|39q:39t|3a4:3a5|3ae:3am|3ao:3av|3b2:3b5|3bg:3c1|3cn:3cp|3du:3dv|3e7:3e9|3eb:3ee|3f0:3fh|3fl:3g0|3hr:3hu|3is:3k0|3k5:3k6|3kb:3kc|3ke:3kj|3l8:3l9|3lu:3lv|3me:3mf|3mq:3mr|3mu:3nv|3rb:3rg|3sc:3sf|3ud:3ue|3ug:3vv|41j:41l|41q:41v|42q:44v|466:46f|47p:47q|47s:47v|4aq:4au|4d3:4d7|4fq:4fv|4ie:4if|4iu:4iv|4ke:4kf|4lm:4ln|4m6:4m7|4om:4on|4qr:4r0|4rt:4sv|4vl:500|5jn:5jv|5kt:5kv|5nh:5nv|5ol:5ov|5pn:5pv|5qk:5qv|5rk:5rv|5ut:5uv|5va:5vv|60q:60v|63o:63v|65a:7fv|7ks:7kv|7nq:7nv|7om:7on|7ou:7ov|7q6:7q7|7qe:7qf|7ru:7rv|7uk:7ul|7vg:7vh|82j:82m|82o:82u|834:839|83i:83j|84f:84v|85i:86f|87b:87v|89r:89s|8ac:8ai|8c4:8cf|8uf:8vv|917:91v|92b:92v|9gk:9gl|9ju:9jv|9ka:9o0|9oa:9ob|9qj:9ql|9qv:9r0|9sl:9sn|9tv:9uf|9vc:9vf|ao0:bjv|bnk:bnv|bum:bvf|bvs:bvv|c4n:c4o|c80:c84|c9d:c9g|cdo:cff|cgt:cgv|ci4:cig|cjs:cju|cmc:cmf|crn:crq|cuu:cuv|jdm:jfv|17t6:17vv|194d:194f|1967:1avv|1lt4:1lvv|1uhe:1uhf|1ujb:1unv|1uo7:1uoi|1uoo:1uos|1uti:1uui|1va0:1vaf|1vcg:1vch|1ve8:1vef|1vft:1vfv|1vgg:1vgv|1vh4:1vhf|1vi7:1vi8|1vjc:1vjf|1vnt:1vnu|1vtv:1vu1|1vu8:1vu9|1vug:1vuh|1vuo:1vup|1vut:1vuv|1vvf:1vvo|2000:20nv|20p4:20pf|20qb:20vv|2116:2117|212e:3jvv|3k7m:3k7v|3k97:3k99|3keu:3kvv|3l50:3l51|3l53:3l54|3l57:3l58|3l8b:3l8c|3la7:3la9|3ll4:3ll7|3lua:3lud|3m00:3vvt|59mn:5tvv|5ugu:5vvt|6000:7vvt|8000:9vvt|a000:bvvt|c000:dvvt|e000:fvvt|g000:hvvt|i000:jvvt|k000:lvvt|m000:nvvt|o000:pvvt|q000:rvvt|s002:s00v|s040:tvvt',
+        s:
+            '9p8|9qc|9qe|9qn|9tg|147|bkq|3l2l|3l4t|3l5d|3l5q|3l5s|3l61|3l64|3l86|3l8l|3l8t|3l9q|3l9v|3la5|3lah|16f|c20|ccf|cnv|cvv|1b0|1c8|1d2|1dq|1h0|1nv|1oe|284|2c4|2d9|2dh|2dt|2eu|2h9|2hh|2hk|2hn|2ht|2it|2k4|2kc|2ke|2ki|2l9|2lh|2lk|2m6|2ma|2o4|2p9|2ph|2qu|2s4|2sh|2sr|2st|2tm|2u9|304|30d|30h|319|31k|325|329|344|34d|34h|359|35k|365|369|36v|384|38d|38h|399|3a9|3c4|3di|3ds|3el|3en|3k3|3k9|3ko|3l0|3l4|3l6|3lc|3lq|3m5|3m7|3q8|3so|3tt|412|418|41b|4g7|4i7|4i9|4in|4ip|4k7|4k9|4lf|4lh|4lv|4m1|4mf|4mn|4nf|4of|4oh|4ov|4q7|h1|5od|5rd|5rh|60f|1upn|1upt|1upv|1uq2|1uq5|1vij|1vj7|1vjl|1vo0|1vv7|20ov|7qo|7qq|7qs|7qu|7tl|7u5|7us|7vl|7vv|sb|sd|s000|t2|97v|uf|9go|9o5'
     },
     'B.1': {
         r: '60b:60d|80b:80d|1vg0:1vgf',
         s: '5d|606|1vnv|830|qf'
     },
     'B.2': {
-        m: '5l:ts|6v:3j;3j|9g:39;o7|a9:ls;3e|bv:3j|fg:3a;oc|q5:tp|rq:10;tp|sg:tp;o8;o1|tg:u5;o8;o1|u2:u3|ug:ti|uh:to|ui:u5|uj:ud|uk:ub|ul:u6|um:u0|vg:tq|vh:u1|vi:u3|vl:tl|1c7:1b5;1c2|7km:38;ph|7kn:3k;o8|7ko:3n;oa|7kp:3p;oa|7kq:31;lu|7kr:7j1|7qg:u5;oj|7qi:u5;oj;o0|7qk:u5;oj;o1|7qm:u5;oj;q2|7s0:7o0;tp|7s1:7o1;tp|7s2:7o2;tp|7s3:7o3;tp|7s4:7o4;tp|7s5:7o5;tp|7s6:7o6;tp|7s7:7o7;tp|7s8:7o0;tp|7s9:7o1;tp|7sa:7o2;tp|7sb:7o3;tp|7sc:7o4;tp|7sd:7o5;tp|7se:7o6;tp|7sf:7o7;tp|7sg:7p0;tp|7sh:7p1;tp|7si:7p2;tp|7sj:7p3;tp|7sk:7p4;tp|7sl:7p5;tp|7sm:7p6;tp|7sn:7p7;tp|7so:7p0;tp|7sp:7p1;tp|7sq:7p2;tp|7sr:7p3;tp|7ss:7p4;tp|7st:7p5;tp|7su:7p6;tp|7sv:7p7;tp|7t0:7r0;tp|7t1:7r1;tp|7t2:7r2;tp|7t3:7r3;tp|7t4:7r4;tp|7t5:7r5;tp|7t6:7r6;tp|7t7:7r7;tp|7t8:7r0;tp|7t9:7r1;tp|7ta:7r2;tp|7tb:7r3;tp|7tc:7r4;tp|7td:7r5;tp|7te:7r6;tp|7tf:7r7;tp|7ti:7rg;tp|7tj:th;tp|7tk:tc;tp|7tm:th;q2|7tn:th;q2;tp|7ts:th;tp|7tu:tp|7u2:7rk;tp|7u3:tn;tp|7u4:te;tp|7u6:tn;q2|7u7:tn;q2;tp|7uc:tn;tp|7ui:tp;o8;o0|7uj:tp;o8;o1|7um:tp;q2|7un:tp;o8;q2|7v2:u5;o8;o0|7v3:u5;o8;o1|7v4:u1;oj|7v6:u5;q2|7v7:u5;o8;q2|7vi:7rs;tp|7vj:u9;tp|7vk:ue;tp|7vm:u9;q2|7vn:u9;q2;tp|7vs:u9;tp|858:3i;3j|882:33|883:5g;33|887:ir|889:5g;36|88b:38|88c:38|88d:38|88g:39|88h:39|88i:3c|88l:3e|88m:3e;3f|88p:3g|88q:3h|88r:3i|88s:3i|88t:3i|890:3j;3d|891:3k;35;3c|892:3k;3d|894:3q|898:3q|89c:32|89d:33|89g:35|89h:36|89j:3d|89u:tj|89v:u0|8a5:34|crh:38;3g;31|crj:31;3l|crl:3f;3m|cs0:3g;31|cs1:3e;31|cs2:ts;31|cs3:3d;31|cs4:3b;31|cs5:3b;32|cs6:3d;32|cs7:37;32|csa:3g;36|csb:3e;36|csc:ts;36|csg:38;3q|csh:3b;38;3q|csi:3d;38;3q|csj:37;38;3q|csk:3k;38;3q|ct9:3g;31|cta:3b;3g;31|ctb:3d;3g;31|ctc:37;3g;31|ctk:3g;3m|ctl:3e;3m|ctm:ts;3m|ctn:3d;3m|cto:3b;3m|ctp:3d;3m|ctq:3g;3n|ctr:3e;3n|cts:ts;3n|ctt:3d;3n|ctu:3b;3n|ctv:3d;3n|cu0:3b;u9|cu1:3d;u9|cu3:32;3h|cu6:33;8gl;3b;37|cu7:33;3f;1e|cu8:34;32|cu9:37;3p|cub:38;3g|cud:3b;3b|cue:3b;3d|cun:3g;38|cup:3g;3g;3d|cuq:3g;3i|cus:3j;3m|cut:3n;32|1uo0:36;36|1uo1:36;39|1uo2:36;3c|1uo3:36;36;39|1uo4:36;36;3c|1uo5:3j;3k|1uo6:3j;3k|1uoj:1bk;1bm|1uok:1bk;1b5|1uol:1bk;1bb|1uom:1bu;1bm|1uon:1bk;1bd|3l00:31|3l01:32|3l02:33|3l03:34|3l04:35|3l05:36|3l06:37|3l07:38|3l08:39|3l09:3a|3l0a:3b|3l0b:3c|3l0c:3d|3l0d:3e|3l0e:3f|3l0f:3g|3l0g:3h|3l0h:3i|3l0i:3j|3l0j:3k|3l0k:3l|3l0l:3m|3l0m:3n|3l0n:3o|3l0o:3p|3l0p:3q|3l1k:31|3l1l:32|3l1m:33|3l1n:34|3l1o:35|3l1p:36|3l1q:37|3l1r:38|3l1s:39|3l1t:3a|3l1u:3b|3l1v:3c|3l20:3d|3l21:3e|3l22:3f|3l23:3g|3l24:3h|3l25:3i|3l26:3j|3l27:3k|3l28:3l|3l29:3m|3l2a:3n|3l2b:3o|3l2c:3p|3l2d:3q|3l38:31|3l39:32|3l3a:33|3l3b:34|3l3c:35|3l3d:36|3l3e:37|3l3f:38|3l3g:39|3l3h:3a|3l3i:3b|3l3j:3c|3l3k:3d|3l3l:3e|3l3m:3f|3l3n:3g|3l3o:3h|3l3p:3i|3l3q:3j|3l3r:3k|3l3s:3l|3l3t:3m|3l3u:3n|3l3v:3o|3l40:3p|3l41:3q|3l4s:31|3l4u:33|3l4v:34|3l52:37|3l55:3a|3l56:3b|3l59:3e|3l5a:3f|3l5b:3g|3l5c:3h|3l5e:3j|3l5f:3k|3l5g:3l|3l5h:3m|3l5i:3n|3l5j:3o|3l5k:3p|3l5l:3q|3l6g:31|3l6h:32|3l6i:33|3l6j:34|3l6k:35|3l6l:36|3l6m:37|3l6n:38|3l6o:39|3l6p:3a|3l6q:3b|3l6r:3c|3l6s:3d|3l6t:3e|3l6u:3f|3l6v:3g|3l70:3h|3l71:3i|3l72:3j|3l73:3k|3l74:3l|3l75:3m|3l76:3n|3l77:3o|3l78:3p|3l79:3q|3l84:31|3l85:32|3l87:34|3l88:35|3l89:36|3l8a:37|3l8d:3a|3l8e:3b|3l8f:3c|3l8g:3d|3l8h:3e|3l8i:3f|3l8j:3g|3l8k:3h|3l8m:3j|3l8n:3k|3l8o:3l|3l8p:3m|3l8q:3n|3l8r:3o|3l8s:3p|3l9o:31|3l9p:32|3l9r:34|3l9s:35|3l9t:36|3l9u:37|3la0:39|3la1:3a|3la2:3b|3la3:3c|3la4:3d|3la6:3f|3laa:3j|3lab:3k|3lac:3l|3lad:3m|3lae:3n|3laf:3o|3lag:3p|3lbc:31|3lbd:32|3lbe:33|3lbf:34|3lbg:35|3lbh:36|3lbi:37|3lbj:38|3lbk:39|3lbl:3a|3lbm:3b|3lbn:3c|3lbo:3d|3lbp:3e|3lbq:3f|3lbr:3g|3lbs:3h|3lbt:3i|3lbu:3j|3lbv:3k|3lc0:3l|3lc1:3m|3lc2:3n|3lc3:3o|3lc4:3p|3lc5:3q|3ld0:31|3ld1:32|3ld2:33|3ld3:34|3ld4:35|3ld5:36|3ld6:37|3ld7:38|3ld8:39|3ld9:3a|3lda:3b|3ldb:3c|3ldc:3d|3ldd:3e|3lde:3f|3ldf:3g|3ldg:3h|3ldh:3i|3ldi:3j|3ldj:3k|3ldk:3l|3ldl:3m|3ldm:3n|3ldn:3o|3ldo:3p|3ldp:3q|3lek:31|3lel:32|3lem:33|3len:34|3leo:35|3lep:36|3leq:37|3ler:38|3les:39|3let:3a|3leu:3b|3lev:3c|3lf0:3d|3lf1:3e|3lf2:3f|3lf3:3g|3lf4:3h|3lf5:3i|3lf6:3j|3lf7:3k|3lf8:3l|3lf9:3m|3lfa:3n|3lfb:3o|3lfc:3p|3lfd:3q|3lg8:31|3lg9:32|3lga:33|3lgb:34|3lgc:35|3lgd:36|3lge:37|3lgf:38|3lgg:39|3lgh:3a|3lgi:3b|3lgj:3c|3lgk:3d|3lgl:3e|3lgm:3f|3lgn:3g|3lgo:3h|3lgp:3i|3lgq:3j|3lgr:3k|3lgs:3l|3lgt:3m|3lgu:3n|3lgv:3o|3lh0:3p|3lh1:3q|3lhs:31|3lht:32|3lhu:33|3lhv:34|3li0:35|3li1:36|3li2:37|3li3:38|3li4:39|3li5:3a|3li6:3b|3li7:3c|3li8:3d|3li9:3e|3lia:3f|3lib:3g|3lic:3h|3lid:3i|3lie:3j|3lif:3k|3lig:3l|3lih:3m|3lii:3n|3lij:3o|3lik:3p|3lil:3q|3ljg:31|3ljh:32|3lji:33|3ljj:34|3ljk:35|3ljl:36|3ljm:37|3ljn:38|3ljo:39|3ljp:3a|3ljq:3b|3ljr:3c|3ljs:3d|3ljt:3e|3lju:3f|3ljv:3g|3lk0:3h|3lk1:3i|3lk2:3j|3lk3:3k|3lk4:3l|3lk5:3m|3lk6:3n|3lk7:3o|3lk8:3p|3lk9:3q|3ll8:th|3ll9:ti|3lla:tj|3llb:tk|3llc:tl|3lld:tm|3lle:tn|3llf:to|3llg:tp|3llh:tq|3lli:tr|3llj:ts|3llk:tt|3lll:tu|3llm:tv|3lln:u0|3llo:u1|3llp:to|3llq:u3|3llr:u4|3lls:u5|3llt:u6|3llu:u7|3llv:u8|3lm0:u9|3lmj:u3|3ln2:th|3ln3:ti|3ln4:tj|3ln5:tk|3ln6:tl|3ln7:tm|3ln8:tn|3ln9:to|3lna:tp|3lnb:tq|3lnc:tr|3lnd:ts|3lne:tt|3lnf:tu|3lng:tv|3lnh:u0|3lni:u1|3lnj:to|3lnk:u3|3lnl:u4|3lnm:u5|3lnn:u6|3lno:u7|3lnp:u8|3lnq:u9|3lod:u3|3los:th|3lot:ti|3lou:tj|3lov:tk|3lp0:tl|3lp1:tm|3lp2:tn|3lp3:to|3lp4:tp|3lp5:tq|3lp6:tr|3lp7:ts|3lp8:tt|3lp9:tu|3lpa:tv|3lpb:u0|3lpc:u1|3lpd:to|3lpe:u3|3lpf:u4|3lpg:u5|3lph:u6|3lpi:u7|3lpj:u8|3lpk:u9|3lq7:u3|3lqm:th|3lqn:ti|3lqo:tj|3lqp:tk|3lqq:tl|3lqr:tm|3lqs:tn|3lqt:to|3lqu:tp|3lqv:tq|3lr0:tr|3lr1:ts|3lr2:tt|3lr3:tu|3lr4:tv|3lr5:u0|3lr6:u1|3lr7:to|3lr8:u3|3lr9:u4|3lra:u5|3lrb:u6|3lrc:u7|3lrd:u8|3lre:u9|3ls1:u3|3lsg:th|3lsh:ti|3lsi:tj|3lsj:tk|3lsk:tl|3lsl:tm|3lsm:tn|3lsn:to|3lso:tp|3lsp:tq|3lsq:tr|3lsr:ts|3lss:tt|3lst:tu|3lsu:tv|3lsv:u0|3lt0:u1|3lt1:to|3lt2:u3|3lt3:u4|3lt4:u5|3lt5:u6|3lt6:u7|3lt7:u8|3lt8:u9|3ltr:u3',
-        r: '23:2c|2i:2k|2m:2q|60:6m|6o:6u|bo:bp|c1:c2|c6:c7|c9:cb|ce:ch|cj:ck|cm:co|cs:ct|cv:d0|d6:d7|de:df|dh:dj|dn:do|e4:e5|e7:e8|ea:eb|fh:fi|fm:fo|s8:sa|se:sf|sh:t1|t3:tb|100:11f|19h:1am|7o8:7of|7oo:7ot|7p8:7pf|7po:7pv|7q8:7qd|7r8:7rf|7to:7tr|7u8:7ub|7uo:7ur|7v8:7vc|7vo:7vr|89a:89b|8b0:8bf|95m:96f|1vp1:1vpq|2100:2115',
-        s: 'v8|va|vc|ve|vk|130|132|134|136|138|13a|13c|13e|13g|13i|13k|13m|13o|13q|13s|13u|140|14a|14c|14e|14g|14i|14k|14m|14o|14q|14s|14u|150|152|154|156|158|15a|15c|15e|15g|15i|15k|15m|15o|15q|15s|15u|161|163|165|167|169|16b|16d|16g|16i|16k|16m|16o|16q|16s|16u|170|172|174|176|178|17a|17c|17e|17g|17i|17k|17o|180|182|184|186|188|18a|18c|18e|80|82|84|86|88|8a|8c|8e|8g|8i|8k|8m|8o|8q|8s|8u|90|92|94|96|98|9a|9c|9e|9i|9k|9m|9p|9r|9t|9v|a1|a3|a5|a7|aa|ac|ae|ag|ai|ak|am|ao|aq|as|au|b0|b2|b4|b6|b8|ba|bc|be|bg|bi|bk|bm|br|bt|c4|d2|d4|d9|dc|dl|ds|ed|ef|eh|ej|el|en|ep|er|eu|f0|f2|f4|f6|f8|fa|fc|fe|fk|fq|fs|fu|g0|g2|g4|g6|g8|ga|gc|ge|gg|gi|gk|gm|go|gq|gs|gu|h0|h2|h4|h6|h8|ha|hc|he|hg|hi|21|22|7g0|7g2|7g4|7g6|7g8|7ga|7gc|7ge|7gg|7gi|2d|7gk|7gm|7go|7gq|7gs|7gu|7h0|7h2|7h4|7h6|7h8|7ha|7hc|7he|7hg|7hi|7hk|7hm|7ho|7hq|7hs|7hu|7i0|7i2|7i4|7i6|7i8|7ia|7ic|7ie|7ig|7ii|7ik|7im|7io|7iq|7is|7iu|7j0|7j2|7j4|7j6|7j8|7ja|7jc|7je|7jg|7ji|7jk|7jm|2e|7jo|7jq|7js|7ju|7k0|7k2|7k4|7k6|7k8|7ka|7kc|7ke|7kg|7ki|7kk|7l0|7l2|7l4|7l6|7l8|7la|7lc|7le|7lg|7li|7lk|7lm|7lo|7lq|7ls|7lu|7m0|7m2|7m4|7m6|7m8|7ma|7mc|7me|7mg|7mi|7mk|7mm|7mo|7mq|2f|7ms|7mu|7n0|7n2|7n4|7n6|7n8|7na|7nc|7ne|7ng|7ni|7nk|7nm|7no|2g|7qp|7qr|7qt|7qv|2h|896|2l|s6|sc|uo|uq|us|uu|v0|v2|v4|v6'
+        m:
+            '5l:ts|6v:3j;3j|9g:39;o7|a9:ls;3e|bv:3j|fg:3a;oc|q5:tp|rq:10;tp|sg:tp;o8;o1|tg:u5;o8;o1|u2:u3|ug:ti|uh:to|ui:u5|uj:ud|uk:ub|ul:u6|um:u0|vg:tq|vh:u1|vi:u3|vl:tl|1c7:1b5;1c2|7km:38;ph|7kn:3k;o8|7ko:3n;oa|7kp:3p;oa|7kq:31;lu|7kr:7j1|7qg:u5;oj|7qi:u5;oj;o0|7qk:u5;oj;o1|7qm:u5;oj;q2|7s0:7o0;tp|7s1:7o1;tp|7s2:7o2;tp|7s3:7o3;tp|7s4:7o4;tp|7s5:7o5;tp|7s6:7o6;tp|7s7:7o7;tp|7s8:7o0;tp|7s9:7o1;tp|7sa:7o2;tp|7sb:7o3;tp|7sc:7o4;tp|7sd:7o5;tp|7se:7o6;tp|7sf:7o7;tp|7sg:7p0;tp|7sh:7p1;tp|7si:7p2;tp|7sj:7p3;tp|7sk:7p4;tp|7sl:7p5;tp|7sm:7p6;tp|7sn:7p7;tp|7so:7p0;tp|7sp:7p1;tp|7sq:7p2;tp|7sr:7p3;tp|7ss:7p4;tp|7st:7p5;tp|7su:7p6;tp|7sv:7p7;tp|7t0:7r0;tp|7t1:7r1;tp|7t2:7r2;tp|7t3:7r3;tp|7t4:7r4;tp|7t5:7r5;tp|7t6:7r6;tp|7t7:7r7;tp|7t8:7r0;tp|7t9:7r1;tp|7ta:7r2;tp|7tb:7r3;tp|7tc:7r4;tp|7td:7r5;tp|7te:7r6;tp|7tf:7r7;tp|7ti:7rg;tp|7tj:th;tp|7tk:tc;tp|7tm:th;q2|7tn:th;q2;tp|7ts:th;tp|7tu:tp|7u2:7rk;tp|7u3:tn;tp|7u4:te;tp|7u6:tn;q2|7u7:tn;q2;tp|7uc:tn;tp|7ui:tp;o8;o0|7uj:tp;o8;o1|7um:tp;q2|7un:tp;o8;q2|7v2:u5;o8;o0|7v3:u5;o8;o1|7v4:u1;oj|7v6:u5;q2|7v7:u5;o8;q2|7vi:7rs;tp|7vj:u9;tp|7vk:ue;tp|7vm:u9;q2|7vn:u9;q2;tp|7vs:u9;tp|858:3i;3j|882:33|883:5g;33|887:ir|889:5g;36|88b:38|88c:38|88d:38|88g:39|88h:39|88i:3c|88l:3e|88m:3e;3f|88p:3g|88q:3h|88r:3i|88s:3i|88t:3i|890:3j;3d|891:3k;35;3c|892:3k;3d|894:3q|898:3q|89c:32|89d:33|89g:35|89h:36|89j:3d|89u:tj|89v:u0|8a5:34|crh:38;3g;31|crj:31;3l|crl:3f;3m|cs0:3g;31|cs1:3e;31|cs2:ts;31|cs3:3d;31|cs4:3b;31|cs5:3b;32|cs6:3d;32|cs7:37;32|csa:3g;36|csb:3e;36|csc:ts;36|csg:38;3q|csh:3b;38;3q|csi:3d;38;3q|csj:37;38;3q|csk:3k;38;3q|ct9:3g;31|cta:3b;3g;31|ctb:3d;3g;31|ctc:37;3g;31|ctk:3g;3m|ctl:3e;3m|ctm:ts;3m|ctn:3d;3m|cto:3b;3m|ctp:3d;3m|ctq:3g;3n|ctr:3e;3n|cts:ts;3n|ctt:3d;3n|ctu:3b;3n|ctv:3d;3n|cu0:3b;u9|cu1:3d;u9|cu3:32;3h|cu6:33;8gl;3b;37|cu7:33;3f;1e|cu8:34;32|cu9:37;3p|cub:38;3g|cud:3b;3b|cue:3b;3d|cun:3g;38|cup:3g;3g;3d|cuq:3g;3i|cus:3j;3m|cut:3n;32|1uo0:36;36|1uo1:36;39|1uo2:36;3c|1uo3:36;36;39|1uo4:36;36;3c|1uo5:3j;3k|1uo6:3j;3k|1uoj:1bk;1bm|1uok:1bk;1b5|1uol:1bk;1bb|1uom:1bu;1bm|1uon:1bk;1bd|3l00:31|3l01:32|3l02:33|3l03:34|3l04:35|3l05:36|3l06:37|3l07:38|3l08:39|3l09:3a|3l0a:3b|3l0b:3c|3l0c:3d|3l0d:3e|3l0e:3f|3l0f:3g|3l0g:3h|3l0h:3i|3l0i:3j|3l0j:3k|3l0k:3l|3l0l:3m|3l0m:3n|3l0n:3o|3l0o:3p|3l0p:3q|3l1k:31|3l1l:32|3l1m:33|3l1n:34|3l1o:35|3l1p:36|3l1q:37|3l1r:38|3l1s:39|3l1t:3a|3l1u:3b|3l1v:3c|3l20:3d|3l21:3e|3l22:3f|3l23:3g|3l24:3h|3l25:3i|3l26:3j|3l27:3k|3l28:3l|3l29:3m|3l2a:3n|3l2b:3o|3l2c:3p|3l2d:3q|3l38:31|3l39:32|3l3a:33|3l3b:34|3l3c:35|3l3d:36|3l3e:37|3l3f:38|3l3g:39|3l3h:3a|3l3i:3b|3l3j:3c|3l3k:3d|3l3l:3e|3l3m:3f|3l3n:3g|3l3o:3h|3l3p:3i|3l3q:3j|3l3r:3k|3l3s:3l|3l3t:3m|3l3u:3n|3l3v:3o|3l40:3p|3l41:3q|3l4s:31|3l4u:33|3l4v:34|3l52:37|3l55:3a|3l56:3b|3l59:3e|3l5a:3f|3l5b:3g|3l5c:3h|3l5e:3j|3l5f:3k|3l5g:3l|3l5h:3m|3l5i:3n|3l5j:3o|3l5k:3p|3l5l:3q|3l6g:31|3l6h:32|3l6i:33|3l6j:34|3l6k:35|3l6l:36|3l6m:37|3l6n:38|3l6o:39|3l6p:3a|3l6q:3b|3l6r:3c|3l6s:3d|3l6t:3e|3l6u:3f|3l6v:3g|3l70:3h|3l71:3i|3l72:3j|3l73:3k|3l74:3l|3l75:3m|3l76:3n|3l77:3o|3l78:3p|3l79:3q|3l84:31|3l85:32|3l87:34|3l88:35|3l89:36|3l8a:37|3l8d:3a|3l8e:3b|3l8f:3c|3l8g:3d|3l8h:3e|3l8i:3f|3l8j:3g|3l8k:3h|3l8m:3j|3l8n:3k|3l8o:3l|3l8p:3m|3l8q:3n|3l8r:3o|3l8s:3p|3l9o:31|3l9p:32|3l9r:34|3l9s:35|3l9t:36|3l9u:37|3la0:39|3la1:3a|3la2:3b|3la3:3c|3la4:3d|3la6:3f|3laa:3j|3lab:3k|3lac:3l|3lad:3m|3lae:3n|3laf:3o|3lag:3p|3lbc:31|3lbd:32|3lbe:33|3lbf:34|3lbg:35|3lbh:36|3lbi:37|3lbj:38|3lbk:39|3lbl:3a|3lbm:3b|3lbn:3c|3lbo:3d|3lbp:3e|3lbq:3f|3lbr:3g|3lbs:3h|3lbt:3i|3lbu:3j|3lbv:3k|3lc0:3l|3lc1:3m|3lc2:3n|3lc3:3o|3lc4:3p|3lc5:3q|3ld0:31|3ld1:32|3ld2:33|3ld3:34|3ld4:35|3ld5:36|3ld6:37|3ld7:38|3ld8:39|3ld9:3a|3lda:3b|3ldb:3c|3ldc:3d|3ldd:3e|3lde:3f|3ldf:3g|3ldg:3h|3ldh:3i|3ldi:3j|3ldj:3k|3ldk:3l|3ldl:3m|3ldm:3n|3ldn:3o|3ldo:3p|3ldp:3q|3lek:31|3lel:32|3lem:33|3len:34|3leo:35|3lep:36|3leq:37|3ler:38|3les:39|3let:3a|3leu:3b|3lev:3c|3lf0:3d|3lf1:3e|3lf2:3f|3lf3:3g|3lf4:3h|3lf5:3i|3lf6:3j|3lf7:3k|3lf8:3l|3lf9:3m|3lfa:3n|3lfb:3o|3lfc:3p|3lfd:3q|3lg8:31|3lg9:32|3lga:33|3lgb:34|3lgc:35|3lgd:36|3lge:37|3lgf:38|3lgg:39|3lgh:3a|3lgi:3b|3lgj:3c|3lgk:3d|3lgl:3e|3lgm:3f|3lgn:3g|3lgo:3h|3lgp:3i|3lgq:3j|3lgr:3k|3lgs:3l|3lgt:3m|3lgu:3n|3lgv:3o|3lh0:3p|3lh1:3q|3lhs:31|3lht:32|3lhu:33|3lhv:34|3li0:35|3li1:36|3li2:37|3li3:38|3li4:39|3li5:3a|3li6:3b|3li7:3c|3li8:3d|3li9:3e|3lia:3f|3lib:3g|3lic:3h|3lid:3i|3lie:3j|3lif:3k|3lig:3l|3lih:3m|3lii:3n|3lij:3o|3lik:3p|3lil:3q|3ljg:31|3ljh:32|3lji:33|3ljj:34|3ljk:35|3ljl:36|3ljm:37|3ljn:38|3ljo:39|3ljp:3a|3ljq:3b|3ljr:3c|3ljs:3d|3ljt:3e|3lju:3f|3ljv:3g|3lk0:3h|3lk1:3i|3lk2:3j|3lk3:3k|3lk4:3l|3lk5:3m|3lk6:3n|3lk7:3o|3lk8:3p|3lk9:3q|3ll8:th|3ll9:ti|3lla:tj|3llb:tk|3llc:tl|3lld:tm|3lle:tn|3llf:to|3llg:tp|3llh:tq|3lli:tr|3llj:ts|3llk:tt|3lll:tu|3llm:tv|3lln:u0|3llo:u1|3llp:to|3llq:u3|3llr:u4|3lls:u5|3llt:u6|3llu:u7|3llv:u8|3lm0:u9|3lmj:u3|3ln2:th|3ln3:ti|3ln4:tj|3ln5:tk|3ln6:tl|3ln7:tm|3ln8:tn|3ln9:to|3lna:tp|3lnb:tq|3lnc:tr|3lnd:ts|3lne:tt|3lnf:tu|3lng:tv|3lnh:u0|3lni:u1|3lnj:to|3lnk:u3|3lnl:u4|3lnm:u5|3lnn:u6|3lno:u7|3lnp:u8|3lnq:u9|3lod:u3|3los:th|3lot:ti|3lou:tj|3lov:tk|3lp0:tl|3lp1:tm|3lp2:tn|3lp3:to|3lp4:tp|3lp5:tq|3lp6:tr|3lp7:ts|3lp8:tt|3lp9:tu|3lpa:tv|3lpb:u0|3lpc:u1|3lpd:to|3lpe:u3|3lpf:u4|3lpg:u5|3lph:u6|3lpi:u7|3lpj:u8|3lpk:u9|3lq7:u3|3lqm:th|3lqn:ti|3lqo:tj|3lqp:tk|3lqq:tl|3lqr:tm|3lqs:tn|3lqt:to|3lqu:tp|3lqv:tq|3lr0:tr|3lr1:ts|3lr2:tt|3lr3:tu|3lr4:tv|3lr5:u0|3lr6:u1|3lr7:to|3lr8:u3|3lr9:u4|3lra:u5|3lrb:u6|3lrc:u7|3lrd:u8|3lre:u9|3ls1:u3|3lsg:th|3lsh:ti|3lsi:tj|3lsj:tk|3lsk:tl|3lsl:tm|3lsm:tn|3lsn:to|3lso:tp|3lsp:tq|3lsq:tr|3lsr:ts|3lss:tt|3lst:tu|3lsu:tv|3lsv:u0|3lt0:u1|3lt1:to|3lt2:u3|3lt3:u4|3lt4:u5|3lt5:u6|3lt6:u7|3lt7:u8|3lt8:u9|3ltr:u3',
+        r:
+            '23:2c|2i:2k|2m:2q|60:6m|6o:6u|bo:bp|c1:c2|c6:c7|c9:cb|ce:ch|cj:ck|cm:co|cs:ct|cv:d0|d6:d7|de:df|dh:dj|dn:do|e4:e5|e7:e8|ea:eb|fh:fi|fm:fo|s8:sa|se:sf|sh:t1|t3:tb|100:11f|19h:1am|7o8:7of|7oo:7ot|7p8:7pf|7po:7pv|7q8:7qd|7r8:7rf|7to:7tr|7u8:7ub|7uo:7ur|7v8:7vc|7vo:7vr|89a:89b|8b0:8bf|95m:96f|1vp1:1vpq|2100:2115',
+        s:
+            'v8|va|vc|ve|vk|130|132|134|136|138|13a|13c|13e|13g|13i|13k|13m|13o|13q|13s|13u|140|14a|14c|14e|14g|14i|14k|14m|14o|14q|14s|14u|150|152|154|156|158|15a|15c|15e|15g|15i|15k|15m|15o|15q|15s|15u|161|163|165|167|169|16b|16d|16g|16i|16k|16m|16o|16q|16s|16u|170|172|174|176|178|17a|17c|17e|17g|17i|17k|17o|180|182|184|186|188|18a|18c|18e|80|82|84|86|88|8a|8c|8e|8g|8i|8k|8m|8o|8q|8s|8u|90|92|94|96|98|9a|9c|9e|9i|9k|9m|9p|9r|9t|9v|a1|a3|a5|a7|aa|ac|ae|ag|ai|ak|am|ao|aq|as|au|b0|b2|b4|b6|b8|ba|bc|be|bg|bi|bk|bm|br|bt|c4|d2|d4|d9|dc|dl|ds|ed|ef|eh|ej|el|en|ep|er|eu|f0|f2|f4|f6|f8|fa|fc|fe|fk|fq|fs|fu|g0|g2|g4|g6|g8|ga|gc|ge|gg|gi|gk|gm|go|gq|gs|gu|h0|h2|h4|h6|h8|ha|hc|he|hg|hi|21|22|7g0|7g2|7g4|7g6|7g8|7ga|7gc|7ge|7gg|7gi|2d|7gk|7gm|7go|7gq|7gs|7gu|7h0|7h2|7h4|7h6|7h8|7ha|7hc|7he|7hg|7hi|7hk|7hm|7ho|7hq|7hs|7hu|7i0|7i2|7i4|7i6|7i8|7ia|7ic|7ie|7ig|7ii|7ik|7im|7io|7iq|7is|7iu|7j0|7j2|7j4|7j6|7j8|7ja|7jc|7je|7jg|7ji|7jk|7jm|2e|7jo|7jq|7js|7ju|7k0|7k2|7k4|7k6|7k8|7ka|7kc|7ke|7kg|7ki|7kk|7l0|7l2|7l4|7l6|7l8|7la|7lc|7le|7lg|7li|7lk|7lm|7lo|7lq|7ls|7lu|7m0|7m2|7m4|7m6|7m8|7ma|7mc|7me|7mg|7mi|7mk|7mm|7mo|7mq|2f|7ms|7mu|7n0|7n2|7n4|7n6|7n8|7na|7nc|7ne|7ng|7ni|7nk|7nm|7no|2g|7qp|7qr|7qt|7qv|2h|896|2l|s6|sc|uo|uq|us|uu|v0|v2|v4|v6'
     },
     'B.3': {
-        m: '5l:ts|6v:3j;3j|9g:39;o7|a9:ls;3e|bv:3j|fg:3a;oc|q5:tp|sg:tp;o8;o1|tg:u5;o8;o1|u2:u3|ug:ti|uh:to|ul:u6|um:u0|vg:tq|vh:u1|vi:u3|vl:tl|1c7:1b5;1c2|7km:38;ph|7kn:3k;o8|7ko:3n;oa|7kp:3p;oa|7kq:31;lu|7kr:7j1|7qg:u5;oj|7qi:u5;oj;o0|7qk:u5;oj;o1|7qm:u5;oj;q2|7s0:7o0;tp|7s1:7o1;tp|7s2:7o2;tp|7s3:7o3;tp|7s4:7o4;tp|7s5:7o5;tp|7s6:7o6;tp|7s7:7o7;tp|7s8:7o0;tp|7s9:7o1;tp|7sa:7o2;tp|7sb:7o3;tp|7sc:7o4;tp|7sd:7o5;tp|7se:7o6;tp|7sf:7o7;tp|7sg:7p0;tp|7sh:7p1;tp|7si:7p2;tp|7sj:7p3;tp|7sk:7p4;tp|7sl:7p5;tp|7sm:7p6;tp|7sn:7p7;tp|7so:7p0;tp|7sp:7p1;tp|7sq:7p2;tp|7sr:7p3;tp|7ss:7p4;tp|7st:7p5;tp|7su:7p6;tp|7sv:7p7;tp|7t0:7r0;tp|7t1:7r1;tp|7t2:7r2;tp|7t3:7r3;tp|7t4:7r4;tp|7t5:7r5;tp|7t6:7r6;tp|7t7:7r7;tp|7t8:7r0;tp|7t9:7r1;tp|7ta:7r2;tp|7tb:7r3;tp|7tc:7r4;tp|7td:7r5;tp|7te:7r6;tp|7tf:7r7;tp|7ti:7rg;tp|7tj:th;tp|7tk:tc;tp|7tm:th;q2|7tn:th;q2;tp|7ts:th;tp|7tu:tp|7u2:7rk;tp|7u3:tn;tp|7u4:te;tp|7u6:tn;q2|7u7:tn;q2;tp|7uc:tn;tp|7ui:tp;o8;o0|7uj:tp;o8;o1|7um:tp;q2|7un:tp;o8;q2|7v2:u5;o8;o0|7v3:u5;o8;o1|7v4:u1;oj|7v6:u5;q2|7v7:u5;o8;q2|7vi:7rs;tp|7vj:u9;tp|7vk:ue;tp|7vm:u9;q2|7vn:u9;q2;tp|7vs:u9;tp|1uo0:36;36|1uo1:36;39|1uo2:36;3c|1uo3:36;36;39|1uo4:36;36;3c|1uo5:3j;3k|1uo6:3j;3k|1uoj:1bk;1bm|1uok:1bk;1b5|1uol:1bk;1bb|1uom:1bu;1bm|1uon:1bk;1bd',
-        r: '23:2c|2i:2k|2m:2q|60:6m|6o:6u|bo:bp|c1:c2|c6:c7|c9:cb|ce:ch|cj:ck|cm:co|cs:ct|cv:d0|d6:d7|de:df|dh:dj|dn:do|e4:e5|e7:e8|ea:eb|fh:fi|fm:fo|s8:sa|se:sf|sh:t1|t3:tb|100:11f|19h:1am|7o8:7of|7oo:7ot|7p8:7pf|7po:7pv|7q8:7qd|7r8:7rf|7to:7tr|7u8:7ub|7uo:7ur|7v8:7vc|7vo:7vr|89a:89b|8b0:8bf|95m:96f|1vp1:1vpq|2100:2115',
-        s: 'v8|va|vc|ve|vk|130|132|134|136|138|13a|13c|13e|13g|13i|13k|13m|13o|13q|13s|13u|140|14a|14c|14e|14g|14i|14k|14m|14o|14q|14s|14u|150|152|154|156|158|15a|15c|15e|15g|15i|15k|15m|15o|15q|15s|15u|161|163|165|167|169|16b|16d|16g|16i|16k|16m|16o|16q|16s|16u|170|172|174|176|178|17a|17c|17e|17g|17i|17k|17o|180|182|184|186|188|18a|18c|18e|80|82|84|86|88|8a|8c|8e|8g|8i|8k|8m|8o|8q|8s|8u|90|92|94|96|98|9a|9c|9e|9i|9k|9m|9p|9r|9t|9v|a1|a3|a5|a7|aa|ac|ae|ag|ai|ak|am|ao|aq|as|au|b0|b2|b4|b6|b8|ba|bc|be|bg|bi|bk|bm|br|bt|c4|d2|d4|d9|dc|dl|ds|ed|ef|eh|ej|el|en|ep|er|eu|f0|f2|f4|f6|f8|fa|fc|fe|fk|fq|fs|fu|g0|g2|g4|g6|g8|ga|gc|ge|gg|gi|gk|gm|go|gq|gs|gu|h0|h2|h4|h6|h8|ha|hc|he|hg|hi|21|22|7g0|7g2|7g4|7g6|7g8|7ga|7gc|7ge|7gg|7gi|2d|7gk|7gm|7go|7gq|7gs|7gu|7h0|7h2|7h4|7h6|7h8|7ha|7hc|7he|7hg|7hi|7hk|7hm|7ho|7hq|7hs|7hu|7i0|7i2|7i4|7i6|7i8|7ia|7ic|7ie|7ig|7ii|7ik|7im|7io|7iq|7is|7iu|7j0|7j2|7j4|7j6|7j8|7ja|7jc|7je|7jg|7ji|7jk|7jm|2e|7jo|7jq|7js|7ju|7k0|7k2|7k4|7k6|7k8|7ka|7kc|7ke|7kg|7ki|7kk|7l0|7l2|7l4|7l6|7l8|7la|7lc|7le|7lg|7li|7lk|7lm|7lo|7lq|7ls|7lu|7m0|7m2|7m4|7m6|7m8|7ma|7mc|7me|7mg|7mi|7mk|7mm|7mo|7mq|2f|7ms|7mu|7n0|7n2|7n4|7n6|7n8|7na|7nc|7ne|7ng|7ni|7nk|7nm|7no|2g|7qp|7qr|7qt|7qv|2h|896|2l|s6|sc|uo|uq|us|uu|v0|v2|v4|v6'
+        m:
+            '5l:ts|6v:3j;3j|9g:39;o7|a9:ls;3e|bv:3j|fg:3a;oc|q5:tp|sg:tp;o8;o1|tg:u5;o8;o1|u2:u3|ug:ti|uh:to|ul:u6|um:u0|vg:tq|vh:u1|vi:u3|vl:tl|1c7:1b5;1c2|7km:38;ph|7kn:3k;o8|7ko:3n;oa|7kp:3p;oa|7kq:31;lu|7kr:7j1|7qg:u5;oj|7qi:u5;oj;o0|7qk:u5;oj;o1|7qm:u5;oj;q2|7s0:7o0;tp|7s1:7o1;tp|7s2:7o2;tp|7s3:7o3;tp|7s4:7o4;tp|7s5:7o5;tp|7s6:7o6;tp|7s7:7o7;tp|7s8:7o0;tp|7s9:7o1;tp|7sa:7o2;tp|7sb:7o3;tp|7sc:7o4;tp|7sd:7o5;tp|7se:7o6;tp|7sf:7o7;tp|7sg:7p0;tp|7sh:7p1;tp|7si:7p2;tp|7sj:7p3;tp|7sk:7p4;tp|7sl:7p5;tp|7sm:7p6;tp|7sn:7p7;tp|7so:7p0;tp|7sp:7p1;tp|7sq:7p2;tp|7sr:7p3;tp|7ss:7p4;tp|7st:7p5;tp|7su:7p6;tp|7sv:7p7;tp|7t0:7r0;tp|7t1:7r1;tp|7t2:7r2;tp|7t3:7r3;tp|7t4:7r4;tp|7t5:7r5;tp|7t6:7r6;tp|7t7:7r7;tp|7t8:7r0;tp|7t9:7r1;tp|7ta:7r2;tp|7tb:7r3;tp|7tc:7r4;tp|7td:7r5;tp|7te:7r6;tp|7tf:7r7;tp|7ti:7rg;tp|7tj:th;tp|7tk:tc;tp|7tm:th;q2|7tn:th;q2;tp|7ts:th;tp|7tu:tp|7u2:7rk;tp|7u3:tn;tp|7u4:te;tp|7u6:tn;q2|7u7:tn;q2;tp|7uc:tn;tp|7ui:tp;o8;o0|7uj:tp;o8;o1|7um:tp;q2|7un:tp;o8;q2|7v2:u5;o8;o0|7v3:u5;o8;o1|7v4:u1;oj|7v6:u5;q2|7v7:u5;o8;q2|7vi:7rs;tp|7vj:u9;tp|7vk:ue;tp|7vm:u9;q2|7vn:u9;q2;tp|7vs:u9;tp|1uo0:36;36|1uo1:36;39|1uo2:36;3c|1uo3:36;36;39|1uo4:36;36;3c|1uo5:3j;3k|1uo6:3j;3k|1uoj:1bk;1bm|1uok:1bk;1b5|1uol:1bk;1bb|1uom:1bu;1bm|1uon:1bk;1bd',
+        r:
+            '23:2c|2i:2k|2m:2q|60:6m|6o:6u|bo:bp|c1:c2|c6:c7|c9:cb|ce:ch|cj:ck|cm:co|cs:ct|cv:d0|d6:d7|de:df|dh:dj|dn:do|e4:e5|e7:e8|ea:eb|fh:fi|fm:fo|s8:sa|se:sf|sh:t1|t3:tb|100:11f|19h:1am|7o8:7of|7oo:7ot|7p8:7pf|7po:7pv|7q8:7qd|7r8:7rf|7to:7tr|7u8:7ub|7uo:7ur|7v8:7vc|7vo:7vr|89a:89b|8b0:8bf|95m:96f|1vp1:1vpq|2100:2115',
+        s:
+            'v8|va|vc|ve|vk|130|132|134|136|138|13a|13c|13e|13g|13i|13k|13m|13o|13q|13s|13u|140|14a|14c|14e|14g|14i|14k|14m|14o|14q|14s|14u|150|152|154|156|158|15a|15c|15e|15g|15i|15k|15m|15o|15q|15s|15u|161|163|165|167|169|16b|16d|16g|16i|16k|16m|16o|16q|16s|16u|170|172|174|176|178|17a|17c|17e|17g|17i|17k|17o|180|182|184|186|188|18a|18c|18e|80|82|84|86|88|8a|8c|8e|8g|8i|8k|8m|8o|8q|8s|8u|90|92|94|96|98|9a|9c|9e|9i|9k|9m|9p|9r|9t|9v|a1|a3|a5|a7|aa|ac|ae|ag|ai|ak|am|ao|aq|as|au|b0|b2|b4|b6|b8|ba|bc|be|bg|bi|bk|bm|br|bt|c4|d2|d4|d9|dc|dl|ds|ed|ef|eh|ej|el|en|ep|er|eu|f0|f2|f4|f6|f8|fa|fc|fe|fk|fq|fs|fu|g0|g2|g4|g6|g8|ga|gc|ge|gg|gi|gk|gm|go|gq|gs|gu|h0|h2|h4|h6|h8|ha|hc|he|hg|hi|21|22|7g0|7g2|7g4|7g6|7g8|7ga|7gc|7ge|7gg|7gi|2d|7gk|7gm|7go|7gq|7gs|7gu|7h0|7h2|7h4|7h6|7h8|7ha|7hc|7he|7hg|7hi|7hk|7hm|7ho|7hq|7hs|7hu|7i0|7i2|7i4|7i6|7i8|7ia|7ic|7ie|7ig|7ii|7ik|7im|7io|7iq|7is|7iu|7j0|7j2|7j4|7j6|7j8|7ja|7jc|7je|7jg|7ji|7jk|7jm|2e|7jo|7jq|7js|7ju|7k0|7k2|7k4|7k6|7k8|7ka|7kc|7ke|7kg|7ki|7kk|7l0|7l2|7l4|7l6|7l8|7la|7lc|7le|7lg|7li|7lk|7lm|7lo|7lq|7ls|7lu|7m0|7m2|7m4|7m6|7m8|7ma|7mc|7me|7mg|7mi|7mk|7mm|7mo|7mq|2f|7ms|7mu|7n0|7n2|7n4|7n6|7n8|7na|7nc|7ne|7ng|7ni|7nk|7nm|7no|2g|7qp|7qr|7qt|7qv|2h|896|2l|s6|sc|uo|uq|us|uu|v0|v2|v4|v6'
     },
     'C.1.1': {
         s: '10'
@@ -245,7 +276,8 @@ const TABLE_DATA = {
         r: '1o00:1u7v|u000:vvvt|10000:11vvt'
     },
     'C.4': {
-        r: '1veg:1vff|1vvu:1vvv|3vvu:3vvv|5vvu:5vvv|7vvu:7vvv|9vvu:9vvv|bvvu:bvvv|dvvu:dvvv|fvvu:fvvv|hvvu:hvvv|jvvu:jvvv|lvvu:lvvv|nvvu:nvvv|pvvu:pvvv|rvvu:rvvv|tvvu:tvvv|vvvu:vvvv|11vvu:11vvv'
+        r:
+            '1veg:1vff|1vvu:1vvv|3vvu:3vvv|5vvu:5vvv|7vvu:7vvv|9vvu:9vvv|bvvu:bvvv|dvvu:dvvv|fvvu:fvvv|hvvu:hvvv|jvvu:jvvv|lvvu:lvvv|nvvu:nvvv|pvvu:pvvv|rvvu:rvvv|tvvu:tvvv|vvvu:vvvv|11vvu:11vvv'
     },
     'C.5': {
         r: '1m00:1nvv'
@@ -264,12 +296,15 @@ const TABLE_DATA = {
         s: 's001'
     },
     'D.1': {
-        r: '1eg:1fa|1fg:1fk|1h1:1hq|1i0:1ia|1jd:1jf|1jh:1ml|1n5:1n6|1nq:1nu|1o0:1od|1oi:1pc|1s0:1t5|1uov:1up8|1upa:1upm|1upo:1ups|1uq0:1uq1|1uq3:1uq4|1uq6:1uth|1uuj:1v9t|1vag:1vcf|1vci:1ve7|1vfg:1vfs|1vjg:1vjk|1vjm:1vns',
+        r:
+            '1eg:1fa|1fg:1fk|1h1:1hq|1i0:1ia|1jd:1jf|1jh:1ml|1n5:1n6|1nq:1nu|1o0:1od|1oi:1pc|1s0:1t5|1uov:1up8|1upa:1upm|1upo:1ups|1uq0:1uq1|1uq3:1uq4|1uq6:1uth|1uuj:1v9t|1vag:1vcf|1vci:1ve7|1vfg:1vfs|1vjg:1vjk|1vjm:1vns',
         s: '1du|1e0|1e3|1gr|1gv|1mt|1og|1th|1uot|1upu|80f'
     },
     'D.2': {
-        r: '21:2q|31:3q|60:6m|6o:7m|7o:h0|h2:hj|ig:ld|lg:lo|lr:m1|mg:mh|n0:n4|s8:sa|se:t1|t3:ue|ug:vl|100:142|14a:16e|16g:17l|17o:17p|180:18f|19h:1am|1ap:1av|1b1:1c7|285:29p|29t:2a0|2a9:2ac|2ao:2b1|2b4:2bg|2c2:2c3|2c5:2cc|2cf:2cg|2cj:2d8|2da:2dg|2dm:2dp|2du:2e0|2e7:2e8|2eb:2ec|2es:2et|2ev:2f1|2f6:2fh|2fk:2fq|2g5:2ga|2gf:2gg|2gj:2h8|2ha:2hg|2hi:2hj|2hl:2hm|2ho:2hp|2hu:2i0|2ip:2is|2j6:2jf|2ji:2jk|2k5:2kb|2kf:2kh|2kj:2l8|2la:2lg|2li:2lj|2ll:2lp|2lt:2m0|2mb:2mc|2n6:2nf|2o2:2o3|2o5:2oc|2of:2og|2oj:2p8|2pa:2pg|2pi:2pj|2pm:2pp|2pt:2pu|2q7:2q8|2qb:2qc|2qs:2qt|2qv:2r1|2r6:2rg|2s5:2sa|2se:2sg|2si:2sl|2sp:2sq|2su:2sv|2t3:2t4|2t8:2ta|2te:2tl|2tn:2tp|2tu:2tv|2u1:2u2|2u6:2u8|2ua:2uc|2v7:2vi|301:303|305:30c|30e:30g|30i:318|31a:31j|31l:31p|321:324|330:331|336:33f|342:343|345:34c|34e:34g|34i:358|35a:35j|35l:35p|360:364|367:368|36a:36b|36l:36m|370:371|376:37f|382:383|385:38c|38e:38g|38i:398|39a:39p|39u:3a0|3a6:3a8|3aa:3ac|3b0:3b1|3b6:3bf|3c2:3c3|3c5:3cm|3cq:3dh|3dj:3dr|3e0:3e6|3ef:3eh|3eo:3ev|3fi:3fk|3g1:3hg|3hi:3hj|3i0:3i6|3if:3ir|3k1:3k2|3k7:3k8|3kk:3kn|3kp:3kv|3l1:3l3|3la:3lb|3ld:3lg|3li:3lj|3m0:3m4|3mg:3mp|3ms:3mt|3o0:3on|3oq:3pk|3pu:3q7|3q9:3ra|3s8:3sb|3tu:3u5|3u7:3uc|400:411|413:417|419:41a|420:42n|450:465|46g:47o|480:4ap|4av:4d2|4d8:4fp|4g0:4g6|4g8:4i6|4ia:4id|4ig:4im|4iq:4it|4j0:4k6|4ka:4kd|4kg:4le|4li:4ll|4lo:4lu|4m2:4m5|4m8:4me|4mg:4mm|4mo:4ne|4ng:4oe|4oi:4ol|4oo:4ou|4p0:4q6|4q8:4qq|4r1:4rs|4t0:4vk|501:5jm|5k1:5kq|5l0:5ng|5o0:5oc|5oe:5oh|5p0:5ph|5pl:5pm|5q0:5qh|5r0:5rc|5re:5rg|5s0:5tm|5tu:5u5|5u7:5u8|5uk:5uq|5v0:5v9|60g:60p|610:63n|640:658|7g0:7kr|7l0:7np|7o0:7ol|7oo:7ot|7p0:7q5|7q8:7qd|7qg:7qn|7qv:7rt|7s0:7tk|7tm:7ts|7u2:7u4|7u6:7uc|7ug:7uj|7um:7ur|7v0:7vc|7vi:7vk|7vm:7vs|88a:88j|88p:88t|89a:89d|89f:89h|89j:89p|89t:89v|8a5:8a9|8b0:8c3|8pm:8rq|94s:979|c05:c07|c11:c19|c1h:c1l|c1o:c1s|c21:c4m|c4t:c4v|c51:c7q|c7s:c7v|c85:c9c|c9h:cce|ccg:cdn|cfg:cgs|ch0:ci3|cj0:cjr|cjv:clg|cm0:cmb|cmg:cnu|co0:crm|crr:cut|cv0:cvu|d00:jdl|jg0:17t5|1800:194c|1b00:1lt3|1m00:1uhd|1uhg:1uja|1uo0:1uo6|1uoj:1uon|1vp1:1vpq|1vq1:1vqq|1vr6:1vtu|1vu2:1vu7|1vua:1vuf|1vui:1vun|1vuq:1vus|20o0:20ou|20p0:20p3|20pg:20qa|2100:2115|2118:212d|3k00:3k7l|3k80:3k96|3k9a:3kb6|3kba:3kbi|3kc3:3kc4|3kcc:3kd9|3kde:3ket|3l00:3l2k|3l2m:3l4s|3l4u:3l4v|3l55:3l56|3l59:3l5c|3l5e:3l5p|3l5t:3l60|3l62:3l63|3l65:3l85|3l87:3l8a|3l8d:3l8k|3l8m:3l8s|3l8u:3l9p|3l9r:3l9u|3la0:3la4|3laa:3lag|3lai:3ll3|3ll8:3lu9|4000:59mm|5u00:5ugt|u000:vvvt|10000:11vvt',
-        s: '3l52|3l5r|3la6|1c9|5a|5l|5q|283|2ag|2di|2en|2iu|2k3|2kd|2m9|2mg|2n0|2q0|2qn|2s3|2ss|2un|35u|36u|3an|3dt|3k4|3ka|3kd|3l5|3l7|3lt|3m6|3pm|3po|3rv|3s5|3uf|41c|41h|41o|47r|4i8|4io|4k8|4lg|4m0|4og|5us|ne|7qp|7qr|7qt|7tu|80e|83h|83v|882|887|88l|894|896|898|rq|s6|sc|8sl'
+        r:
+            '21:2q|31:3q|60:6m|6o:7m|7o:h0|h2:hj|ig:ld|lg:lo|lr:m1|mg:mh|n0:n4|s8:sa|se:t1|t3:ue|ug:vl|100:142|14a:16e|16g:17l|17o:17p|180:18f|19h:1am|1ap:1av|1b1:1c7|285:29p|29t:2a0|2a9:2ac|2ao:2b1|2b4:2bg|2c2:2c3|2c5:2cc|2cf:2cg|2cj:2d8|2da:2dg|2dm:2dp|2du:2e0|2e7:2e8|2eb:2ec|2es:2et|2ev:2f1|2f6:2fh|2fk:2fq|2g5:2ga|2gf:2gg|2gj:2h8|2ha:2hg|2hi:2hj|2hl:2hm|2ho:2hp|2hu:2i0|2ip:2is|2j6:2jf|2ji:2jk|2k5:2kb|2kf:2kh|2kj:2l8|2la:2lg|2li:2lj|2ll:2lp|2lt:2m0|2mb:2mc|2n6:2nf|2o2:2o3|2o5:2oc|2of:2og|2oj:2p8|2pa:2pg|2pi:2pj|2pm:2pp|2pt:2pu|2q7:2q8|2qb:2qc|2qs:2qt|2qv:2r1|2r6:2rg|2s5:2sa|2se:2sg|2si:2sl|2sp:2sq|2su:2sv|2t3:2t4|2t8:2ta|2te:2tl|2tn:2tp|2tu:2tv|2u1:2u2|2u6:2u8|2ua:2uc|2v7:2vi|301:303|305:30c|30e:30g|30i:318|31a:31j|31l:31p|321:324|330:331|336:33f|342:343|345:34c|34e:34g|34i:358|35a:35j|35l:35p|360:364|367:368|36a:36b|36l:36m|370:371|376:37f|382:383|385:38c|38e:38g|38i:398|39a:39p|39u:3a0|3a6:3a8|3aa:3ac|3b0:3b1|3b6:3bf|3c2:3c3|3c5:3cm|3cq:3dh|3dj:3dr|3e0:3e6|3ef:3eh|3eo:3ev|3fi:3fk|3g1:3hg|3hi:3hj|3i0:3i6|3if:3ir|3k1:3k2|3k7:3k8|3kk:3kn|3kp:3kv|3l1:3l3|3la:3lb|3ld:3lg|3li:3lj|3m0:3m4|3mg:3mp|3ms:3mt|3o0:3on|3oq:3pk|3pu:3q7|3q9:3ra|3s8:3sb|3tu:3u5|3u7:3uc|400:411|413:417|419:41a|420:42n|450:465|46g:47o|480:4ap|4av:4d2|4d8:4fp|4g0:4g6|4g8:4i6|4ia:4id|4ig:4im|4iq:4it|4j0:4k6|4ka:4kd|4kg:4le|4li:4ll|4lo:4lu|4m2:4m5|4m8:4me|4mg:4mm|4mo:4ne|4ng:4oe|4oi:4ol|4oo:4ou|4p0:4q6|4q8:4qq|4r1:4rs|4t0:4vk|501:5jm|5k1:5kq|5l0:5ng|5o0:5oc|5oe:5oh|5p0:5ph|5pl:5pm|5q0:5qh|5r0:5rc|5re:5rg|5s0:5tm|5tu:5u5|5u7:5u8|5uk:5uq|5v0:5v9|60g:60p|610:63n|640:658|7g0:7kr|7l0:7np|7o0:7ol|7oo:7ot|7p0:7q5|7q8:7qd|7qg:7qn|7qv:7rt|7s0:7tk|7tm:7ts|7u2:7u4|7u6:7uc|7ug:7uj|7um:7ur|7v0:7vc|7vi:7vk|7vm:7vs|88a:88j|88p:88t|89a:89d|89f:89h|89j:89p|89t:89v|8a5:8a9|8b0:8c3|8pm:8rq|94s:979|c05:c07|c11:c19|c1h:c1l|c1o:c1s|c21:c4m|c4t:c4v|c51:c7q|c7s:c7v|c85:c9c|c9h:cce|ccg:cdn|cfg:cgs|ch0:ci3|cj0:cjr|cjv:clg|cm0:cmb|cmg:cnu|co0:crm|crr:cut|cv0:cvu|d00:jdl|jg0:17t5|1800:194c|1b00:1lt3|1m00:1uhd|1uhg:1uja|1uo0:1uo6|1uoj:1uon|1vp1:1vpq|1vq1:1vqq|1vr6:1vtu|1vu2:1vu7|1vua:1vuf|1vui:1vun|1vuq:1vus|20o0:20ou|20p0:20p3|20pg:20qa|2100:2115|2118:212d|3k00:3k7l|3k80:3k96|3k9a:3kb6|3kba:3kbi|3kc3:3kc4|3kcc:3kd9|3kde:3ket|3l00:3l2k|3l2m:3l4s|3l4u:3l4v|3l55:3l56|3l59:3l5c|3l5e:3l5p|3l5t:3l60|3l62:3l63|3l65:3l85|3l87:3l8a|3l8d:3l8k|3l8m:3l8s|3l8u:3l9p|3l9r:3l9u|3la0:3la4|3laa:3lag|3lai:3ll3|3ll8:3lu9|4000:59mm|5u00:5ugt|u000:vvvt|10000:11vvt',
+        s:
+            '3l52|3l5r|3la6|1c9|5a|5l|5q|283|2ag|2di|2en|2iu|2k3|2kd|2m9|2mg|2n0|2q0|2qn|2s3|2ss|2un|35u|36u|3an|3dt|3k4|3ka|3kd|3l5|3l7|3lt|3m6|3pm|3po|3rv|3s5|3uf|41c|41h|41o|47r|4i8|4io|4k8|4lg|4m0|4og|5us|ne|7qp|7qr|7qt|7tu|80e|83h|83v|882|887|88l|894|896|898|rq|s6|sc|8sl'
     }
 };
 
@@ -291,14 +326,15 @@ class Table {
                 });
             }
             if (data.m) {
-                this.mappings = new Map(data.m.split('|').map(m => {
-                    const [point, mapping] = m.split(':');
-                    const mappedPoints = mapping.split(';').map(p => parseInt(p, 32));
-                    return [parseInt(point, 32), mappedPoints];
-                }));
+                this.mappings = new Map(
+                    data.m.split('|').map(m => {
+                        const [point, mapping] = m.split(':');
+                        const mappedPoints = mapping.split(';').map(p => parseInt(p, 32));
+                        return [parseInt(point, 32), mappedPoints];
+                    })
+                );
             }
-        }
-        else if (points) {
+        } else if (points) {
             this.singles = new Set(points);
         }
     }
@@ -354,8 +390,8 @@ const D2 = new Table('D.2');
 B1.map = () => {
     return null;
 };
-C11.contains = (codePoint) => codePoint === 32;
-C12.map = (codePoint) => {
+C11.contains = codePoint => codePoint === 32;
+C12.map = codePoint => {
     return C12.contains(codePoint) ? 32 : null;
 };
 function prepare(profile, allowUnassigned, input = '') {
@@ -377,8 +413,7 @@ function prepare(profile, allowUnassigned, input = '') {
             }
             if (Array.isArray(mappedPoint)) {
                 mappedCodePoints = mappedCodePoints.concat(mappedPoint);
-            }
-            else {
+            } else {
                 mappedCodePoints.push(mappedPoint);
             }
         }
@@ -413,10 +448,14 @@ function prepare(profile, allowUnassigned, input = '') {
         if (hasRandALCat && hasLCat) {
             throw new Error('String contained both LCat and RandALCat code points');
         }
-        if (hasRandALCat &&
+        if (
+            hasRandALCat &&
             (!D1.contains(normalizedCodePoints[0]) ||
-                !D1.contains(normalizedCodePoints[normalizedCodePoints.length - 1]))) {
-            throw new Error('String containing RandALCat code points must start and end with RandALCat code points');
+                !D1.contains(normalizedCodePoints[normalizedCodePoints.length - 1]))
+        ) {
+            throw new Error(
+                'String containing RandALCat code points must start and end with RandALCat code points'
+            );
         }
     }
     return Punycode.ucs2.encode(normalizedCodePoints);
@@ -545,8 +584,7 @@ function create(data, opts = {}) {
 function createFull(bare, resource) {
     if (resource) {
         return `${toBare(bare)}/${resource}`;
-    }
-    else {
+    } else {
         return toBare(bare);
     }
 }
@@ -571,10 +609,13 @@ function parse(jid = '') {
         resource
     });
     return {
-        bare: create({ local: prepped.local, domain: prepped.domain }, {
-            escaped: true,
-            prepared: true
-        }),
+        bare: create(
+            { local: prepped.local, domain: prepped.domain },
+            {
+                escaped: true,
+                prepared: true
+            }
+        ),
         domain: prepped.domain,
         full: create(prepped, {
             escaped: true,
@@ -608,9 +649,11 @@ function equal(jid1, jid2) {
     }
     const parsed1 = parse(jid1);
     const parsed2 = parse(jid2);
-    return (parsed1.local === parsed2.local &&
+    return (
+        parsed1.local === parsed2.local &&
         parsed1.domain === parsed2.domain &&
-        parsed1.resource === parsed2.resource);
+        parsed1.resource === parsed2.resource
+    );
 }
 function equalBare(jid1, jid2) {
     if (!jid1 || !jid2) {
@@ -646,12 +689,15 @@ function parseURI(val) {
     }
     const identity = parsed.hostname
         ? parsed.username
-            ? create({
-                domain: decodeURIComponent(parsed.hostname),
-                local: decodeURIComponent(parsed.username)
-            }, {
-                escaped: true
-            })
+            ? create(
+                  {
+                      domain: decodeURIComponent(parsed.hostname),
+                      local: decodeURIComponent(parsed.username)
+                  },
+                  {
+                      escaped: true
+                  }
+              )
             : decodeURIComponent(parsed.hostname)
         : undefined;
     const jid = parse(decodeURIComponent(identity ? parsed.pathname.substr(1) : parsed.pathname))
@@ -661,20 +707,20 @@ function parseURI(val) {
         ? parsed.search.substr(parsed.search.indexOf(';') + 1)
         : '';
     const action = parsed.search
-        ? decodeURIComponent(parsed.search.substr(1, hasParameters ? parsed.search.indexOf(';') - 1 : undefined))
+        ? decodeURIComponent(
+              parsed.search.substr(1, hasParameters ? parsed.search.indexOf(';') - 1 : undefined)
+          )
         : undefined;
     const params = {};
     for (const token of parameterString.split(';')) {
         const [name, value] = token.split('=').map(decodeURIComponent);
         if (!params[name]) {
             params[name] = value;
-        }
-        else {
+        } else {
             const existing = params[name];
             if (Array.isArray(existing)) {
                 existing.push(value);
-            }
-            else {
+            } else {
                 params[name] = [existing, value];
             }
         }
@@ -727,7 +773,7 @@ function toURI(data) {
     return parts.join('');
 }
 
-var JID = /*#__PURE__*/Object.freeze({
+var JID = /*#__PURE__*/ Object.freeze({
     __proto__: null,
     escapeLocal: escapeLocal,
     unescapeLocal: unescapeLocal,
@@ -750,10 +796,10 @@ var JID = /*#__PURE__*/Object.freeze({
 
 var JXTErrorCondition;
 (function (JXTErrorCondition) {
-    JXTErrorCondition["NotWellFormed"] = "not-well-formed";
-    JXTErrorCondition["RestrictedXML"] = "restricted-xml";
-    JXTErrorCondition["AlreadyClosed"] = "already-closed";
-    JXTErrorCondition["UnknownRoot"] = "unknown-stream-root";
+    JXTErrorCondition['NotWellFormed'] = 'not-well-formed';
+    JXTErrorCondition['RestrictedXML'] = 'restricted-xml';
+    JXTErrorCondition['AlreadyClosed'] = 'already-closed';
+    JXTErrorCondition['UnknownRoot'] = 'unknown-stream-root';
 })(JXTErrorCondition || (JXTErrorCondition = {}));
 class JXTError extends Error {
     constructor(opts) {
@@ -814,12 +860,14 @@ function unescapeXMLReplaceChar(match) {
     }
     const hex = match.startsWith('&#x');
     const code = parseInt(match.substring(hex ? 3 : 2, match.length - 1), hex ? 16 : 10);
-    if (code === 0x9 ||
+    if (
+        code === 0x9 ||
         code === 0xa ||
         code === 0xd ||
         (0x20 <= code && code <= 0xd7ff) ||
         (0xe000 <= code && code <= 0xfffd) ||
-        (0x10000 <= code && code <= 0x10ffff)) {
+        (0x10000 <= code && code <= 0x10ffff)
+    ) {
         return String.fromCodePoint(code);
     }
     throw JXTError.restrictedXML('Prohibited entity: ' + match);
@@ -867,8 +915,7 @@ class XMLElement {
                 const xmlChild = new XMLElement(child.name, child.attributes, child.children);
                 xmlChild.parent = this;
                 this.children.push(xmlChild);
-            }
-            else {
+            } else {
                 this.children.push(child);
             }
         }
@@ -876,8 +923,7 @@ class XMLElement {
     getName() {
         if (this.name.indexOf(':') >= 0) {
             return this.name.substr(this.name.indexOf(':') + 1);
-        }
-        else {
+        } else {
             return this.name;
         }
     }
@@ -943,9 +989,11 @@ class XMLElement {
     getChildren(name, xmlns) {
         const result = [];
         for (const child of this.children) {
-            if (typeof child !== 'string' &&
+            if (
+                typeof child !== 'string' &&
                 child.getName() === name &&
-                (!xmlns || child.getNamespace() === xmlns)) {
+                (!xmlns || child.getNamespace() === xmlns)
+            ) {
                 result.push(child);
             }
         }
@@ -986,13 +1034,13 @@ class XMLElement {
     toJSON() {
         const children = this.children
             .map(child => {
-            if (typeof child === 'string') {
-                return child;
-            }
-            if (child) {
-                return child.toJSON();
-            }
-        })
+                if (typeof child === 'string') {
+                    return child;
+                }
+                if (child) {
+                    return child.toJSON();
+                }
+            })
             .filter(child => !!child);
         // Strip any undefined/null attributes
         const attrs = {};
@@ -1013,8 +1061,7 @@ class XMLElement {
             for (const child of this.children) {
                 if (typeof child === 'string') {
                     output += escapeXMLText(child);
-                }
-                else if (child) {
+                } else if (child) {
                     output += child.toString();
                 }
             }
@@ -1032,8 +1079,7 @@ class XMLElement {
         }
         if (allowSelfClose && this.children.length === 0) {
             output += '/>';
-        }
-        else {
+        } else {
             output += '>';
         }
         return output;
@@ -1045,17 +1091,14 @@ class XMLElement {
         if (!prefix) {
             if (this.attributes.xmlns) {
                 return this.attributes.xmlns;
-            }
-            else if (this.parent) {
+            } else if (this.parent) {
                 return this.parent.findNamespaceForPrefix();
             }
-        }
-        else {
+        } else {
             const attr = 'xmlns:' + prefix;
             if (this.attributes[attr]) {
                 return this.attributes[attr];
-            }
-            else if (this.parent) {
+            } else if (this.parent) {
                 return this.parent.findNamespaceForPrefix(prefix);
             }
         }
@@ -1113,7 +1156,7 @@ const CSS_RULES = new Map([
     //  margin-right
     //  text-align
 ]);
-const sanitizeCSS = (css) => {
+const sanitizeCSS = css => {
     const declarations = `;${css}` // Declarations are ; delimited, not terminated
         .replace(/\/\*[^*]*\*+([^/*][^*]*\*+)*\//g, '') // Strip comments
         .replace(/\/\*.*/, '') // Strip unclosed comments
@@ -1141,11 +1184,13 @@ const sanitizeCSS = (css) => {
     }
     return false;
 };
-const sanitizeURL = (url) => {
-    return (!!url.match(/^(https?|xmpp|cid|mailto|ftps?|im|ircs?|sips?|tel|geo|bitcoin|magnet):/i) &&
-        url);
+const sanitizeURL = url => {
+    return (
+        !!url.match(/^(https?|xmpp|cid|mailto|ftps?|im|ircs?|sips?|tel|geo|bitcoin|magnet):/i) &&
+        url
+    );
 };
-const sanitizeNumber = (num) => {
+const sanitizeNumber = num => {
     return !!num.match(/^[0-9]*$/) && num;
 };
 const ATTRIBUTE_SANITIZERS = {
@@ -1161,14 +1206,12 @@ function stripElement(input) {
     for (const child of input.children) {
         if (typeof child === 'string') {
             results.push(child);
-        }
-        else {
+        } else {
             const sanitized = sanitizeInterior(child);
             if (sanitized) {
                 if (Array.isArray(sanitized)) {
                     results = results.concat(sanitized);
-                }
-                else {
+                } else {
                     results.push(sanitized);
                 }
             }
@@ -1186,9 +1229,7 @@ function sanitizeInterior(input) {
         }
         return stripElement(input);
     }
-    const children = input.children
-        .map(sanitizeInterior)
-        .filter(child => child !== undefined);
+    const children = input.children.map(sanitizeInterior).filter(child => child !== undefined);
     const attributes = {};
     for (const [key, value] of Object.entries(input.attributes)) {
         const allowed = ALLOWED_ATTRIBUTES.get(input.name);
@@ -1226,8 +1267,7 @@ function sanitizeRoot(input) {
         const sanitized = sanitizeInterior(child);
         if (Array.isArray(sanitized)) {
             children = children.concat(sanitized);
-        }
-        else if (sanitized) {
+        } else if (sanitized) {
             children.push(sanitized);
         }
     }
@@ -1259,13 +1299,16 @@ function sanitizeRoot(input) {
  * Derived from: ltx, Copyright © 2010 Stephan Maka
  */
 function isBasicNameStart(c) {
-    return ((97 /* a */ <= c && c <= 122 /* z */) ||
-        (65 /* A */ <= c && c <= 90 /* Z */) ||
+    return (
+        (97 /* a */ <= c && c <= 122) /* z */ ||
+        (65 /* A */ <= c && c <= 90) /* Z */ ||
         c === 58 /* Colon */ ||
-        c === 95 /* Underscore */);
+        c === 95 /* Underscore */
+    );
 }
 function isExtendedNameStart(c) {
-    return ((0xc0 <= c && c <= 0xd6) ||
+    return (
+        (0xc0 <= c && c <= 0xd6) ||
         (0xd8 <= c && c <= 0xf6) ||
         (0xf8 <= c && c <= 0x2ff) ||
         (0x370 <= c && c <= 0x37d) ||
@@ -1275,26 +1318,31 @@ function isExtendedNameStart(c) {
         (0x2c00 <= c && c <= 0x2fef) ||
         (0x3001 <= c && c <= 0xd7ff) ||
         (0xfdf0 <= c && c <= 0xfffd) ||
-        (0x10000 <= c && c <= 0xeffff));
+        (0x10000 <= c && c <= 0xeffff)
+    );
 }
 function isNameStart(c) {
     return isBasicNameStart(c) || isExtendedNameStart(c);
 }
 function isName(c) {
-    return (isBasicNameStart(c) ||
+    return (
+        isBasicNameStart(c) ||
         c === 45 /* Dash */ ||
         c === 46 /* Period */ ||
-        (48 /* Zero */ <= c && c <= 57 /* Nine */) ||
+        (48 /* Zero */ <= c && c <= 57) /* Nine */ ||
         c === 0xb7 ||
         (0x0300 <= c && c <= 0x036f) ||
         (0x203f <= c && c <= 0x2040) ||
-        isExtendedNameStart(c));
+        isExtendedNameStart(c)
+    );
 }
 function isWhitespace(c) {
-    return (c === 32 /* Space */ ||
+    return (
+        c === 32 /* Space */ ||
         c === 10 /* NewLine */ ||
         c === 13 /* CarriageReturn */ ||
-        c === 9 /* Tab */);
+        c === 9 /* Tab */
+    );
 }
 class Parser extends EventEmitter {
     constructor(opts = {}) {
@@ -1318,8 +1366,7 @@ class Parser extends EventEmitter {
                         let text;
                         try {
                             text = unescapeXML(this.endRecord());
-                        }
-                        catch (err) {
+                        } catch (err) {
                             this.emit('error', err);
                             return;
                         }
@@ -1328,8 +1375,7 @@ class Parser extends EventEmitter {
                         }
                         this.transition(31 /* TAG_START */);
                         continue;
-                    }
-                    else {
+                    } else {
                         this.record(char);
                         continue;
                     }
@@ -1507,8 +1553,10 @@ class Parser extends EventEmitter {
                 }
                 case 1 /* ATTR_QUOTE_DOUBLE */:
                 case 2 /* ATTR_QUOTE_SINGLE */: {
-                    if ((c === 34 /* DoubleQuote */ && this.state === 1 /* ATTR_QUOTE_DOUBLE */) ||
-                        (c === 39 /* SingleQuote */ && this.state === 2 /* ATTR_QUOTE_SINGLE */)) {
+                    if (
+                        (c === 34 /* DoubleQuote */ && this.state === 1) /* ATTR_QUOTE_DOUBLE */ ||
+                        (c === 39 /* SingleQuote */ && this.state === 2) /* ATTR_QUOTE_SINGLE */
+                    ) {
                         const value = this.endRecord();
                         this.attributes[this.attributeName] = unescapeXML(value);
                         this.transition(33 /* TAG */);
@@ -1550,8 +1598,7 @@ class Parser extends EventEmitter {
                 case 12 /* END_COMMENT_DASH */: {
                     if (c === 45 /* Dash */) {
                         this.transition(11 /* END_COMMENT_DASH_DASH */);
-                    }
-                    else {
+                    } else {
                         this.transition(14 /* IGNORE_COMMENT */);
                     }
                     continue;
@@ -1559,8 +1606,7 @@ class Parser extends EventEmitter {
                 case 11 /* END_COMMENT_DASH_DASH */: {
                     if (c === 62 /* GreaterThan */) {
                         this.transition(34 /* TEXT */);
-                    }
-                    else {
+                    } else {
                         this.transition(14 /* IGNORE_COMMENT */);
                     }
                     continue;
@@ -1642,8 +1688,7 @@ class Parser extends EventEmitter {
                 case 10 /* END_CDATA_RB */: {
                     if (c === 93 /* RightBracket */) {
                         this.transition(9 /* END_CDATA_RB_RB */);
-                    }
-                    else {
+                    } else {
                         this.record(String.fromCodePoint(93 /* RightBracket */));
                         this.record(char);
                         this.transition(5 /* CDATA */);
@@ -1657,8 +1702,7 @@ class Parser extends EventEmitter {
                             this.emit('text', text);
                         }
                         this.transition(34 /* TEXT */);
-                    }
-                    else {
+                    } else {
                         this.record(String.fromCodePoint(93 /* RightBracket */));
                         this.record(String.fromCodePoint(93 /* RightBracket */));
                         this.record(char);
@@ -1726,7 +1770,7 @@ function parse$1(data, opts = {}) {
     let result;
     let element;
     let error = null;
-    p.on('text', (text) => {
+    p.on('text', text => {
         if (element) {
             element.children.push(text);
         }
@@ -1738,33 +1782,29 @@ function parse$1(data, opts = {}) {
         }
         if (!element) {
             element = child;
-        }
-        else {
+        } else {
             element = element.appendChild(child);
         }
     });
-    p.on('endElement', (name) => {
+    p.on('endElement', name => {
         if (!element) {
             p.emit('error', JXTError.notWellFormed('a'));
-        }
-        else if (name === element.name) {
+        } else if (name === element.name) {
             if (element.parent) {
                 element = element.parent;
             }
-        }
-        else {
+        } else {
             p.emit('error', JXTError.notWellFormed('b'));
         }
     });
-    p.on('error', (e) => {
+    p.on('error', e => {
         error = e;
     });
     p.write(data);
     p.end();
     if (error) {
         throw error;
-    }
-    else {
+    } else {
         return result;
     }
 }
@@ -1795,9 +1835,12 @@ function getTargetLang(children, context) {
     let targetLanguage;
     if (!context.resolveLanguage) {
         targetLanguage = context.lang;
-    }
-    else {
-        targetLanguage = context.resolveLanguage(availableLanguages, context.acceptLanguages || [], context.lang);
+    } else {
+        targetLanguage = context.resolveLanguage(
+            availableLanguages,
+            context.acceptLanguages || [],
+            context.lang
+        );
     }
     return targetLanguage || '';
 }
@@ -1812,8 +1855,7 @@ function findAll(xml, namespace, element, lang) {
                     return true;
                 }
             });
-        }
-        else {
+        } else {
             return existing;
         }
     }
@@ -1852,14 +1894,12 @@ function createAttributeField(opts) {
             }
             if (!opts.namespace || !opts.prefix) {
                 xml.setAttribute(opts.name, output, opts.emitEmpty);
-            }
-            else {
+            } else {
                 let prefix;
                 const root = xml.getNamespaceRoot(opts.namespace);
                 if (root) {
                     prefix = root.useNamespace(opts.prefix, opts.namespace);
-                }
-                else {
+                } else {
                     const namespaces = xml.getNamespaceContext();
                     if (!namespaces[opts.namespace]) {
                         prefix = xml.useNamespace(opts.prefix, opts.namespace);
@@ -1874,20 +1914,28 @@ function createAttributeField(opts) {
 function createAttributeType(parser, createOpts) {
     return (name, defaultValue = undefined, opts = {}) => {
         opts = Object.assign({ staticDefault: defaultValue }, opts);
-        return createAttributeField(Object.assign(Object.assign({ name }, parser), (createOpts ? createOpts(opts) : opts)));
+        return createAttributeField(
+            Object.assign(Object.assign({ name }, parser), createOpts ? createOpts(opts) : opts)
+        );
     };
 }
 function createNamespacedAttributeType(parser, createOpts) {
     return (prefix, namespace, name, defaultValue = undefined, opts = {}) => {
         opts = Object.assign({ staticDefault: defaultValue }, opts);
-        return createAttributeField(Object.assign(Object.assign({ name,
-            namespace,
-            prefix }, parser), (createOpts ? createOpts(opts) : opts)));
+        return createAttributeField(
+            Object.assign(
+                Object.assign({ name, namespace, prefix }, parser),
+                createOpts ? createOpts(opts) : opts
+            )
+        );
     };
 }
 function createChildAttributeField(opts) {
-    const converter = opts.converter ||
-        createAttributeField(Object.assign(Object.assign({}, opts), { namespace: opts.attributeNamespace }));
+    const converter =
+        opts.converter ||
+        createAttributeField(
+            Object.assign(Object.assign({}, opts), { namespace: opts.attributeNamespace })
+        );
     return {
         importer(xml, context) {
             const child = xml.getChild(opts.element, opts.namespace || xml.getNamespace());
@@ -1907,9 +1955,12 @@ function createChildAttributeField(opts) {
 function createChildAttributeType(parser, createOpts) {
     return (namespace, element, name, defaultValue = undefined, opts = {}) => {
         opts = Object.assign({ staticDefault: defaultValue }, opts);
-        return createChildAttributeField(Object.assign(Object.assign({ element,
-            name,
-            namespace }, parser), (createOpts ? createOpts(opts) : opts)));
+        return createChildAttributeField(
+            Object.assign(
+                Object.assign({ element, name, namespace }, parser),
+                createOpts ? createOpts(opts) : opts
+            )
+        );
     };
 }
 function createTextField(opts) {
@@ -1956,11 +2007,21 @@ function createChildTextField(opts) {
         },
         exporter(xml, value, context) {
             if (!value && opts.emitEmpty) {
-                findOrCreate(xml, opts.namespace || xml.getNamespace(), opts.element, opts.matchLanguage ? context.lang : undefined);
+                findOrCreate(
+                    xml,
+                    opts.namespace || xml.getNamespace(),
+                    opts.element,
+                    opts.matchLanguage ? context.lang : undefined
+                );
                 return;
             }
             if (value !== undefined && value !== opts.staticDefault) {
-                const child = findOrCreate(xml, opts.namespace || xml.getNamespace(), opts.element, opts.matchLanguage ? context.lang : undefined);
+                const child = findOrCreate(
+                    xml,
+                    opts.namespace || xml.getNamespace(),
+                    opts.element,
+                    opts.matchLanguage ? context.lang : undefined
+                );
                 converter.exporter(child, value, context);
             }
         }
@@ -2009,11 +2070,9 @@ const bufferParser = (encoding = 'utf8') => ({
         let data;
         if (typeof v === 'string') {
             data = Buffer.from(v).toString(encoding);
-        }
-        else if (v) {
+        } else if (v) {
             data = v.toString(encoding);
-        }
-        else {
+        } else {
             data = '';
         }
         if (encoding === 'base64') {
@@ -2037,8 +2096,7 @@ const tzOffsetParser = {
     writeValue: v => {
         if (typeof v === 'string') {
             return v;
-        }
-        else {
+        } else {
             let formatted = '-';
             if (v < 0) {
                 v = -v;
@@ -2055,7 +2113,12 @@ const tzOffsetParser = {
 // ====================================================================
 // Field Types
 // ====================================================================
-const attribute = createAttributeType(stringParser, opts => (Object.assign({ dynamicDefault: opts.emitEmpty ? v => (v === '' ? '' : opts.staticDefault) : undefined }, opts)));
+const attribute = createAttributeType(stringParser, opts =>
+    Object.assign(
+        { dynamicDefault: opts.emitEmpty ? v => (v === '' ? '' : opts.staticDefault) : undefined },
+        opts
+    )
+);
 const booleanAttribute = createAttributeType(boolParser);
 const integerAttribute = createAttributeType(integerParser);
 const floatAttribute = createAttributeType(floatParser);
@@ -2070,9 +2133,11 @@ const childBooleanAttribute = createChildAttributeType(boolParser);
 const childIntegerAttribute = createChildAttributeType(integerParser);
 const childFloatAttribute = createChildAttributeType(floatParser);
 const childDateAttribute = createChildAttributeType(dateParser);
-const text = (defaultValue) => createTextField(Object.assign({ staticDefault: defaultValue }, stringParser));
+const text = defaultValue =>
+    createTextField(Object.assign({ staticDefault: defaultValue }, stringParser));
 const textJSON = () => createTextField(Object.assign({}, jsonParser));
-const textBuffer = (encoding = 'utf8') => createTextField(Object.assign({}, bufferParser(encoding)));
+const textBuffer = (encoding = 'utf8') =>
+    createTextField(Object.assign({}, bufferParser(encoding)));
 function languageAttribute() {
     return {
         importer(xml, context) {
@@ -2081,28 +2146,46 @@ function languageAttribute() {
         exporter(xml, value, context) {
             if (value && value.toLowerCase() !== context.lang) {
                 xml.setAttribute('xml:lang', value);
-            }
-            else {
+            } else {
                 xml.setAttribute('xml:lang', undefined);
             }
         }
     };
 }
-const childLanguageAttribute = (namespace, element) => createChildAttributeField(Object.assign({ converter: languageAttribute(), element, name: 'xml:lang', namespace }, stringParser));
-const childText = (namespace, element, defaultValue, emitEmpty = false) => createChildTextField(Object.assign({ element,
-    emitEmpty, matchLanguage: true, namespace, staticDefault: defaultValue }, stringParser));
-const childTextBuffer = (namespace, element, encoding = 'utf8') => createChildTextField(Object.assign({ element, matchLanguage: true, namespace }, bufferParser(encoding)));
-const childDate = (namespace, element) => createChildTextField(Object.assign({ element,
-    namespace }, dateParser));
-const childInteger = (namespace, element, defaultValue) => createChildTextField(Object.assign({ element,
-    namespace, staticDefault: defaultValue }, integerParser));
-const childFloat = (namespace, element, defaultValue) => createChildTextField(Object.assign({ element,
-    namespace, staticDefault: defaultValue }, floatParser));
-const childJSON = (namespace, element) => createChildTextField(Object.assign({ element,
-    namespace }, jsonParser));
+const childLanguageAttribute = (namespace, element) =>
+    createChildAttributeField(
+        Object.assign(
+            { converter: languageAttribute(), element, name: 'xml:lang', namespace },
+            stringParser
+        )
+    );
+const childText = (namespace, element, defaultValue, emitEmpty = false) =>
+    createChildTextField(
+        Object.assign(
+            { element, emitEmpty, matchLanguage: true, namespace, staticDefault: defaultValue },
+            stringParser
+        )
+    );
+const childTextBuffer = (namespace, element, encoding = 'utf8') =>
+    createChildTextField(
+        Object.assign({ element, matchLanguage: true, namespace }, bufferParser(encoding))
+    );
+const childDate = (namespace, element) =>
+    createChildTextField(Object.assign({ element, namespace }, dateParser));
+const childInteger = (namespace, element, defaultValue) =>
+    createChildTextField(
+        Object.assign({ element, namespace, staticDefault: defaultValue }, integerParser)
+    );
+const childFloat = (namespace, element, defaultValue) =>
+    createChildTextField(
+        Object.assign({ element, namespace, staticDefault: defaultValue }, floatParser)
+    );
+const childJSON = (namespace, element) =>
+    createChildTextField(Object.assign({ element, namespace }, jsonParser));
 function childTimezoneOffset(namespace, element) {
-    return createChildTextField(Object.assign({ element,
-        namespace, staticDefault: 0 }, tzOffsetParser));
+    return createChildTextField(
+        Object.assign({ element, namespace, staticDefault: 0 }, tzOffsetParser)
+    );
 }
 function childBoolean(namespace, element) {
     return {
@@ -2159,8 +2242,7 @@ function deepChildInteger(path, defaultValue) {
             const data = current.getText();
             if (data) {
                 return parseInt(data, 10);
-            }
-            else if (defaultValue) {
+            } else if (defaultValue) {
                 return defaultValue;
             }
         },
@@ -2187,7 +2269,11 @@ function deepChildBoolean(path) {
             }
             let current = xml;
             for (const node of path) {
-                current = findOrCreate(current, node.namespace || current.getNamespace(), node.element);
+                current = findOrCreate(
+                    current,
+                    node.namespace || current.getNamespace(),
+                    node.element
+                );
             }
         }
     };
@@ -2204,7 +2290,11 @@ function deepMultipleChildText(path) {
                 }
             }
             const result = [];
-            const children = findAll(current, finalChild.namespace || current.getNamespace(), finalChild.element);
+            const children = findAll(
+                current,
+                finalChild.namespace || current.getNamespace(),
+                finalChild.element
+            );
             const targetLanguage = getTargetLang(children, context);
             for (const child of children) {
                 if (getLang(child, context.lang) === targetLanguage) {
@@ -2219,11 +2309,20 @@ function deepMultipleChildText(path) {
             }
             let current = xml;
             for (const node of path) {
-                current = findOrCreate(current, node.namespace || current.getNamespace(), node.element);
+                current = findOrCreate(
+                    current,
+                    node.namespace || current.getNamespace(),
+                    node.element
+                );
             }
             const { namespace, element } = finalChild;
             for (const value of values) {
-                const child = createElement(namespace || current.getNamespace(), element, context.namespace, current);
+                const child = createElement(
+                    namespace || current.getNamespace(),
+                    element,
+                    context.namespace,
+                    current
+                );
                 child.children.push(value);
                 current.appendChild(child);
             }
@@ -2237,8 +2336,7 @@ function childEnum(namespace, elements, defaultValue) {
         if (typeof el === 'string') {
             elementNames.set(el, el);
             valueNames.set(el, el);
-        }
-        else {
+        } else {
             elementNames.set(el[1], el[0]);
             valueNames.set(el[0], el[1]);
         }
@@ -2248,9 +2346,10 @@ function childEnum(namespace, elements, defaultValue) {
             for (const child of xml.children) {
                 if (typeof child === 'string') {
                     continue;
-                }
-                else if (child.getNamespace() === (namespace || xml.getNamespace()) &&
-                    elementNames.has(child.getName())) {
+                } else if (
+                    child.getNamespace() === (namespace || xml.getNamespace()) &&
+                    elementNames.has(child.getName())
+                ) {
                     return elementNames.get(child.getName());
                 }
             }
@@ -2271,15 +2370,17 @@ function childDoubleEnum(namespace, parentElements, childElements, defaultValue)
             for (const parent of xml.children) {
                 if (typeof parent === 'string') {
                     continue;
-                }
-                else if (parent.getNamespace() === (namespace || xml.getNamespace()) &&
-                    parentNames.has(parent.getName())) {
+                } else if (
+                    parent.getNamespace() === (namespace || xml.getNamespace()) &&
+                    parentNames.has(parent.getName())
+                ) {
                     for (const child of parent.children) {
                         if (typeof child === 'string') {
                             continue;
-                        }
-                        else if (child.getNamespace() === (namespace || xml.getNamespace()) &&
-                            childNames.has(child.getName())) {
+                        } else if (
+                            child.getNamespace() === (namespace || xml.getNamespace()) &&
+                            childNames.has(child.getName())
+                        ) {
                             return [parent.getName(), child.getName()];
                         }
                     }
@@ -2311,7 +2412,12 @@ function multipleChildText(namespace, element) {
         },
         exporter(xml, values, context) {
             for (const value of values) {
-                const child = createElement(namespace || xml.getNamespace(), element, context.namespace, xml);
+                const child = createElement(
+                    namespace || xml.getNamespace(),
+                    element,
+                    context.namespace,
+                    xml
+                );
                 child.children.push(value);
                 xml.appendChild(child);
             }
@@ -2333,7 +2439,12 @@ function multipleChildAttribute(namespace, element, name) {
         },
         exporter(xml, values, context) {
             for (const value of values) {
-                const child = createElement(namespace || xml.getNamespace(), element, context.namespace, xml);
+                const child = createElement(
+                    namespace || xml.getNamespace(),
+                    element,
+                    context.namespace,
+                    xml
+                );
                 child.setAttribute(name, value);
                 xml.appendChild(child);
             }
@@ -2355,7 +2466,12 @@ function multipleChildIntegerAttribute(namespace, element, name) {
         },
         exporter(xml, values, context) {
             for (const value of values) {
-                const child = createElement(namespace || xml.getNamespace(), element, context.namespace, xml);
+                const child = createElement(
+                    namespace || xml.getNamespace(),
+                    element,
+                    context.namespace,
+                    xml
+                );
                 child.setAttribute(name, value.toString());
                 xml.appendChild(child);
             }
@@ -2385,7 +2501,12 @@ function childAlternateLanguageText(namespace, element) {
             for (const entry of values) {
                 const val = entry.value;
                 if (val) {
-                    const child = createElement(namespace || xml.getNamespace(), element, context.namespace, xml);
+                    const child = createElement(
+                        namespace || xml.getNamespace(),
+                        element,
+                        context.namespace,
+                        xml
+                    );
                     if (entry.lang !== context.lang) {
                         child.setAttribute('xml:lang', entry.lang);
                     }
@@ -2422,7 +2543,12 @@ function multipleChildAlternateLanguageText(namespace, element) {
         exporter(xml, values, context) {
             for (const entry of values) {
                 for (const val of entry.value) {
-                    const child = createElement(namespace || xml.getNamespace(), element, context.namespace, xml);
+                    const child = createElement(
+                        namespace || xml.getNamespace(),
+                        element,
+                        context.namespace,
+                        xml
+                    );
                     if (entry.lang !== context.lang) {
                         child.setAttribute('xml:lang', entry.lang);
                     }
@@ -2440,8 +2566,7 @@ function multipleChildEnum(namespace, elements) {
         if (typeof el === 'string') {
             elementNames.set(el, el);
             valueNames.set(el, el);
-        }
-        else {
+        } else {
             elementNames.set(el[1], el[0]);
             valueNames.set(el[0], el[1]);
         }
@@ -2452,9 +2577,10 @@ function multipleChildEnum(namespace, elements) {
             for (const child of xml.children) {
                 if (typeof child === 'string') {
                     continue;
-                }
-                else if (child.getNamespace() === (namespace || xml.getNamespace()) &&
-                    elementNames.has(child.getName())) {
+                } else if (
+                    child.getNamespace() === (namespace || xml.getNamespace()) &&
+                    elementNames.has(child.getName())
+                ) {
                     results.push(elementNames.get(child.getName()));
                 }
             }
@@ -2492,13 +2618,18 @@ function splicePath(namespace, element, path, multiple = false) {
             let values = [];
             if (!Array.isArray(data)) {
                 values = [data];
-            }
-            else {
+            } else {
                 values = data;
             }
             const children = [];
             for (const value of values) {
-                const child = context.registry.export(path, value, Object.assign(Object.assign({}, context), { namespace: namespace || xml.getNamespace() || undefined }));
+                const child = context.registry.export(
+                    path,
+                    value,
+                    Object.assign(Object.assign({}, context), {
+                        namespace: namespace || xml.getNamespace() || undefined
+                    })
+                );
                 if (child) {
                     children.push(child);
                 }
@@ -2528,15 +2659,16 @@ function childRawElement(namespace, element, sanitizer) {
             if (child) {
                 if (sanitizer) {
                     return context.sanitizers[sanitizer](child.toJSON());
-                }
-                else {
+                } else {
                     return child.toJSON();
                 }
             }
         },
         exporter(xml, value, context) {
             if (typeof value === 'string') {
-                const wrapped = parse$1(`<${element} xmlns="${namespace || xml.getNamespace()}">${value}</${element}>`);
+                const wrapped = parse$1(
+                    `<${element} xmlns="${namespace || xml.getNamespace()}">${value}</${element}>`
+                );
                 value = wrapped.toJSON();
             }
             if (sanitizer) {
@@ -2563,8 +2695,7 @@ function childLanguageRawElement(namespace, element, sanitizer) {
                 if (getLang(child, context.lang) === targetLanguage) {
                     if (sanitizer) {
                         return context.sanitizers[sanitizer](child.toJSON());
-                    }
-                    else {
+                    } else {
                         return child.toJSON();
                     }
                 }
@@ -2572,15 +2703,16 @@ function childLanguageRawElement(namespace, element, sanitizer) {
             if (children[0]) {
                 if (sanitizer) {
                     return context.sanitizers[sanitizer](children[0].toJSON());
-                }
-                else {
+                } else {
                     return children[0].toJSON();
                 }
             }
         },
         exporter(xml, value, context) {
             if (typeof value === 'string') {
-                const wrapped = parse$1(`<${element} xmlns="${namespace || xml.getNamespace()}">${value}</${element}>`);
+                const wrapped = parse$1(
+                    `<${element} xmlns="${namespace || xml.getNamespace()}">${value}</${element}>`
+                );
                 value = wrapped.toJSON();
             }
             if (value && sanitizer) {
@@ -2592,13 +2724,19 @@ function childLanguageRawElement(namespace, element, sanitizer) {
             if (!value) {
                 return;
             }
-            const rawElement = findOrCreate(xml, namespace || xml.getNamespace(), element, context.lang);
+            const rawElement = findOrCreate(
+                xml,
+                namespace || xml.getNamespace(),
+                element,
+                context.lang
+            );
             for (const child of value.children) {
                 if (typeof child === 'string') {
                     rawElement.appendChild(child);
-                }
-                else if (child) {
-                    rawElement.appendChild(new XMLElement(child.name, child.attributes, child.children));
+                } else if (child) {
+                    rawElement.appendChild(
+                        new XMLElement(child.name, child.attributes, child.children)
+                    );
                 }
             }
         }
@@ -2633,7 +2771,11 @@ function childAlternateLanguageRawElement(namespace, element, sanitizer) {
             for (const entry of values) {
                 let value = entry.value;
                 if (typeof value === 'string') {
-                    const wrapped = parse$1(`<${element} xmlns="${namespace || xml.getNamespace()}">${value}</${element}>`);
+                    const wrapped = parse$1(
+                        `<${element} xmlns="${
+                            namespace || xml.getNamespace()
+                        }">${value}</${element}>`
+                    );
                     value = wrapped.toJSON();
                 }
                 if (value && sanitizer) {
@@ -2643,7 +2785,12 @@ function childAlternateLanguageRawElement(namespace, element, sanitizer) {
                     value = context.sanitizers[sanitizer](value);
                 }
                 if (value) {
-                    const rawElement = createElement(namespace || xml.getNamespace(), element, context.namespace, xml);
+                    const rawElement = createElement(
+                        namespace || xml.getNamespace(),
+                        element,
+                        context.namespace,
+                        xml
+                    );
                     xml.appendChild(rawElement);
                     if (entry.lang !== context.lang) {
                         rawElement.setAttribute('xml:lang', entry.lang);
@@ -2651,9 +2798,10 @@ function childAlternateLanguageRawElement(namespace, element, sanitizer) {
                     for (const child of value.children) {
                         if (typeof child === 'string') {
                             rawElement.appendChild(child);
-                        }
-                        else {
-                            rawElement.appendChild(new XMLElement(child.name, child.attributes, child.children));
+                        } else {
+                            rawElement.appendChild(
+                                new XMLElement(child.name, child.attributes, child.children)
+                            );
                         }
                     }
                 }
@@ -2801,13 +2949,12 @@ class Translator {
         const type = opts.type || this.defaultType;
         const version = opts.version || this.defaultVersion;
         const versionType = version ? `${type}__v__${version}` : type;
-        const importer = this.importers.get(xid) ||
-            {
-                element: opts.element,
-                fieldOrders: new Map(),
-                fields: new Map(),
-                namespace: opts.namespace
-            };
+        const importer = this.importers.get(xid) || {
+            element: opts.element,
+            fieldOrders: new Map(),
+            fields: new Map(),
+            namespace: opts.namespace
+        };
         for (const [fieldName, fieldImporter] of opts.importers) {
             importer.fields.set(fieldName, fieldImporter);
         }
@@ -2815,14 +2962,13 @@ class Translator {
             importer.fieldOrders.set(fieldName, order);
         }
         this.importers.set(xid, importer);
-        const exporter = this.exporters.get(versionType) ||
-            {
-                element: opts.element,
-                fieldOrders: new Map(),
-                fields: new Map(),
-                namespace: opts.namespace,
-                optionalNamespaces: opts.optionalNamespaces
-            };
+        const exporter = this.exporters.get(versionType) || {
+            element: opts.element,
+            fieldOrders: new Map(),
+            fields: new Map(),
+            namespace: opts.namespace,
+            optionalNamespaces: opts.optionalNamespaces
+        };
         for (const [fieldName, fieldExporter] of opts.exporters) {
             exporter.fields.set(fieldName, fieldExporter);
         }
@@ -2859,8 +3005,7 @@ class Translator {
             if (opts.typeOrder && opts.type) {
                 this.typeOrders.set(opts.type, opts.typeOrder);
             }
-        }
-        else if (this.typeField && !opts.type) {
+        } else if (this.typeField && !opts.type) {
             for (const [, imp] of this.importers) {
                 for (const [fieldName, fieldImporter] of opts.importers) {
                     imp.fields.set(fieldName, fieldImporter);
@@ -2925,15 +3070,22 @@ class Translator {
                     output[implied.typeField] = impliedTypeValue;
                 }
             }
-        }
-        else if (this.typeField && typeValue && typeValue !== this.defaultType) {
+        } else if (this.typeField && typeValue && typeValue !== this.defaultType) {
             output[this.typeField] = typeValue;
         }
         if (this.versionField && versionValue && versionValue !== this.defaultVersion) {
             output[this.versionField] = versionValue;
         }
-        const context = Object.assign(Object.assign({}, parentContext), { data: output, importer, lang: (xml.getAttribute('xml:lang') || parentContext.lang || '').toLowerCase(), pathSelector: typeValue, translator: this });
-        const importFields = [...importer.fieldOrders.entries()].sort((a, b) => a[1] > b[1] ? -1 : a[1] < b[1] ? 1 : 0);
+        const context = Object.assign(Object.assign({}, parentContext), {
+            data: output,
+            importer,
+            lang: (xml.getAttribute('xml:lang') || parentContext.lang || '').toLowerCase(),
+            pathSelector: typeValue,
+            translator: this
+        });
+        const importFields = [...importer.fieldOrders.entries()].sort((a, b) =>
+            a[1] > b[1] ? -1 : a[1] < b[1] ? 1 : 0
+        );
         const preChildren = importFields.filter(field => field[1] >= 0);
         const postChildren = importFields.filter(field => field[1] < 0);
         for (const [fieldName] of preChildren) {
@@ -2963,12 +3115,13 @@ class Translator {
                             output[fieldName] = [];
                         }
                         output[fieldName].push(childOutput);
-                    }
-                    else if (!output[fieldName]) {
+                    } else if (!output[fieldName]) {
                         output[fieldName] = childOutput;
-                    }
-                    else {
-                        output[fieldName] = translator.resolveCollision(output[fieldName], childOutput);
+                    } else {
+                        output[fieldName] = translator.resolveCollision(
+                            output[fieldName],
+                            childOutput
+                        );
                     }
                 }
             }
@@ -2999,8 +3152,7 @@ class Translator {
         }
         if (implied) {
             exportType = implied.impliedType || data[implied.typeField] || this.defaultType;
-        }
-        else if (this.typeField) {
+        } else if (this.typeField) {
             exportType = data[this.typeField] || this.defaultType;
         }
         if (this.versionField) {
@@ -3011,14 +3163,27 @@ class Translator {
         if (!exporter) {
             return;
         }
-        const output = createElement(exporter.namespace, exporter.element, parentContext.namespace, parentContext.element);
+        const output = createElement(
+            exporter.namespace,
+            exporter.element,
+            parentContext.namespace,
+            parentContext.element
+        );
         if (parentContext.element) {
             output.parent = parentContext.element;
         }
         for (const [prefix, namespace] of exporter.optionalNamespaces) {
             output.addOptionalNamespace(prefix, namespace);
         }
-        const context = Object.assign(Object.assign({}, parentContext), { data, element: output, exporter, lang: (data[this.languageField] || parentContext.lang || '').toLowerCase(), namespace: output.getDefaultNamespace(), pathSelector: exportType, translator: this });
+        const context = Object.assign(Object.assign({}, parentContext), {
+            data,
+            element: output,
+            exporter,
+            lang: (data[this.languageField] || parentContext.lang || '').toLowerCase(),
+            namespace: output.getDefaultNamespace(),
+            pathSelector: exportType,
+            translator: this
+        });
         const langExporter = exporter.fields.get(this.languageField);
         if (langExporter) {
             langExporter(output, data[this.languageField], parentContext);
@@ -3050,8 +3215,7 @@ class Translator {
                 let items;
                 if (multiple) {
                     items = value;
-                }
-                else {
+                } else {
                     items = [value];
                 }
                 for (const item of items) {
@@ -3065,7 +3229,8 @@ class Translator {
         return output;
     }
     resolveCollision(existingData, newData) {
-        const existingOrder = this.typeOrders.get(existingData[this.typeField] || this.defaultType) || 0;
+        const existingOrder =
+            this.typeOrders.get(existingData[this.typeField] || this.defaultType) || 0;
         const newOrder = this.typeOrders.get(newData[this.typeField] || this.defaultType) || 0;
         return existingOrder <= newOrder ? existingData : newData;
     }
@@ -3101,7 +3266,10 @@ class Registry {
             };
         }
         const translator = this.getOrCreateTranslator(xml.getNamespace(), xml.getName());
-        return translator.import(xml, Object.assign(Object.assign({}, context), { registry: this }));
+        return translator.import(
+            xml,
+            Object.assign(Object.assign({}, context), { registry: this })
+        );
     }
     export(path, data, context = { registry: this }) {
         if (!context.acceptLanguages) {
@@ -3128,7 +3296,10 @@ class Registry {
             }
             translator = nextTranslator;
         }
-        return translator.export(data, Object.assign(Object.assign({}, context), { registry: this }));
+        return translator.export(
+            data,
+            Object.assign(Object.assign({}, context), { registry: this })
+        );
     }
     getImportKey(xml, path = '') {
         const root = !path ? this.root : this.walkToTranslator(path.split('.'));
@@ -3142,14 +3313,12 @@ class Registry {
             for (const def of defs) {
                 if (typeof def === 'object') {
                     this.define(def);
-                }
-                else {
+                } else {
                     def(this);
                 }
             }
             return;
-        }
-        else if (typeof defs !== 'object') {
+        } else if (typeof defs !== 'object') {
             defs(this);
             return;
         }
@@ -3161,10 +3330,10 @@ class Registry {
         const aliases = definition.aliases
             .map(alias => (typeof alias === 'string' ? { path: alias } : alias))
             .sort((a, b) => {
-            const aLen = a.path.split('.').length;
-            const bLen = b.path.split('.').length;
-            return bLen - aLen;
-        });
+                const aLen = a.path.split('.').length;
+                const bLen = b.path.split('.').length;
+                return bLen - aLen;
+            });
         let translator;
         if (this.hasTranslator(definition.namespace, definition.element)) {
             // Get existing translator
@@ -3177,8 +3346,7 @@ class Registry {
                 if (t && !t.placeholder) {
                     translator = t;
                     break;
-                }
-                else if (t) {
+                } else if (t) {
                     placeholder = t;
                 }
             }
@@ -3241,7 +3409,16 @@ class Registry {
             typeOrder: definition.typeOrder
         });
         for (const link of aliases) {
-            this.alias(definition.namespace, definition.element, link.path, link.multiple, link.selector, link.contextField, definition.type, link.impliedType);
+            this.alias(
+                definition.namespace,
+                definition.element,
+                link.path,
+                link.multiple,
+                link.selector,
+                link.contextField,
+                definition.type,
+                link.impliedType
+            );
         }
         for (const alias of aliases) {
             const existing = this.walkToTranslator(alias.path.split('.'));
@@ -3250,7 +3427,16 @@ class Registry {
             }
         }
     }
-    alias(namespace, element, path, multiple = false, selector, contextField, contextType, contextImpliedType = false) {
+    alias(
+        namespace,
+        element,
+        path,
+        multiple = false,
+        selector,
+        contextField,
+        contextType,
+        contextImpliedType = false
+    ) {
         const linkedTranslator = this.getOrCreateTranslator(namespace, element);
         linkedTranslator.placeholder = false;
         const keys = path.split('.').filter(key => {
@@ -3260,7 +3446,14 @@ class Registry {
         const translator = this.walkToTranslator(keys, true);
         const xid = `{${namespace}}${element}`;
         if (contextType && (contextField || contextImpliedType)) {
-            linkedTranslator.addContext(path, selector, contextField, xid, contextType, contextImpliedType);
+            linkedTranslator.addContext(
+                path,
+                selector,
+                contextField,
+                xid,
+                contextType,
+                contextImpliedType
+            );
         }
         translator.addChild(finalKey, linkedTranslator, multiple, selector, xid);
     }
@@ -3273,8 +3466,7 @@ class Registry {
                     next = new Translator();
                     next.placeholder = true;
                     translator.addChild(key, next);
-                }
-                else {
+                } else {
                     return;
                 }
             }
@@ -3422,7 +3614,7 @@ const NS_ALT_CONNECTIONS_XBOSH = 'urn:xmpp:alt-connections:xbosh';
 // XEP-0158
 const NS_CAPTCHA = 'urn:xmpp:captcha';
 // XEP-0163
-const NS_PEP_NOTIFY = (ns) => `${ns}+notify`;
+const NS_PEP_NOTIFY = ns => `${ns}+notify`;
 // XEP-0166
 const NS_JINGLE_1 = 'urn:xmpp:jingle:1';
 const NS_JINGLE_ERRORS_1 = 'urn:xmpp:jingle:errors:1';
@@ -3503,7 +3695,7 @@ const NS_FORWARD_0 = 'urn:xmpp:forward:0';
 // XEP-0300
 const NS_HASHES_1 = 'urn:xmpp:hashes:1';
 const NS_HASHES_2 = 'urn:xmpp:hashes:2';
-const NS_HASH_NAME = (name) => `urn:xmpp:hash-function-text-names:${name}`;
+const NS_HASH_NAME = name => `urn:xmpp:hash-function-text-names:${name}`;
 // XEP-0301
 const NS_RTT_0 = 'urn:xmpp:rtt:0';
 // XEP-0307
@@ -3565,7 +3757,7 @@ const NS_OMEMO_AXOLOTL = 'eu.siacs.conversations.axolotl';
 const NS_OMEMO_AXOLOTL_DEVICELIST = 'eu.siacs.conversations.axolotl.devicelist';
 const NS_OMEMO_AXOLOTL_BUNDLES = 'eu.siacs.conversations.axolotl.bundles';
 // istanbul ignore next
-const NS_OMEMO_AXOLOTL_BUNDLE = (deviceId) => `${NS_OMEMO_AXOLOTL_BUNDLES}:${deviceId}`;
+const NS_OMEMO_AXOLOTL_BUNDLE = deviceId => `${NS_OMEMO_AXOLOTL_BUNDLES}:${deviceId}`;
 // XEP-0432
 const NS_JSON_MESSAGE_0 = 'urn:xmpp:json-msg:0';
 // ================================================================
@@ -3579,7 +3771,7 @@ const NS_XRD = 'http://docs.oasis-open.org/ns/xri/xrd-1.0';
 // ====================================================================
 const NS_JINGLE_RTP_MSID_0 = 'urn:xmpp:jingle:apps:rtp:msid:0';
 
-var Namespaces = /*#__PURE__*/Object.freeze({
+var Namespaces = /*#__PURE__*/ Object.freeze({
     __proto__: null,
     NS_ATOM: NS_ATOM,
     NS_BIND: NS_BIND,
@@ -3839,19 +4031,17 @@ class StreamParser extends Transform {
                         xml: el
                     });
                     return;
-                }
-                else {
+                } else {
                     return this.destroy(JXTError.notWellFormed());
                 }
             }
             if (!this.currentElement) {
                 this.currentElement = el;
-            }
-            else {
+            } else {
                 this.currentElement = this.currentElement.appendChild(el);
             }
         });
-        this.parser.on('endElement', (name) => {
+        this.parser.on('endElement', name => {
             if (this.destroyed) {
                 return;
             }
@@ -3875,8 +4065,7 @@ class StreamParser extends Transform {
             }
             if (this.currentElement.parent) {
                 this.currentElement = this.currentElement.parent;
-            }
-            else {
+            } else {
                 if (this.wrappedStream) {
                     this.currentElement.parent = this.rootElement;
                 }
@@ -3895,7 +4084,7 @@ class StreamParser extends Transform {
                 this.currentElement = undefined;
             }
         });
-        this.parser.on('text', (text) => {
+        this.parser.on('text', text => {
             if (this.currentElement) {
                 this.currentElement.children.push(text);
             }
@@ -3908,12 +4097,12 @@ class StreamParser extends Transform {
 }
 
 function define(definitions) {
-    return (registry) => {
+    return registry => {
         registry.define(definitions);
     };
 }
 
-var index = /*#__PURE__*/Object.freeze({
+var index = /*#__PURE__*/ Object.freeze({
     __proto__: null,
     Registry: Registry,
     Translator: Translator,
@@ -4838,9 +5027,7 @@ class Hmac extends Transform {
         const blocksize = alg === 'sha512' ? 128 : 64;
         this._alg = alg;
         if (key.length > blocksize) {
-            key = createHash(alg)
-                .update(key)
-                .digest();
+            key = createHash(alg).update(key).digest();
         } else if (key.length < blocksize) {
             key = Buffer.concat([key, ZEROS], blocksize);
         }
@@ -4873,10 +5060,7 @@ class Hmac extends Transform {
     }
     _final() {
         const h = this._hash.digest();
-        return createHash(this._alg)
-            .update(this._opad)
-            .update(h)
-            .digest();
+        return createHash(this._alg).update(this._opad).update(h).digest();
     }
     update(data, inputEnc) {
         this._hash.update(data, inputEnc);
@@ -5017,11 +5201,9 @@ function escapeUsername(name) {
     for (const curr of name) {
         if (curr === ',') {
             escaped.push('=2C');
-        }
-        else if (curr === '=') {
+        } else if (curr === '=') {
             escaped.push('=3D');
-        }
-        else {
+        } else {
             escaped.push(curr);
         }
     }
@@ -5060,11 +5242,13 @@ class PLAIN extends SimpleMech {
         };
     }
     createResponse(credentials) {
-        return Buffer.from((credentials.authzid || '') +
-            '\x00' +
-            credentials.username +
-            '\x00' +
-            (credentials.password || credentials.token));
+        return Buffer.from(
+            (credentials.authzid || '') +
+                '\x00' +
+                credentials.username +
+                '\x00' +
+                (credentials.password || credentials.token)
+        );
     }
 }
 // ====================================================================
@@ -5254,8 +5438,7 @@ class SCRAM {
         if (credentials.tlsUnique) {
             if (!this.useChannelBinding) {
                 cbindHeader = 'y';
-            }
-            else {
+            } else {
                 cbindHeader = 'p=tls-unique';
             }
         }
@@ -5282,14 +5465,17 @@ class SCRAM {
         if (cached && credentials.clientKey && credentials.serverKey) {
             clientKey = Buffer.from(credentials.clientKey);
             serverKey = Buffer.from(credentials.serverKey);
-        }
-        else if (cached && credentials.saltedPassword) {
+        } else if (cached && credentials.saltedPassword) {
             saltedPassword = Buffer.from(credentials.saltedPassword);
             clientKey = HMAC(saltedPassword, CLIENT_KEY, this.algorithm);
             serverKey = HMAC(saltedPassword, SERVER_KEY, this.algorithm);
-        }
-        else {
-            saltedPassword = Hi(Buffer.from(saslprep(credentials.password)), this.salt, this.iterationCount, this.algorithm);
+        } else {
+            saltedPassword = Hi(
+                Buffer.from(saslprep(credentials.password)),
+                this.salt,
+                this.iterationCount,
+                this.algorithm
+            );
             clientKey = HMAC(saltedPassword, CLIENT_KEY, this.algorithm);
             serverKey = HMAC(saltedPassword, SERVER_KEY, this.algorithm);
         }
@@ -5320,7 +5506,7 @@ class SCRAM {
     }
 }
 
-var index$1 = /*#__PURE__*/Object.freeze({
+var index$1 = /*#__PURE__*/ Object.freeze({
     __proto__: null,
     SimpleMech: SimpleMech,
     Factory: Factory,
@@ -5337,15 +5523,16 @@ var index$1 = /*#__PURE__*/Object.freeze({
     SCRAM: SCRAM
 });
 
-function Account (client) {
-    client.getAccountInfo = (jid) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            account: {},
-            to: jid,
-            type: 'get'
+function Account(client) {
+    client.getAccountInfo = jid =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                account: {},
+                to: jid,
+                type: 'get'
+            });
+            return resp.account;
         });
-        return resp.account;
-    });
     client.updateAccount = (jid, data) => {
         return client.sendIQ({
             account: data,
@@ -5353,7 +5540,7 @@ function Account (client) {
             type: 'set'
         });
     };
-    client.deleteAccount = (jid) => {
+    client.deleteAccount = jid => {
         return client.sendIQ({
             account: {
                 remove: true
@@ -5362,39 +5549,43 @@ function Account (client) {
             type: 'set'
         });
     };
-    client.getPrivateData = (key) => __awaiter(this, void 0, void 0, function* () {
-        const res = yield client.sendIQ({
-            privateStorage: {
-                [key]: {}
-            },
-            type: 'get'
+    client.getPrivateData = key =>
+        __awaiter(this, void 0, void 0, function* () {
+            const res = yield client.sendIQ({
+                privateStorage: {
+                    [key]: {}
+                },
+                type: 'get'
+            });
+            return res.privateStorage[key];
         });
-        return res.privateStorage[key];
-    });
-    client.setPrivateData = (key, value) => __awaiter(this, void 0, void 0, function* () {
-        return client.sendIQ({
-            privateStorage: {
-                [key]: value
-            },
-            type: 'set'
+    client.setPrivateData = (key, value) =>
+        __awaiter(this, void 0, void 0, function* () {
+            return client.sendIQ({
+                privateStorage: {
+                    [key]: value
+                },
+                type: 'set'
+            });
         });
-    });
-    client.getVCard = (jid) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            to: jid,
-            type: 'get',
-            vcard: {
-                format: NS_VCARD_TEMP
-            }
+    client.getVCard = jid =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                to: jid,
+                type: 'get',
+                vcard: {
+                    format: NS_VCARD_TEMP
+                }
+            });
+            return resp.vcard;
         });
-        return resp.vcard;
-    });
-    client.publishVCard = (vcard) => __awaiter(this, void 0, void 0, function* () {
-        yield client.sendIQ({
-            type: 'set',
-            vcard
+    client.publishVCard = vcard =>
+        __awaiter(this, void 0, void 0, function* () {
+            yield client.sendIQ({
+                type: 'set',
+                vcard
+            });
         });
-    });
     client.enableNotifications = (jid, node, fieldList = []) => {
         return client.sendIQ({
             push: {
@@ -5428,7 +5619,7 @@ function Account (client) {
     };
 }
 
-function Avatar (client) {
+function Avatar(client) {
     client.disco.addFeature(NS_PEP_NOTIFY(NS_AVATAR_METADATA));
     client.on('pubsub:published', msg => {
         if (msg.pubsub.items.node !== NS_AVATAR_METADATA) {
@@ -5455,67 +5646,83 @@ function Avatar (client) {
         }
     });
     client.publishAvatar = (id, data) => {
-        return client.publish('', NS_AVATAR_DATA, {
-            data,
-            itemType: NS_AVATAR_DATA
-        }, id);
+        return client.publish(
+            '',
+            NS_AVATAR_DATA,
+            {
+                data,
+                itemType: NS_AVATAR_DATA
+            },
+            id
+        );
     };
     client.useAvatars = (versions, pointers = []) => {
-        return client.publish('', NS_AVATAR_METADATA, {
-            itemType: NS_AVATAR_METADATA,
-            pointers,
-            versions
-        }, 'current');
+        return client.publish(
+            '',
+            NS_AVATAR_METADATA,
+            {
+                itemType: NS_AVATAR_METADATA,
+                pointers,
+                versions
+            },
+            'current'
+        );
     };
     client.getAvatar = (jid, id) => {
         return client.getItem(jid, NS_AVATAR_DATA, id);
     };
 }
 
-function Bind (client) {
-    client.registerFeature('bind', 300, (features, cb) => __awaiter(this, void 0, void 0, function* () {
-        try {
-            const resp = yield client.sendIQ({
-                bind: {
-                    resource: client.config.resource
-                },
-                type: 'set'
-            });
-            client.features.negotiated.bind = true;
-            client.emit('session:prebind', resp.bind.jid);
-            const canStartSession = !features.legacySession ||
-                (features.legacySession && features.legacySession.optional);
-            if (!client.sessionStarted && canStartSession) {
-                client.emit('session:started', client.jid);
+function Bind(client) {
+    client.registerFeature('bind', 300, (features, cb) =>
+        __awaiter(this, void 0, void 0, function* () {
+            try {
+                const resp = yield client.sendIQ({
+                    bind: {
+                        resource: client.config.resource
+                    },
+                    type: 'set'
+                });
+                client.features.negotiated.bind = true;
+                client.emit('session:prebind', resp.bind.jid);
+                const canStartSession =
+                    !features.legacySession ||
+                    (features.legacySession && features.legacySession.optional);
+                if (!client.sessionStarted && canStartSession) {
+                    client.emit('session:started', client.jid);
+                }
+                return cb();
+            } catch (err) {
+                console.error(err);
+                return cb('disconnect', 'JID binding failed');
             }
-            return cb();
-        }
-        catch (err) {
-            console.error(err);
-            return cb('disconnect', 'JID binding failed');
-        }
-    }));
-    client.registerFeature('legacySession', 1000, (features, cb) => __awaiter(this, void 0, void 0, function* () {
-        if (client.sessionStarted || (features.legacySession && features.legacySession.optional)) {
-            client.features.negotiated.session = true;
-            return cb();
-        }
-        try {
-            yield client.sendIQ({
-                legacySession: true,
-                type: 'set'
-            });
-            client.features.negotiated.session = true;
-            if (!client.sessionStarted) {
-                client.sessionStarted = true;
-                client.emit('session:started', client.jid);
+        })
+    );
+    client.registerFeature('legacySession', 1000, (features, cb) =>
+        __awaiter(this, void 0, void 0, function* () {
+            if (
+                client.sessionStarted ||
+                (features.legacySession && features.legacySession.optional)
+            ) {
+                client.features.negotiated.session = true;
+                return cb();
             }
-            return cb();
-        }
-        catch (err) {
-            return cb('disconnect', 'Session requeset failed');
-        }
-    }));
+            try {
+                yield client.sendIQ({
+                    legacySession: true,
+                    type: 'set'
+                });
+                client.features.negotiated.session = true;
+                if (!client.sessionStarted) {
+                    client.sessionStarted = true;
+                    client.emit('session:started', client.jid);
+                }
+                return cb();
+            } catch (err) {
+                return cb('disconnect', 'Session requeset failed');
+            }
+        })
+    );
     client.on('session:started', () => {
         client.sessionStarted = true;
     });
@@ -5530,13 +5737,13 @@ function Bind (client) {
     });
 }
 
-function Command (client) {
+function Command(client) {
     client.disco.addFeature(NS_ADHOC_COMMANDS);
     client.disco.addItem({
         name: 'Ad-Hoc Commands',
         node: NS_ADHOC_COMMANDS
     });
-    client.getCommands = (jid) => {
+    client.getCommands = jid => {
         return client.getDiscoItems(jid, NS_ADHOC_COMMANDS);
     };
 }
@@ -5624,16 +5831,18 @@ function reviveData(key, value) {
     if (DATE_FIELDS.has(key) && value && typeof value === 'string' && ISO_DT.test(value)) {
         return new Date(value);
     }
-    if (value &&
+    if (
+        value &&
         typeof value === 'object' &&
         value.type === 'Buffer' &&
-        Array.isArray(value.data)) {
+        Array.isArray(value.data)
+    ) {
         return Buffer.from(value);
     }
     return value;
 }
 
-var Utils = /*#__PURE__*/Object.freeze({
+var Utils = /*#__PURE__*/ Object.freeze({
     __proto__: null,
     timeoutPromise: timeoutPromise,
     sleep: sleep,
@@ -5652,12 +5861,10 @@ function checkConnection(client) {
         }
         try {
             yield client.ping();
-        }
-        catch (err) {
+        } catch (err) {
             if (err.error && err.error.condition !== 'timeout') {
                 return;
-            }
-            else {
+            } else {
                 throw err;
             }
         }
@@ -5670,7 +5877,7 @@ function sendCSI(client, type) {
         });
     }
 }
-function Connection (client) {
+function Connection(client) {
     client.disco.addFeature(NS_PING);
     client.on('iq:get:ping', iq => {
         client.sendIQResult(iq);
@@ -5682,13 +5889,14 @@ function Connection (client) {
     });
     client.markActive = () => sendCSI(client, 'active');
     client.markInactive = () => sendCSI(client, 'inactive');
-    client.ping = (jid) => __awaiter(this, void 0, void 0, function* () {
-        yield client.sendIQ({
-            ping: true,
-            to: jid,
-            type: 'get'
+    client.ping = jid =>
+        __awaiter(this, void 0, void 0, function* () {
+            yield client.sendIQ({
+                ping: true,
+                to: jid,
+                type: 'get'
+            });
         });
-    });
     client.enableKeepAlive = (opts = {}) => {
         client._keepAliveOptions = opts;
         // Ping every 5 minutes
@@ -5700,8 +5908,7 @@ function Connection (client) {
                 if (client.sessionStarted) {
                     try {
                         yield timeoutPromise(checkConnection(client), timeout * 1000);
-                    }
-                    catch (err) {
+                    } catch (err) {
                         // Kill the apparently dead connection without closing
                         // the stream itself so we can reconnect and potentially
                         // resume the session.
@@ -5736,51 +5943,50 @@ function Connection (client) {
     client.on('stream:start', () => {
         client._keepAliveOptions && client.enableKeepAlive(client._keepAliveOptions);
     });
-    const smacks = (features, done) => __awaiter(this, void 0, void 0, function* () {
-        if (!client.config.useStreamManagement) {
-            return done();
-        }
-        const smHandler = (sm) => __awaiter(this, void 0, void 0, function* () {
-            switch (sm.type) {
-                case 'enabled':
-                    yield client.sm.enabled(sm);
-                    client.features.negotiated.streamManagement = true;
+    const smacks = (features, done) =>
+        __awaiter(this, void 0, void 0, function* () {
+            if (!client.config.useStreamManagement) {
+                return done();
+            }
+            const smHandler = sm =>
+                __awaiter(this, void 0, void 0, function* () {
+                    switch (sm.type) {
+                        case 'enabled':
+                            yield client.sm.enabled(sm);
+                            client.features.negotiated.streamManagement = true;
+                            client.off('sm', smHandler);
+                            return done();
+                        case 'resumed':
+                            yield client.sm.resumed(sm);
+                            client.features.negotiated.streamManagement = true;
+                            client.features.negotiated.bind = true;
+                            client.sessionStarted = true;
+                            client.sessionStarting = false;
+                            client.off('sm', smHandler);
+                            client.emit('stream:management:resumed', sm);
+                            return done('break'); // Halt further processing of stream features
+                        case 'failed':
+                            yield client.sm.failed(sm);
+                            client.off('sm', smHandler);
+                            client.emit('session:end');
+                            done();
+                    }
+                });
+            client.on('sm', smHandler);
+            if (!client.sm.id) {
+                if (client.features.negotiated.bind) {
+                    yield client.sm.enable();
+                } else {
                     client.off('sm', smHandler);
-                    return done();
-                case 'resumed':
-                    yield client.sm.resumed(sm);
-                    client.features.negotiated.streamManagement = true;
-                    client.features.negotiated.bind = true;
-                    client.sessionStarted = true;
-                    client.sessionStarting = false;
-                    client.off('sm', smHandler);
-                    client.emit('stream:management:resumed', sm);
-                    return done('break'); // Halt further processing of stream features
-                case 'failed':
-                    yield client.sm.failed(sm);
-                    client.off('sm', smHandler);
-                    client.emit('session:end');
                     done();
-            }
-        });
-        client.on('sm', smHandler);
-        if (!client.sm.id) {
-            if (client.features.negotiated.bind) {
-                yield client.sm.enable();
-            }
-            else {
+                }
+            } else if (client.sm.id && client.sm.allowResume) {
+                yield client.sm.resume();
+            } else {
                 client.off('sm', smHandler);
                 done();
             }
-        }
-        else if (client.sm.id && client.sm.allowResume) {
-            yield client.sm.resume();
-        }
-        else {
-            client.off('sm', smHandler);
-            done();
-        }
-    });
+        });
     client.registerFeature('streamManagement', 200, smacks);
     client.registerFeature('streamManagement', 500, smacks);
     client.registerFeature('clientStateIndication', 400, (features, cb) => {
@@ -5830,20 +6036,17 @@ function encodeFields(fields = []) {
                 name: escape(field.name),
                 values: field.rawValues.map(val => escape(val)).sort(octetCompare)
             });
-        }
-        else if (Array.isArray(field.value)) {
+        } else if (Array.isArray(field.value)) {
             sortedFields.push({
                 name: escape(field.name),
                 values: field.value.map(val => escape(val)).sort(octetCompare)
             });
-        }
-        else if (field.value === true || field.value === false) {
+        } else if (field.value === true || field.value === false) {
             sortedFields.push({
                 name: escape(field.name),
                 values: [escape(field.value ? '1' : '0')]
             });
-        }
-        else {
+        } else {
             sortedFields.push({
                 name: escape(field.name),
                 values: [escape(field.value || '')]
@@ -5901,7 +6104,7 @@ function encodeForms(extensions = []) {
 function generate(info, hashName) {
     const S = [];
     const separator = Buffer.from('<', 'utf8');
-    const append = (b1) => {
+    const append = b1 => {
         S.push(b1);
         S.push(separator);
     };
@@ -6005,7 +6208,7 @@ class Disco {
     }
 }
 
-function Disco$1 (client) {
+function Disco$1(client) {
     client.disco = new Disco();
     client.disco.addFeature(NS_DISCO_INFO);
     client.disco.addFeature(NS_DISCO_ITEMS);
@@ -6022,28 +6225,30 @@ function Disco$1 (client) {
         client.features.negotiated.caps = true;
         done();
     });
-    client.getDiscoInfo = (jid, node) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            disco: {
-                node,
-                type: 'info'
-            },
-            to: jid,
-            type: 'get'
+    client.getDiscoInfo = (jid, node) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                disco: {
+                    node,
+                    type: 'info'
+                },
+                to: jid,
+                type: 'get'
+            });
+            return Object.assign({ extensions: [], features: [], identities: [] }, resp.disco);
         });
-        return Object.assign({ extensions: [], features: [], identities: [] }, resp.disco);
-    });
-    client.getDiscoItems = (jid, node) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            disco: {
-                node,
-                type: 'items'
-            },
-            to: jid,
-            type: 'get'
+    client.getDiscoItems = (jid, node) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                disco: {
+                    node,
+                    type: 'items'
+                },
+                to: jid,
+                type: 'get'
+            });
+            return Object.assign({ items: [] }, resp.disco);
         });
-        return Object.assign({ items: [] }, resp.disco);
-    });
     client.updateCaps = () => {
         const node = client.config.capsNode || 'https://stanzajs.org';
         return client.disco.updateCaps(node);
@@ -6071,7 +6276,10 @@ function Disco$1 (client) {
         const { type, node } = iq.disco;
         if (type === 'info') {
             client.sendIQResult(iq, {
-                disco: Object.assign(Object.assign({}, client.disco.getNodeInfo(node || '')), { node, type: 'info' })
+                disco: Object.assign(Object.assign({}, client.disco.getNodeInfo(node || '')), {
+                    node,
+                    type: 'info'
+                })
             });
         }
         if (type === 'items') {
@@ -6085,7 +6293,7 @@ function Disco$1 (client) {
     });
 }
 
-const VERSION = '12.15.0';
+const VERSION = '0.1.2';
 // ====================================================================
 // Frequently Used Values
 // ====================================================================
@@ -6559,7 +6767,7 @@ function directionToSenders(role, direction = JingleApplicationDirection.SendRec
     return JingleContentSenders.None;
 }
 
-var Constants = /*#__PURE__*/Object.freeze({
+var Constants = /*#__PURE__*/ Object.freeze({
     __proto__: null,
     VERSION: VERSION,
     StreamType: StreamType,
@@ -6600,7 +6808,7 @@ var Constants = /*#__PURE__*/Object.freeze({
     directionToSenders: directionToSenders
 });
 
-function Entity (client) {
+function Entity(client) {
     client.disco.addFeature('jid\\20escaping');
     client.disco.addFeature(NS_DELAY);
     client.disco.addFeature(NS_EME_0);
@@ -6631,7 +6839,7 @@ function Entity (client) {
             }
         });
     });
-    client.on('iq:get:time', (iq) => {
+    client.on('iq:get:time', iq => {
         const time = new Date();
         client.sendIQResult(iq, {
             time: {
@@ -6640,33 +6848,36 @@ function Entity (client) {
             }
         });
     });
-    client.getSoftwareVersion = (jid) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            softwareVersion: {},
-            to: jid,
-            type: 'get'
+    client.getSoftwareVersion = jid =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                softwareVersion: {},
+                to: jid,
+                type: 'get'
+            });
+            return resp.softwareVersion;
         });
-        return resp.softwareVersion;
-    });
-    client.getTime = (jid) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            time: {},
-            to: jid,
-            type: 'get'
+    client.getTime = jid =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                time: {},
+                to: jid,
+                type: 'get'
+            });
+            return resp.time;
         });
-        return resp.time;
-    });
-    client.getLastActivity = (jid) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            lastActivity: {},
-            to: jid,
-            type: 'get'
+    client.getLastActivity = jid =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                lastActivity: {},
+                to: jid,
+                type: 'get'
+            });
+            return resp.lastActivity;
         });
-        return resp.lastActivity;
-    });
 }
 
-function Features (client) {
+function Features(client) {
     client.features = {
         handlers: Object.create(null),
         negotiated: Object.create(null),
@@ -6681,72 +6892,76 @@ function Features (client) {
         this.features.order.sort((a, b) => a.priority - b.priority);
         this.features.handlers[name] = handler.bind(client);
     };
-    client.on('features', (features) => __awaiter(this, void 0, void 0, function* () {
-        const negotiated = client.features.negotiated;
-        const handlers = client.features.handlers;
-        const processingOrder = [];
-        for (const { name } of client.features.order) {
-            if (features[name] && handlers[name] && !negotiated[name]) {
-                processingOrder.push(name);
-            }
-        }
-        function processFeature(featureName) {
-            return new Promise(resolve => {
-                handlers[featureName](features, (command, message) => {
-                    if (command) {
-                        resolve({ command, message });
-                    }
-                    else {
-                        resolve();
-                    }
-                });
-            });
-        }
-        for (const item of processingOrder) {
-            if (negotiated[item]) {
-                continue;
-            }
-            let cmd = '';
-            let msg = '';
-            try {
-                const res = yield processFeature(item);
-                if (res) {
-                    cmd = res.command;
-                    msg = res.message || '';
+    client.on('features', features =>
+        __awaiter(this, void 0, void 0, function* () {
+            const negotiated = client.features.negotiated;
+            const handlers = client.features.handlers;
+            const processingOrder = [];
+            for (const { name } of client.features.order) {
+                if (features[name] && handlers[name] && !negotiated[name]) {
+                    processingOrder.push(name);
                 }
             }
-            catch (err) {
-                cmd = 'disconnect';
-                msg = err.message;
-                console.error(err);
-            }
-            if (!cmd) {
-                continue;
-            }
-            if (cmd === 'restart' && client.transport) {
-                client.transport.restart();
-            }
-            if (cmd === 'disconnect') {
-                client.emit('stream:error', {
-                    condition: 'policy-violation',
-                    text: 'Failed to negotiate stream features: ' + msg
+            function processFeature(featureName) {
+                return new Promise(resolve => {
+                    handlers[featureName](features, (command, message) => {
+                        if (command) {
+                            resolve({ command, message });
+                        } else {
+                            resolve();
+                        }
+                    });
                 });
-                client.disconnect();
             }
-            return;
-        }
-    }));
+            for (const item of processingOrder) {
+                if (negotiated[item]) {
+                    continue;
+                }
+                let cmd = '';
+                let msg = '';
+                try {
+                    const res = yield processFeature(item);
+                    if (res) {
+                        cmd = res.command;
+                        msg = res.message || '';
+                    }
+                } catch (err) {
+                    cmd = 'disconnect';
+                    msg = err.message;
+                    console.error(err);
+                }
+                if (!cmd) {
+                    continue;
+                }
+                if (cmd === 'restart' && client.transport) {
+                    client.transport.restart();
+                }
+                if (cmd === 'disconnect') {
+                    client.emit('stream:error', {
+                        condition: 'policy-violation',
+                        text: 'Failed to negotiate stream features: ' + msg
+                    });
+                    client.disconnect();
+                }
+                return;
+            }
+        })
+    );
 }
 
 function promiseAny(promises) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const errors = yield Promise.all(promises.map(p => {
-                return p.then(val => Promise.reject(val), err => Promise.resolve(err));
-            }));
+            const errors = yield Promise.all(
+                promises.map(p => {
+                    return p.then(
+                        val => Promise.reject(val),
+                        err => Promise.resolve(err)
+                    );
+                })
+            );
             return Promise.reject(errors);
-        }
-        catch (val) {
+        } catch (val) {
             return Promise.resolve(val);
         }
     });
@@ -6759,48 +6974,52 @@ function getHostMeta(registry, opts) {
         const config = Object.assign({ json: true, ssl: true, xrd: true }, opts);
         const scheme = config.ssl ? 'https://' : 'http://';
         return promiseAny([
-            nativeFetch(`${scheme}${config.host}/.well-known/host-meta.json`).then((res) => __awaiter(this, void 0, void 0, function* () {
-                if (!res.ok) {
-                    throw new Error('could-not-fetch-json');
-                }
-                return res.json();
-            })),
-            nativeFetch(`${scheme}${config.host}/.well-known/host-meta`).then((res) => __awaiter(this, void 0, void 0, function* () {
-                if (!res.ok) {
-                    throw new Error('could-not-fetch-xml');
-                }
-                const data = yield res.text();
-                const xml = parse$1(data);
-                if (xml) {
-                    return registry.import(xml);
-                }
-            }))
+            nativeFetch(`${scheme}${config.host}/.well-known/host-meta.json`).then(res =>
+                __awaiter(this, void 0, void 0, function* () {
+                    if (!res.ok) {
+                        throw new Error('could-not-fetch-json');
+                    }
+                    return res.json();
+                })
+            ),
+            nativeFetch(`${scheme}${config.host}/.well-known/host-meta`).then(res =>
+                __awaiter(this, void 0, void 0, function* () {
+                    if (!res.ok) {
+                        throw new Error('could-not-fetch-xml');
+                    }
+                    const data = yield res.text();
+                    const xml = parse$1(data);
+                    if (xml) {
+                        return registry.import(xml);
+                    }
+                })
+            )
         ]);
     });
 }
-function HostMeta (client, stanzas) {
-    client.discoverBindings = (server) => __awaiter(this, void 0, void 0, function* () {
-        try {
-            const data = yield getHostMeta(stanzas, server);
-            const results = {
-                bosh: [],
-                websocket: []
-            };
-            const links = data.links || [];
-            for (const link of links) {
-                if (link.href && link.rel === NS_ALT_CONNECTIONS_WEBSOCKET) {
-                    results.websocket.push(link.href);
+function HostMeta(client, stanzas) {
+    client.discoverBindings = server =>
+        __awaiter(this, void 0, void 0, function* () {
+            try {
+                const data = yield getHostMeta(stanzas, server);
+                const results = {
+                    bosh: [],
+                    websocket: []
+                };
+                const links = data.links || [];
+                for (const link of links) {
+                    if (link.href && link.rel === NS_ALT_CONNECTIONS_WEBSOCKET) {
+                        results.websocket.push(link.href);
+                    }
+                    if (link.href && link.rel === NS_ALT_CONNECTIONS_XBOSH) {
+                        results.bosh.push(link.href);
+                    }
                 }
-                if (link.href && link.rel === NS_ALT_CONNECTIONS_XBOSH) {
-                    results.bosh.push(link.href);
-                }
+                return results;
+            } catch (err) {
+                return {};
             }
-            return results;
-        }
-        catch (err) {
-            return {};
-        }
-    });
+        });
 }
 
 // ====================================================================
@@ -6849,8 +7068,7 @@ function importFromSDP(sdp) {
             media.rtcpParameters = parseRtcpParameters(mediaSection);
             const msid = parseMsid(mediaSection);
             media.streams = msid ? [msid] : [];
-        }
-        else if (kind === 'application') {
+        } else if (kind === 'application') {
             media.sctp = parseSctpDescription(mediaSection);
         }
         media.candidates = matchPrefix(mediaSection, 'a=candidate:').map(parseCandidate);
@@ -6863,9 +7081,14 @@ function importFromSDP(sdp) {
 // ====================================================================
 function exportToSDP(session) {
     const output = [];
-    output.push(writeSessionBoilerplate(session.sessionId, session.sessionVersion), 'a=msid-semantic:WMS *\r\n');
-    if (session.iceLite ||
-        session.media.filter(m => m.iceParameters && m.iceParameters.iceLite).length > 0) {
+    output.push(
+        writeSessionBoilerplate(session.sessionId, session.sessionVersion),
+        'a=msid-semantic:WMS *\r\n'
+    );
+    if (
+        session.iceLite ||
+        session.media.filter(m => m.iceParameters && m.iceParameters.iceLite).length > 0
+    ) {
         output.push('a=ice-lite\r\n');
     }
     for (const group of session.groups || []) {
@@ -6875,8 +7098,7 @@ function exportToSDP(session) {
         const isRejected = !(media.iceParameters && media.dtlsParameters);
         if (media.kind === 'application' && media.sctp) {
             output.push(writeSctpDescription(media, media.sctp));
-        }
-        else if (media.rtpParameters) {
+        } else if (media.rtpParameters) {
             let mline = writeRtpDescription(media.kind, media.rtpParameters);
             if (isRejected) {
                 mline = mline.replace(`m=${media.kind} 9 `, `m=${media.kind} 0 `);
@@ -6892,7 +7114,9 @@ function exportToSDP(session) {
                     if (media.rtpEncodingParameters && media.rtpEncodingParameters[0].rtx) {
                         const params = media.rtpEncodingParameters[0];
                         output.push(`a=ssrc-group:FID ${params.ssrc} ${params.rtx.ssrc}\r\n`);
-                        output.push(`a=ssrc:${params.rtx.ssrc} cname:${media.rtcpParameters.cname}\r\n`);
+                        output.push(
+                            `a=ssrc:${params.rtx.ssrc} cname:${media.rtcpParameters.cname}\r\n`
+                        );
                     }
                 }
             }
@@ -6901,11 +7125,13 @@ function exportToSDP(session) {
             output.push(`a=mid:${media.mid}\r\n`);
         }
         if (media.iceParameters) {
-            output.push(writeIceParameters({
-                // Ignoring iceLite, since we already output ice-lite at session level
-                usernameFragment: media.iceParameters.usernameFragment,
-                password: media.iceParameters.password
-            }));
+            output.push(
+                writeIceParameters({
+                    // Ignoring iceLite, since we already output ice-lite at session level
+                    usernameFragment: media.iceParameters.usernameFragment,
+                    password: media.iceParameters.password
+                })
+            );
         }
         if (media.dtlsParameters && media.setup) {
             output.push(writeDtlsParameters(media.dtlsParameters, media.setup));
@@ -6999,11 +7225,9 @@ function convertIntermediateToCandidate(candidate) {
     let component;
     if (candidate.component === 'rtp') {
         component = 1;
-    }
-    else if (candidate.component === 'rtcp') {
+    } else if (candidate.component === 'rtcp') {
         component = 2;
-    }
-    else {
+    } else {
         component = candidate.component;
     }
     return {
@@ -7025,9 +7249,10 @@ function convertIntermediateToCandidate(candidate) {
 function convertCandidateToIntermediate(candidate) {
     return {
         address: candidate.ip,
-        component: candidate.component === 1
-            ? 'rtp'
-            : candidate.component === 2
+        component:
+            candidate.component === 1
+                ? 'rtp'
+                : candidate.component === 2
                 ? 'rtcp'
                 : candidate.component,
         foundation: candidate.foundation,
@@ -7078,9 +7303,9 @@ function convertIntermediateToRequest(session, role, transportType) {
                 application: isRTP
                     ? convertIntermediateToApplication(media, role)
                     : {
-                        applicationType: 'datachannel',
-                        protocol: media.protocol
-                    },
+                          applicationType: 'datachannel',
+                          protocol: media.protocol
+                      },
                 creator: JingleSessionRole.Initiator,
                 name: media.mid,
                 senders: directionToSenders(role, media.direction),
@@ -7089,9 +7314,9 @@ function convertIntermediateToRequest(session, role, transportType) {
         }),
         groups: session.groups
             ? session.groups.map(group => ({
-                contents: group.mids,
-                semantics: group.semantics
-            }))
+                  contents: group.mids,
+                  semantics: group.semantics
+              }))
             : []
     };
 }
@@ -7251,78 +7476,81 @@ class JingleSession {
         this.pendingAction = undefined;
         // Here is where we'll ensure that all actions are processed
         // in order, even if a particular action requires async handling.
-        this.processingQueue = priorityQueue((task, next) => __awaiter(this, void 0, void 0, function* () {
-            if (this.state === 'ended') {
-                // Don't process anything once the session has been ended
-                if (task.type === 'local' && task.reject) {
-                    task.reject(new Error('Session ended'));
-                }
-                if (next) {
-                    next();
-                }
-                return;
-            }
-            if (task.type === 'local') {
-                this._log('debug', 'Processing local action:', task.name);
-                try {
-                    const res = yield task.handler();
-                    task.resolve(res);
-                }
-                catch (err) {
-                    task.reject(err);
-                }
-                if (next) {
-                    next();
-                }
-                return;
-            }
-            const { action, changes, cb } = task;
-            this._log('debug', 'Processing remote action:', action);
-            return new Promise(resolve => {
-                const done = (err, result) => {
-                    cb(err, result);
-                    if (next) {
-                        next();
+        this.processingQueue = priorityQueue(
+            (task, next) =>
+                __awaiter(this, void 0, void 0, function* () {
+                    if (this.state === 'ended') {
+                        // Don't process anything once the session has been ended
+                        if (task.type === 'local' && task.reject) {
+                            task.reject(new Error('Session ended'));
+                        }
+                        if (next) {
+                            next();
+                        }
+                        return;
                     }
-                    resolve();
-                };
-                switch (action) {
-                    case JingleAction.ContentAccept:
-                        return this.onContentAccept(changes, done);
-                    case JingleAction.ContentAdd:
-                        return this.onContentAdd(changes, done);
-                    case JingleAction.ContentModify:
-                        return this.onContentModify(changes, done);
-                    case JingleAction.ContentReject:
-                        return this.onContentReject(changes, done);
-                    case JingleAction.ContentRemove:
-                        return this.onContentRemove(changes, done);
-                    case JingleAction.DescriptionInfo:
-                        return this.onDescriptionInfo(changes, done);
-                    case JingleAction.SecurityInfo:
-                        return this.onSecurityInfo(changes, done);
-                    case JingleAction.SessionAccept:
-                        return this.onSessionAccept(changes, done);
-                    case JingleAction.SessionInfo:
-                        return this.onSessionInfo(changes, done);
-                    case JingleAction.SessionInitiate:
-                        return this.onSessionInitiate(changes, done);
-                    case JingleAction.SessionTerminate:
-                        return this.onSessionTerminate(changes, done);
-                    case JingleAction.TransportAccept:
-                        return this.onTransportAccept(changes, done);
-                    case JingleAction.TransportInfo:
-                        return this.onTransportInfo(changes, done);
-                    case JingleAction.TransportReject:
-                        return this.onTransportReject(changes, done);
-                    case JingleAction.TransportReplace:
-                        return this.onTransportReplace(changes, done);
-                    default:
-                        this._log('error', 'Invalid or unsupported action: ' + action);
-                        done({ condition: StanzaErrorCondition.BadRequest });
-                }
-            });
-        }), 1);
+                    if (task.type === 'local') {
+                        this._log('debug', 'Processing local action:', task.name);
+                        try {
+                            const res = yield task.handler();
+                            task.resolve(res);
+                        } catch (err) {
+                            task.reject(err);
+                        }
+                        if (next) {
+                            next();
+                        }
+                        return;
+                    }
+                    const { action, changes, cb } = task;
+                    this._log('debug', 'Processing remote action:', action);
+                    return new Promise(resolve => {
+                        const done = (err, result) => {
+                            cb(err, result);
+                            if (next) {
+                                next();
+                            }
+                            resolve();
+                        };
+                        switch (action) {
+                            case JingleAction.ContentAccept:
+                                return this.onContentAccept(changes, done);
+                            case JingleAction.ContentAdd:
+                                return this.onContentAdd(changes, done);
+                            case JingleAction.ContentModify:
+                                return this.onContentModify(changes, done);
+                            case JingleAction.ContentReject:
+                                return this.onContentReject(changes, done);
+                            case JingleAction.ContentRemove:
+                                return this.onContentRemove(changes, done);
+                            case JingleAction.DescriptionInfo:
+                                return this.onDescriptionInfo(changes, done);
+                            case JingleAction.SecurityInfo:
+                                return this.onSecurityInfo(changes, done);
+                            case JingleAction.SessionAccept:
+                                return this.onSessionAccept(changes, done);
+                            case JingleAction.SessionInfo:
+                                return this.onSessionInfo(changes, done);
+                            case JingleAction.SessionInitiate:
+                                return this.onSessionInitiate(changes, done);
+                            case JingleAction.SessionTerminate:
+                                return this.onSessionTerminate(changes, done);
+                            case JingleAction.TransportAccept:
+                                return this.onTransportAccept(changes, done);
+                            case JingleAction.TransportInfo:
+                                return this.onTransportInfo(changes, done);
+                            case JingleAction.TransportReject:
+                                return this.onTransportReject(changes, done);
+                            case JingleAction.TransportReplace:
+                                return this.onTransportReplace(changes, done);
+                            default:
+                                this._log('error', 'Invalid or unsupported action: ' + action);
+                                done({ condition: StanzaErrorCondition.BadRequest });
+                        }
+                    });
+                }),
+            1
+        );
     }
     get isInitiator() {
         return this.role === JingleSessionRole.Initiator;
@@ -7372,8 +7600,7 @@ class JingleSession {
         ]);
         if (requirePending.has(action)) {
             this.pendingAction = action;
-        }
-        else {
+        } else {
             this.pendingAction = undefined;
         }
         this.parent.signal(this, {
@@ -7385,23 +7612,27 @@ class JingleSession {
     }
     processLocal(name, handler) {
         return new Promise((resolve, reject) => {
-            this.processingQueue.push({
-                handler,
-                name,
-                reject,
-                resolve,
-                type: 'local'
-            }, 1 // Process local requests first
+            this.processingQueue.push(
+                {
+                    handler,
+                    name,
+                    reject,
+                    resolve,
+                    type: 'local'
+                },
+                1 // Process local requests first
             );
         });
     }
     process(action, changes, cb) {
-        this.processingQueue.push({
-            action,
-            cb,
-            changes,
-            type: 'remote'
-        }, 2 // Process remote requests second
+        this.processingQueue.push(
+            {
+                action,
+                cb,
+                changes,
+                type: 'remote'
+            },
+            2 // Process remote requests second
         );
     }
     start(_opts, _next) {
@@ -7459,8 +7690,7 @@ class JingleSession {
     onSessionInfo(changes, cb) {
         if (!changes.info) {
             cb();
-        }
-        else {
+        } else {
             cb(unsupportedInfo);
         }
     }
@@ -7532,15 +7762,17 @@ class ICESession extends JingleSession {
         this.restartingIce = false;
         this.usingRelay = false;
         this.maxRelayBandwidth = opts.maxRelayBandwidth;
-        this.pc = this.parent.createPeerConnection(this, Object.assign(Object.assign({}, opts.config), { iceServers: opts.iceServers }));
+        this.pc = this.parent.createPeerConnection(
+            this,
+            Object.assign(Object.assign({}, opts.config), { iceServers: opts.iceServers })
+        );
         this.pc.oniceconnectionstatechange = () => {
             this.onIceStateChange();
         };
         this.pc.onicecandidate = e => {
             if (e.candidate) {
                 this.onIceCandidate(e);
-            }
-            else {
+            } else {
                 this.onIceEndOfCandidates();
             }
         };
@@ -7562,22 +7794,23 @@ class ICESession extends JingleSession {
             }
             this.restartingIce = true;
             try {
-                yield this.processLocal('restart-ice', () => __awaiter(this, void 0, void 0, function* () {
-                    const offer = yield this.pc.createOffer({ iceRestart: true });
-                    // extract new ufrag / pwd, send transport-info with just that.
-                    const json = importFromSDP(offer.sdp);
-                    this.send(JingleAction.TransportInfo, {
-                        contents: json.media.map(media => ({
-                            creator: JingleSessionRole.Initiator,
-                            name: media.mid,
-                            transport: convertIntermediateToTransport(media, this.transportType)
-                        })),
-                        sid: this.sid
-                    });
-                    yield this.pc.setLocalDescription(offer);
-                }));
-            }
-            catch (err) {
+                yield this.processLocal('restart-ice', () =>
+                    __awaiter(this, void 0, void 0, function* () {
+                        const offer = yield this.pc.createOffer({ iceRestart: true });
+                        // extract new ufrag / pwd, send transport-info with just that.
+                        const json = importFromSDP(offer.sdp);
+                        this.send(JingleAction.TransportInfo, {
+                            contents: json.media.map(media => ({
+                                creator: JingleSessionRole.Initiator,
+                                name: media.mid,
+                                transport: convertIntermediateToTransport(media, this.transportType)
+                            })),
+                            sid: this.sid
+                        });
+                        yield this.pc.setLocalDescription(offer);
+                    })
+                );
+            } catch (err) {
                 this._log('error', 'Could not create WebRTC offer', err);
                 this.end(JingleReasonCondition.FailedTransport, true);
             }
@@ -7597,21 +7830,21 @@ class ICESession extends JingleSession {
                 return;
             }
             try {
-                yield this.processLocal('set-bitrate', () => __awaiter(this, void 0, void 0, function* () {
-                    const parameters = sender.getParameters();
-                    if (!parameters.encodings || !parameters.encodings.length) {
-                        parameters.encodings = [{}];
-                    }
-                    if (maximumBitrate === 0) {
-                        delete parameters.encodings[0].maxBitrate;
-                    }
-                    else {
-                        parameters.encodings[0].maxBitrate = maximumBitrate;
-                    }
-                    yield sender.setParameters(parameters);
-                }));
-            }
-            catch (err) {
+                yield this.processLocal('set-bitrate', () =>
+                    __awaiter(this, void 0, void 0, function* () {
+                        const parameters = sender.getParameters();
+                        if (!parameters.encodings || !parameters.encodings.length) {
+                            parameters.encodings = [{}];
+                        }
+                        if (maximumBitrate === 0) {
+                            delete parameters.encodings[0].maxBitrate;
+                        } else {
+                            parameters.encodings[0].maxBitrate = maximumBitrate;
+                        }
+                        yield sender.setParameters(parameters);
+                    })
+                );
+            } catch (err) {
                 this._log('error', 'Set maximumBitrate failed', err);
             }
         });
@@ -7621,22 +7854,21 @@ class ICESession extends JingleSession {
     // ----------------------------------------------------------------
     onTransportInfo(changes, cb) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (changes.contents &&
+            if (
+                changes.contents &&
                 changes.contents[0] &&
-                changes.contents[0].transport.gatheringComplete) {
+                changes.contents[0].transport.gatheringComplete
+            ) {
                 const candidate = { sdpMid: changes.contents[0].name, candidate: '' };
                 try {
                     if (this.pc.signalingState === 'stable') {
                         yield this.pc.addIceCandidate(candidate);
-                    }
-                    else {
+                    } else {
                         this.candidateBuffer.push(candidate);
                     }
-                }
-                catch (err) {
+                } catch (err) {
                     this._log('debug', 'Could not add null end-of-candidate');
-                }
-                finally {
+                } finally {
                     cb();
                 }
                 return;
@@ -7647,8 +7879,7 @@ class ICESession extends JingleSession {
                 const remoteJSON = importFromSDP(remoteDescription.sdp);
                 const remoteMedia = remoteJSON.media.find(m => m.mid === changes.contents[0].name);
                 const currentUsernameFragment = remoteMedia.iceParameters.usernameFragment;
-                const remoteUsernameFragment = changes.contents[0].transport
-                    .usernameFragment;
+                const remoteUsernameFragment = changes.contents[0].transport.usernameFragment;
                 if (remoteUsernameFragment && currentUsernameFragment !== remoteUsernameFragment) {
                     for (const [idx, content] of changes.contents.entries()) {
                         const transport = content.transport;
@@ -7672,16 +7903,17 @@ class ICESession extends JingleSession {
                                 contents: json.media.map(media => ({
                                     creator: JingleSessionRole.Initiator,
                                     name: media.mid,
-                                    transport: convertIntermediateToTransport(media, this.transportType)
+                                    transport: convertIntermediateToTransport(
+                                        media,
+                                        this.transportType
+                                    )
                                 })),
                                 sid: this.sid
                             });
-                        }
-                        else {
+                        } else {
                             this.restartingIce = false;
                         }
-                    }
-                    catch (err) {
+                    } catch (err) {
                         this._log('error', 'Could not do remote ICE restart', err);
                         cb(err);
                         this.end(JingleReasonCondition.FailedTransport);
@@ -7691,27 +7923,26 @@ class ICESession extends JingleSession {
             }
             const all = (changes.contents || []).map(content => {
                 const sdpMid = content.name;
-                const results = (content.transport.candidates || []).map((json) => __awaiter(this, void 0, void 0, function* () {
-                    const candidate = writeCandidate(convertCandidateToIntermediate(json));
-                    if (this.pc.remoteDescription && this.pc.signalingState === 'stable') {
-                        try {
-                            yield this.pc.addIceCandidate({ sdpMid, candidate });
+                const results = (content.transport.candidates || []).map(json =>
+                    __awaiter(this, void 0, void 0, function* () {
+                        const candidate = writeCandidate(convertCandidateToIntermediate(json));
+                        if (this.pc.remoteDescription && this.pc.signalingState === 'stable') {
+                            try {
+                                yield this.pc.addIceCandidate({ sdpMid, candidate });
+                            } catch (err) {
+                                this._log('error', 'Could not add ICE candidate', err);
+                            }
+                        } else {
+                            this.candidateBuffer.push({ sdpMid, candidate });
                         }
-                        catch (err) {
-                            this._log('error', 'Could not add ICE candidate', err);
-                        }
-                    }
-                    else {
-                        this.candidateBuffer.push({ sdpMid, candidate });
-                    }
-                }));
+                    })
+                );
                 return Promise.all(results);
             });
             try {
                 yield Promise.all(all);
                 cb();
-            }
-            catch (err) {
+            } catch (err) {
                 this._log('error', `Could not process transport-info: ${err}`);
                 cb(err);
             }
@@ -7727,8 +7958,7 @@ class ICESession extends JingleSession {
                 yield this.processBufferedCandidates();
                 this.parent.emit('accepted', this, undefined);
                 cb();
-            }
-            catch (err) {
+            } catch (err) {
                 this._log('error', `Could not process WebRTC answer: ${err}`);
                 cb({ condition: 'general-error' });
             }
@@ -7795,8 +8025,7 @@ class ICESession extends JingleSession {
             case 'disconnected':
                 if (this.pc.signalingState === 'stable') {
                     this.connectionState = 'interrupted';
-                }
-                else {
+                } else {
                     this.connectionState = 'disconnected';
                 }
                 if (this.restartingIce) {
@@ -7817,8 +8046,7 @@ class ICESession extends JingleSession {
                 this.connectionState = 'disconnected';
                 if (this.restartingIce) {
                     this.end(JingleReasonCondition.FailedTransport);
-                }
-                else {
+                } else {
                     this.end();
                 }
                 break;
@@ -7829,8 +8057,7 @@ class ICESession extends JingleSession {
             for (const candidate of this.candidateBuffer) {
                 try {
                     yield this.pc.addIceCandidate(candidate);
-                }
-                catch (err) {
+                } catch (err) {
                     this._log('error', 'Could not add ICE candidate', err);
                 }
             }
@@ -7843,63 +8070,66 @@ class ICESession extends JingleSession {
      * the TURN server.
      */
     restrictRelayBandwidth() {
-        this.pc.addEventListener('iceconnectionstatechange', () => __awaiter(this, void 0, void 0, function* () {
-            if (this.pc.iceConnectionState !== 'completed' &&
-                this.pc.iceConnectionState !== 'connected') {
-                return;
-            }
-            const stats = yield this.pc.getStats();
-            let activeCandidatePair;
-            stats.forEach(report => {
-                if (report.type === 'transport') {
-                    activeCandidatePair = stats.get(report.selectedCandidatePairId);
+        this.pc.addEventListener('iceconnectionstatechange', () =>
+            __awaiter(this, void 0, void 0, function* () {
+                if (
+                    this.pc.iceConnectionState !== 'completed' &&
+                    this.pc.iceConnectionState !== 'connected'
+                ) {
+                    return;
                 }
-            });
-            // Fallback for Firefox.
-            if (!activeCandidatePair) {
+                const stats = yield this.pc.getStats();
+                let activeCandidatePair;
                 stats.forEach(report => {
-                    if (report.type === 'candidate-pair' && report.selected) {
-                        activeCandidatePair = report;
+                    if (report.type === 'transport') {
+                        activeCandidatePair = stats.get(report.selectedCandidatePairId);
                     }
                 });
-            }
-            if (!activeCandidatePair) {
-                return;
-            }
-            let isRelay = false;
-            let localCandidateType = '';
-            let remoteCandidateType = '';
-            if (activeCandidatePair.remoteCandidateId) {
-                const remoteCandidate = stats.get(activeCandidatePair.remoteCandidateId);
-                if (remoteCandidate) {
-                    remoteCandidateType = remoteCandidate.candidateType;
+                // Fallback for Firefox.
+                if (!activeCandidatePair) {
+                    stats.forEach(report => {
+                        if (report.type === 'candidate-pair' && report.selected) {
+                            activeCandidatePair = report;
+                        }
+                    });
                 }
-            }
-            if (activeCandidatePair.localCandidateId) {
-                const localCandidate = stats.get(activeCandidatePair.localCandidateId);
-                if (localCandidate) {
-                    localCandidateType = localCandidate.candidateType;
+                if (!activeCandidatePair) {
+                    return;
                 }
-            }
-            if (localCandidateType === 'relay' || remoteCandidateType === 'relay') {
-                isRelay = true;
-            }
-            this.usingRelay = isRelay;
-            this.parent.emit('iceConnectionType', this, {
-                localCandidateType,
-                relayed: isRelay,
-                remoteCandidateType
-            });
-            if (isRelay) {
-                this.maximumBitrate = this.maxRelayBandwidth;
-                if (this.currentBitrate) {
-                    this.setMaximumBitrate(Math.min(this.currentBitrate, this.maximumBitrate));
+                let isRelay = false;
+                let localCandidateType = '';
+                let remoteCandidateType = '';
+                if (activeCandidatePair.remoteCandidateId) {
+                    const remoteCandidate = stats.get(activeCandidatePair.remoteCandidateId);
+                    if (remoteCandidate) {
+                        remoteCandidateType = remoteCandidate.candidateType;
+                    }
                 }
-                else {
-                    this.setMaximumBitrate(this.maximumBitrate);
+                if (activeCandidatePair.localCandidateId) {
+                    const localCandidate = stats.get(activeCandidatePair.localCandidateId);
+                    if (localCandidate) {
+                        localCandidateType = localCandidate.candidateType;
+                    }
                 }
-            }
-        }));
+                if (localCandidateType === 'relay' || remoteCandidateType === 'relay') {
+                    isRelay = true;
+                }
+                this.usingRelay = isRelay;
+                this.parent.emit('iceConnectionType', this, {
+                    localCandidateType,
+                    relayed: isRelay,
+                    remoteCandidateType
+                });
+                if (isRelay) {
+                    this.maximumBitrate = this.maxRelayBandwidth;
+                    if (this.currentBitrate) {
+                        this.setMaximumBitrate(Math.min(this.currentBitrate, this.maximumBitrate));
+                    } else {
+                        this.setMaximumBitrate(this.maximumBitrate);
+                    }
+                }
+            })
+        );
     }
     /* determine whether an ICE restart is in order
      * when transitioning to disconnected. Strategy is
@@ -7954,7 +8184,7 @@ class Sender extends EventEmitter {
         channel.onbufferedamountlow = () => {
             sliceFile();
         };
-        fileReader.addEventListener('load', (event) => {
+        fileReader.addEventListener('load', event => {
             const data = event.target.result;
             pendingRead = false;
             offset += data.byteLength;
@@ -7966,8 +8196,7 @@ class Sender extends EventEmitter {
                     sliceFile();
                 }
                 // Otherwise wait for bufferedamountlow event to trigger reading more data
-            }
-            else {
+            } else {
                 this.emit('progress', file.size, file.size, null);
                 this.emit('sentFile', {
                     algorithm: this.config.hash,
@@ -8005,8 +8234,7 @@ class Receiver extends EventEmitter {
                 this.metadata.actualhash = this.hash.digest('hex');
                 this.emit('receivedFile', new Blob(this.receiveBuffer), this.metadata);
                 this.receiveBuffer = [];
-            }
-            else if (this.received > this.metadata.size) {
+            } else if (this.received > this.metadata.size) {
                 // FIXME
                 console.error('received more than expected, discarding...');
                 this.receiveBuffer = []; // just discard...
@@ -8060,35 +8288,40 @@ class FileTransferSession extends ICESession {
                 this.sender.send(this.file, this.channel);
             };
             try {
-                yield this.processLocal(JingleAction.SessionInitiate, () => __awaiter(this, void 0, void 0, function* () {
-                    const offer = yield this.pc.createOffer({
-                        offerToReceiveAudio: false,
-                        offerToReceiveVideo: false
-                    });
-                    const json = importFromSDP(offer.sdp);
-                    const jingle = convertIntermediateToRequest(json, this.role, this.transportType);
-                    this.contentName = jingle.contents[0].name;
-                    jingle.sid = this.sid;
-                    jingle.action = JingleAction.SessionInitiate;
-                    jingle.contents[0].application = {
-                        applicationType: NS_JINGLE_FILE_TRANSFER_5,
-                        file: {
-                            date: file.lastModified ? new Date(file.lastModified) : undefined,
-                            hashesUsed: [
-                                {
-                                    algorithm: 'sha-1'
-                                }
-                            ],
-                            name: file.name,
-                            size: file.size
-                        }
-                    };
-                    this.send('session-initiate', jingle);
-                    yield this.pc.setLocalDescription(offer);
-                }));
+                yield this.processLocal(JingleAction.SessionInitiate, () =>
+                    __awaiter(this, void 0, void 0, function* () {
+                        const offer = yield this.pc.createOffer({
+                            offerToReceiveAudio: false,
+                            offerToReceiveVideo: false
+                        });
+                        const json = importFromSDP(offer.sdp);
+                        const jingle = convertIntermediateToRequest(
+                            json,
+                            this.role,
+                            this.transportType
+                        );
+                        this.contentName = jingle.contents[0].name;
+                        jingle.sid = this.sid;
+                        jingle.action = JingleAction.SessionInitiate;
+                        jingle.contents[0].application = {
+                            applicationType: NS_JINGLE_FILE_TRANSFER_5,
+                            file: {
+                                date: file.lastModified ? new Date(file.lastModified) : undefined,
+                                hashesUsed: [
+                                    {
+                                        algorithm: 'sha-1'
+                                    }
+                                ],
+                                name: file.name,
+                                size: file.size
+                            }
+                        };
+                        this.send('session-initiate', jingle);
+                        yield this.pc.setLocalDescription(offer);
+                    })
+                );
                 next();
-            }
-            catch (err) {
+            } catch (err) {
                 this._log('error', 'Could not create WebRTC offer', err);
                 return this.end('failed-application', true);
             }
@@ -8101,23 +8334,28 @@ class FileTransferSession extends ICESession {
             this.state = 'active';
             next = next || (() => undefined);
             try {
-                yield this.processLocal(JingleAction.SessionAccept, () => __awaiter(this, void 0, void 0, function* () {
-                    const answer = yield this.pc.createAnswer();
-                    const json = importFromSDP(answer.sdp);
-                    const jingle = convertIntermediateToRequest(json, this.role, this.transportType);
-                    jingle.sid = this.sid;
-                    jingle.action = 'session-accept';
-                    for (const content of jingle.contents) {
-                        content.creator = 'initiator';
-                    }
-                    this.contentName = jingle.contents[0].name;
-                    this.send('session-accept', jingle);
-                    yield this.pc.setLocalDescription(answer);
-                    yield this.processBufferedCandidates();
-                }));
+                yield this.processLocal(JingleAction.SessionAccept, () =>
+                    __awaiter(this, void 0, void 0, function* () {
+                        const answer = yield this.pc.createAnswer();
+                        const json = importFromSDP(answer.sdp);
+                        const jingle = convertIntermediateToRequest(
+                            json,
+                            this.role,
+                            this.transportType
+                        );
+                        jingle.sid = this.sid;
+                        jingle.action = 'session-accept';
+                        for (const content of jingle.contents) {
+                            content.creator = 'initiator';
+                        }
+                        this.contentName = jingle.contents[0].name;
+                        this.send('session-accept', jingle);
+                        yield this.pc.setLocalDescription(answer);
+                        yield this.processBufferedCandidates();
+                    })
+                );
                 next();
-            }
-            catch (err) {
+            } catch (err) {
                 this._log('error', 'Could not create WebRTC answer', err);
                 this.end('failed-application');
             }
@@ -8150,8 +8388,7 @@ class FileTransferSession extends ICESession {
                 yield this.pc.setRemoteDescription({ type: 'offer', sdp });
                 yield this.processBufferedCandidates();
                 cb();
-            }
-            catch (err) {
+            } catch (err) {
                 this._log('error', 'Could not create WebRTC answer', err);
                 cb({ condition: 'general-error' });
             }
@@ -8189,10 +8426,12 @@ class FileTransferSession extends ICESession {
 function applyStreamsCompatibility(content) {
     const application = content.application;
     /* signal .streams as a=ssrc: msid */
-    if (application.streams &&
+    if (
+        application.streams &&
         application.streams.length &&
         application.sources &&
-        application.sources.length) {
+        application.sources.length
+    ) {
         const msid = application.streams[0];
         application.sources[0].parameters.msid = `${msid.id} ${msid.track}`;
         if (application.sourceGroups && application.sourceGroups.length > 0) {
@@ -8212,7 +8451,7 @@ class MediaSession extends ICESession {
         this.includesAudio = false;
         this.includesVideo = false;
         this._ringing = false;
-        this.pc.addEventListener('track', (e) => {
+        this.pc.addEventListener('track', e => {
             this.onAddTrack(e.track, e.streams[0]);
         });
         if (opts.stream) {
@@ -8250,22 +8489,27 @@ class MediaSession extends ICESession {
             this.role = 'initiator';
             this.offerOptions = opts;
             try {
-                yield this.processLocal(JingleAction.SessionInitiate, () => __awaiter(this, void 0, void 0, function* () {
-                    const offer = yield this.pc.createOffer(opts);
-                    const json = importFromSDP(offer.sdp);
-                    const jingle = convertIntermediateToRequest(json, this.role, this.transportType);
-                    jingle.sid = this.sid;
-                    jingle.action = JingleAction.SessionInitiate;
-                    for (const content of jingle.contents || []) {
-                        content.creator = 'initiator';
-                        applyStreamsCompatibility(content);
-                    }
-                    yield this.pc.setLocalDescription(offer);
-                    this.send('session-initiate', jingle);
-                }));
+                yield this.processLocal(JingleAction.SessionInitiate, () =>
+                    __awaiter(this, void 0, void 0, function* () {
+                        const offer = yield this.pc.createOffer(opts);
+                        const json = importFromSDP(offer.sdp);
+                        const jingle = convertIntermediateToRequest(
+                            json,
+                            this.role,
+                            this.transportType
+                        );
+                        jingle.sid = this.sid;
+                        jingle.action = JingleAction.SessionInitiate;
+                        for (const content of jingle.contents || []) {
+                            content.creator = 'initiator';
+                            applyStreamsCompatibility(content);
+                        }
+                        yield this.pc.setLocalDescription(offer);
+                        this.send('session-initiate', jingle);
+                    })
+                );
                 next();
-            }
-            catch (err) {
+            } catch (err) {
                 this._log('error', 'Could not create WebRTC offer', err);
                 this.end('failed-application', true);
             }
@@ -8284,22 +8528,27 @@ class MediaSession extends ICESession {
             this.state = 'active';
             this.role = 'responder';
             try {
-                yield this.processLocal(JingleAction.SessionAccept, () => __awaiter(this, void 0, void 0, function* () {
-                    const answer = yield this.pc.createAnswer(opts);
-                    const json = importFromSDP(answer.sdp);
-                    const jingle = convertIntermediateToRequest(json, this.role, this.transportType);
-                    jingle.sid = this.sid;
-                    jingle.action = JingleAction.SessionAccept;
-                    for (const content of jingle.contents || []) {
-                        content.creator = 'initiator';
-                    }
-                    yield this.pc.setLocalDescription(answer);
-                    yield this.processBufferedCandidates();
-                    this.send('session-accept', jingle);
-                }));
+                yield this.processLocal(JingleAction.SessionAccept, () =>
+                    __awaiter(this, void 0, void 0, function* () {
+                        const answer = yield this.pc.createAnswer(opts);
+                        const json = importFromSDP(answer.sdp);
+                        const jingle = convertIntermediateToRequest(
+                            json,
+                            this.role,
+                            this.transportType
+                        );
+                        jingle.sid = this.sid;
+                        jingle.action = JingleAction.SessionAccept;
+                        for (const content of jingle.contents || []) {
+                            content.creator = 'initiator';
+                        }
+                        yield this.pc.setLocalDescription(answer);
+                        yield this.processBufferedCandidates();
+                        this.send('session-accept', jingle);
+                    })
+                );
                 next();
-            }
-            catch (err) {
+            } catch (err) {
                 this._log('error', 'Could not create WebRTC answer', err);
                 this.end('failed-application');
             }
@@ -8312,59 +8561,69 @@ class MediaSession extends ICESession {
         super.end(reason, silent);
     }
     ring() {
-        return this.processLocal('ring', () => __awaiter(this, void 0, void 0, function* () {
-            this._log('info', 'Ringing on incoming session');
-            this.ringing = true;
-            this.send(JingleAction.SessionInfo, {
-                info: {
-                    infoType: JINGLE_INFO_RINGING
-                }
-            });
-        }));
+        return this.processLocal('ring', () =>
+            __awaiter(this, void 0, void 0, function* () {
+                this._log('info', 'Ringing on incoming session');
+                this.ringing = true;
+                this.send(JingleAction.SessionInfo, {
+                    info: {
+                        infoType: JINGLE_INFO_RINGING
+                    }
+                });
+            })
+        );
     }
     mute(creator, name) {
-        return this.processLocal('mute', () => __awaiter(this, void 0, void 0, function* () {
-            this._log('info', 'Muting', name);
-            this.send(JingleAction.SessionInfo, {
-                info: {
-                    creator,
-                    infoType: JINGLE_INFO_MUTE,
-                    name
-                }
-            });
-        }));
+        return this.processLocal('mute', () =>
+            __awaiter(this, void 0, void 0, function* () {
+                this._log('info', 'Muting', name);
+                this.send(JingleAction.SessionInfo, {
+                    info: {
+                        creator,
+                        infoType: JINGLE_INFO_MUTE,
+                        name
+                    }
+                });
+            })
+        );
     }
     unmute(creator, name) {
-        return this.processLocal('unmute', () => __awaiter(this, void 0, void 0, function* () {
-            this._log('info', 'Unmuting', name);
-            this.send(JingleAction.SessionInfo, {
-                info: {
-                    creator,
-                    infoType: JINGLE_INFO_UNMUTE,
-                    name
-                }
-            });
-        }));
+        return this.processLocal('unmute', () =>
+            __awaiter(this, void 0, void 0, function* () {
+                this._log('info', 'Unmuting', name);
+                this.send(JingleAction.SessionInfo, {
+                    info: {
+                        creator,
+                        infoType: JINGLE_INFO_UNMUTE,
+                        name
+                    }
+                });
+            })
+        );
     }
     hold() {
-        return this.processLocal('hold', () => __awaiter(this, void 0, void 0, function* () {
-            this._log('info', 'Placing on hold');
-            this.send('session-info', {
-                info: {
-                    infoType: JINGLE_INFO_HOLD
-                }
-            });
-        }));
+        return this.processLocal('hold', () =>
+            __awaiter(this, void 0, void 0, function* () {
+                this._log('info', 'Placing on hold');
+                this.send('session-info', {
+                    info: {
+                        infoType: JINGLE_INFO_HOLD
+                    }
+                });
+            })
+        );
     }
     resume() {
-        return this.processLocal('resume', () => __awaiter(this, void 0, void 0, function* () {
-            this._log('info', 'Resuming from hold');
-            this.send('session-info', {
-                info: {
-                    infoType: JINGLE_INFO_ACTIVE
-                }
-            });
-        }));
+        return this.processLocal('resume', () =>
+            __awaiter(this, void 0, void 0, function* () {
+                this._log('info', 'Resuming from hold');
+                this.send('session-info', {
+                    info: {
+                        infoType: JINGLE_INFO_ACTIVE
+                    }
+                });
+            })
+        );
     }
     // ----------------------------------------------------------------
     // Track control methods
@@ -8376,26 +8635,29 @@ class MediaSession extends ICESession {
         if (track.kind === 'video') {
             this.includesVideo = true;
         }
-        return this.processLocal('addtrack', () => __awaiter(this, void 0, void 0, function* () {
-            if (this.pc.addTrack) {
-                this.pc.addTrack(track, stream);
-            }
-            else {
-                this.pc.addStream(stream);
-            }
-            if (cb) {
-                cb();
-            }
-        }));
+        return this.processLocal('addtrack', () =>
+            __awaiter(this, void 0, void 0, function* () {
+                if (this.pc.addTrack) {
+                    this.pc.addTrack(track, stream);
+                } else {
+                    this.pc.addStream(stream);
+                }
+                if (cb) {
+                    cb();
+                }
+            })
+        );
     }
     removeTrack(sender, cb) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.processLocal('removetrack', () => __awaiter(this, void 0, void 0, function* () {
-                this.pc.removeTrack(sender);
-                if (cb) {
-                    return cb();
-                }
-            }));
+            return this.processLocal('removetrack', () =>
+                __awaiter(this, void 0, void 0, function* () {
+                    this.pc.removeTrack(sender);
+                    if (cb) {
+                        return cb();
+                    }
+                })
+            );
         });
     }
     // ----------------------------------------------------------------
@@ -8435,8 +8697,7 @@ class MediaSession extends ICESession {
                 yield this.pc.setRemoteDescription({ type: 'offer', sdp });
                 yield this.processBufferedCandidates();
                 return cb();
-            }
-            catch (err) {
+            } catch (err) {
                 this._log('error', 'Could not create WebRTC answer', err);
                 return cb({ condition: 'general-error' });
             }
@@ -8492,43 +8753,53 @@ class SessionManager extends EventEmitter {
         this.iceServers = conf.iceServers || [];
         this.prepareSession =
             conf.prepareSession ||
-                (opts => {
-                    if (!this.config.hasRTCPeerConnection) {
-                        return;
-                    }
-                    if (opts.applicationTypes.indexOf(NS_JINGLE_RTP_1) >= 0) {
-                        return new MediaSession(opts);
-                    }
-                    if (opts.applicationTypes.indexOf(NS_JINGLE_FILE_TRANSFER_5) >= 0) {
-                        return new FileTransferSession(opts);
-                    }
-                });
+            (opts => {
+                if (!this.config.hasRTCPeerConnection) {
+                    return;
+                }
+                if (opts.applicationTypes.indexOf(NS_JINGLE_RTP_1) >= 0) {
+                    return new MediaSession(opts);
+                }
+                if (opts.applicationTypes.indexOf(NS_JINGLE_FILE_TRANSFER_5) >= 0) {
+                    return new FileTransferSession(opts);
+                }
+            });
         this.performTieBreak =
             conf.performTieBreak ||
-                ((sess, req) => {
-                    const applicationTypes = (req.jingle.contents || []).map(content => {
-                        if (content.application) {
-                            return content.application.applicationType;
-                        }
-                    });
-                    const intersection = (sess.pendingApplicationTypes || []).filter(appType => applicationTypes.includes(appType));
-                    return intersection.length > 0;
-                });
-        this.createPeerConnection =
-            conf.createPeerConnection ||
-                ((session, opts) => {
-                    if (nativeRTCPeerConnection) {
-                        return new nativeRTCPeerConnection(opts);
+            ((sess, req) => {
+                const applicationTypes = (req.jingle.contents || []).map(content => {
+                    if (content.application) {
+                        return content.application.applicationType;
                     }
                 });
-        this.config = Object.assign({ debug: false, hasRTCPeerConnection: !!nativeRTCPeerConnection, peerConnectionConfig: {
-                bundlePolicy: conf.bundlePolicy || 'balanced',
-                iceTransportPolicy: conf.iceTransportPolicy || 'all',
-                rtcpMuxPolicy: conf.rtcpMuxPolicy || 'require',
-                sdpSemantics: conf.sdpSemantics || 'plan-b'
-            }, peerConnectionConstraints: {
-                optional: [{ DtlsSrtpKeyAgreement: true }, { RtpDataChannels: false }]
-            } }, conf);
+                const intersection = (sess.pendingApplicationTypes || []).filter(appType =>
+                    applicationTypes.includes(appType)
+                );
+                return intersection.length > 0;
+            });
+        this.createPeerConnection =
+            conf.createPeerConnection ||
+            ((session, opts) => {
+                if (nativeRTCPeerConnection) {
+                    return new nativeRTCPeerConnection(opts);
+                }
+            });
+        this.config = Object.assign(
+            {
+                debug: false,
+                hasRTCPeerConnection: !!nativeRTCPeerConnection,
+                peerConnectionConfig: {
+                    bundlePolicy: conf.bundlePolicy || 'balanced',
+                    iceTransportPolicy: conf.iceTransportPolicy || 'all',
+                    rtcpMuxPolicy: conf.rtcpMuxPolicy || 'require',
+                    sdpSemantics: conf.sdpSemantics || 'plan-b'
+                },
+                peerConnectionConstraints: {
+                    optional: [{ DtlsSrtpKeyAgreement: true }, { RtpDataChannels: false }]
+                }
+            },
+            conf
+        );
     }
     addICEServer(server) {
         if (typeof server === 'string') {
@@ -8556,8 +8827,7 @@ class SessionManager extends EventEmitter {
                 urls: [uri],
                 username: server.username
             });
-        }
-        else if (server.type === 'stun' || server.type === 'stuns') {
+        } else if (server.type === 'stun' || server.type === 'stuns') {
             this.iceServers.push({ urls: [uri] });
         }
     }
@@ -8641,8 +8911,7 @@ class SessionManager extends EventEmitter {
             const isTieBreak = req.error && req.error.jingleError === 'tie-break';
             if (session && session.state === 'pending' && isTieBreak) {
                 return session.end('alternative-session', true);
-            }
-            else {
+            } else {
                 if (session) {
                     session.pendingAction = undefined;
                 }
@@ -8708,8 +8977,7 @@ class SessionManager extends EventEmitter {
                     });
                 }
             }
-        }
-        else if (session) {
+        } else if (session) {
             // Don't accept a new session if we already have one.
             if (session.peerID !== sender) {
                 this._log('error', 'Duplicate sid from new sender');
@@ -8720,17 +8988,18 @@ class SessionManager extends EventEmitter {
             // Check if we need to have a tie breaker because both parties
             // happened to pick the same random sid.
             if (session.state === 'pending') {
-                if (this.selfID &&
+                if (
+                    this.selfID &&
                     this.selfID > session.peerID &&
-                    this.performTieBreak(session, req)) {
+                    this.performTieBreak(session, req)
+                ) {
                     this._log('error', 'Tie break new session because of duplicate sids');
                     return this._sendError(sender, rid, {
                         condition: 'conflict',
                         jingleError: 'tie-break'
                     });
                 }
-            }
-            else {
+            } else {
                 // The other side is just doing it wrong.
                 this._log('error', 'Someone is doing this wrong');
                 return this._sendError(sender, rid, {
@@ -8738,18 +9007,19 @@ class SessionManager extends EventEmitter {
                     jingleError: 'out-of-order'
                 });
             }
-        }
-        else if (this.peers[sender] && this.peers[sender].length) {
+        } else if (this.peers[sender] && this.peers[sender].length) {
             // Check if we need to have a tie breaker because we already have
             // a different session with this peer that is using the requested
             // content application types.
             for (let i = 0, len = this.peers[sender].length; i < len; i++) {
                 const sess = this.peers[sender][i];
-                if (sess &&
+                if (
+                    sess &&
                     sess.state === 'pending' &&
                     sid &&
                     octetCompare(sess.sid, sid) > 0 &&
-                    this.performTieBreak(sess, req)) {
+                    this.performTieBreak(sess, req)
+                ) {
                     this._log('info', 'Tie break session-initiate');
                     return this._sendError(sender, rid, {
                         condition: 'conflict',
@@ -8765,24 +9035,26 @@ class SessionManager extends EventEmitter {
                     condition: 'bad-request'
                 });
             }
-            session = this._createIncomingSession({
-                applicationTypes,
-                config: this.config.peerConnectionConfig,
-                constraints: this.config.peerConnectionConstraints,
-                iceServers: this.iceServers,
-                initiator: false,
-                parent: this,
-                peerID: sender,
-                sid,
-                transportTypes
-            }, req);
+            session = this._createIncomingSession(
+                {
+                    applicationTypes,
+                    config: this.config.peerConnectionConfig,
+                    constraints: this.config.peerConnectionConstraints,
+                    iceServers: this.iceServers,
+                    initiator: false,
+                    parent: this,
+                    peerID: sender,
+                    sid,
+                    transportTypes
+                },
+                req
+            );
         }
-        session.process(action, req.jingle, (err) => {
+        session.process(action, req.jingle, err => {
             if (err) {
                 this._log('error', 'Could not process request', req, err);
                 this._sendError(sender, rid, err);
-            }
-            else {
+            } else {
                 this.emit('send', {
                     id: rid,
                     to: sender,
@@ -8833,7 +9105,7 @@ class SessionManager extends EventEmitter {
     }
 }
 
-var index$2 = /*#__PURE__*/Object.freeze({
+var index$2 = /*#__PURE__*/ Object.freeze({
     __proto__: null,
     Session: JingleSession,
     ICESession: ICESession,
@@ -8844,7 +9116,7 @@ var index$2 = /*#__PURE__*/Object.freeze({
     exportToSDP: exportToSDP
 });
 
-function Jingle (client) {
+function Jingle(client) {
     const hasNativePeerConnection = !!nativeRTCPeerConnection;
     const defaultConfig = {
         advertiseAudio: hasNativePeerConnection,
@@ -8862,13 +9134,22 @@ function Jingle (client) {
     const jingle = (client.jingle = new SessionManager(config));
     const caps = [NS_JINGLE_1];
     if (config.hasRTCPeerConnection) {
-        caps.push(NS_JINGLE_ICE_0, NS_JINGLE_ICE_UDP_1, NS_JINGLE_DTLS_SCTP_1, NS_JINGLE_DTLS_0, 'urn:ietf:rfc:5888' // Jingle Grouping Framework
+        caps.push(
+            NS_JINGLE_ICE_0,
+            NS_JINGLE_ICE_UDP_1,
+            NS_JINGLE_DTLS_SCTP_1,
+            NS_JINGLE_DTLS_0,
+            'urn:ietf:rfc:5888' // Jingle Grouping Framework
         );
         if (config.trickleIce === false) {
             caps.push('urn:ietf:rfc:3264'); // ICE prefer batched candidates
         }
         if (config.advertiseAudio || config.advertiseVideo) {
-            caps.push(NS_JINGLE_RTP_1, NS_JINGLE_RTP_RTCP_FB_0, NS_JINGLE_RTP_HDREXT_0, 'urn:ietf:rfc:5576' // Jingle Source Specific Media Attributes
+            caps.push(
+                NS_JINGLE_RTP_1,
+                NS_JINGLE_RTP_RTCP_FB_0,
+                NS_JINGLE_RTP_HDREXT_0,
+                'urn:ietf:rfc:5576' // Jingle Source Specific Media Attributes
             );
         }
         if (config.advertiseAudio) {
@@ -8897,86 +9178,93 @@ function Jingle (client) {
     ];
     for (const event of mappedEvents) {
         jingle.on(event, (session, data) => {
-            client.emit(('jingle:' + event), session, data);
+            client.emit('jingle:' + event, session, data);
         });
     }
     jingle.on('createdSession', data => {
         client.emit('jingle:created', data);
     });
-    jingle.on('send', (data) => __awaiter(this, void 0, void 0, function* () {
-        try {
-            if (data.type === 'set') {
-                const resp = yield client.sendIQ(data);
-                if (!resp.jingle) {
-                    resp.jingle = {};
+    jingle.on('send', data =>
+        __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (data.type === 'set') {
+                    const resp = yield client.sendIQ(data);
+                    if (!resp.jingle) {
+                        resp.jingle = {};
+                    }
+                    resp.jingle.sid = data.jingle.sid;
+                    jingle.process(resp);
                 }
-                resp.jingle.sid = data.jingle.sid;
-                jingle.process(resp);
+                if (data.type === 'result') {
+                    client.sendIQResult({ type: 'set', id: data.id, from: data.to }, data);
+                }
+                if (data.type === 'error') {
+                    client.sendIQError({ type: 'set', id: data.id, from: data.to }, data);
+                }
+            } catch (err) {
+                if (!err.jingle) {
+                    err.jingle = data.jingle;
+                }
+                err.jingle.sid = data.jingle.sid;
+                jingle.process(err);
             }
-            if (data.type === 'result') {
-                client.sendIQResult({ type: 'set', id: data.id, from: data.to }, data);
-            }
-            if (data.type === 'error') {
-                client.sendIQError({ type: 'set', id: data.id, from: data.to }, data);
-            }
-        }
-        catch (err) {
-            if (!err.jingle) {
-                err.jingle = data.jingle;
-            }
-            err.jingle.sid = data.jingle.sid;
-            jingle.process(err);
-        }
-    }));
-    client.on('session:bound', (jid) => {
+        })
+    );
+    client.on('session:bound', jid => {
         jingle.selfID = jid;
     });
-    client.on('iq:set:jingle', (data) => {
+    client.on('iq:set:jingle', data => {
         jingle.process(data);
     });
-    client.on('unavailable', (pres) => {
+    client.on('unavailable', pres => {
         jingle.endPeerSessions(pres.from, undefined, true);
     });
-    client.getServices = (jid, type, version) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            externalServices: {
-                type,
-                version
-            },
-            to: jid,
-            type: 'get'
+    client.getServices = (jid, type, version) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                externalServices: {
+                    type,
+                    version
+                },
+                to: jid,
+                type: 'get'
+            });
+            const services = resp.externalServices;
+            services.services = services.services || [];
+            return services;
         });
-        const services = resp.externalServices;
-        services.services = services.services || [];
-        return services;
-    });
-    client.getServiceCredentials = (jid, host, type, port, version) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            externalServiceCredentials: {
-                host,
-                port,
-                type,
-                version
-            },
-            to: jid,
-            type: 'get'
+    client.getServiceCredentials = (jid, host, type, port, version) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                externalServiceCredentials: {
+                    host,
+                    port,
+                    type,
+                    version
+                },
+                to: jid,
+                type: 'get'
+            });
+            return resp.externalServiceCredentials;
         });
-        return resp.externalServiceCredentials;
-    });
-    client.discoverICEServers = (opts = {}) => __awaiter(this, void 0, void 0, function* () {
-        try {
-            const resp = yield client.getServices(client.config.server, undefined, opts.version);
-            const services = resp.services || [];
-            const discovered = [];
-            for (const service of services) {
-                client.jingle.addICEServer(service);
+    client.discoverICEServers = (opts = {}) =>
+        __awaiter(this, void 0, void 0, function* () {
+            try {
+                const resp = yield client.getServices(
+                    client.config.server,
+                    undefined,
+                    opts.version
+                );
+                const services = resp.services || [];
+                const discovered = [];
+                for (const service of services) {
+                    client.jingle.addICEServer(service);
+                }
+                return discovered;
+            } catch (err) {
+                return [];
             }
-            return discovered;
-        }
-        catch (err) {
-            return [];
-        }
-    });
+        });
 }
 
 function mergeFields(original, updated) {
@@ -8993,8 +9281,7 @@ function mergeFields(original, updated) {
         if (field.name && mappedUpdates.has(field.name)) {
             merged.push(Object.assign(Object.assign({}, field), mappedUpdates.get(field.name)));
             usedUpdates.add(field.name);
-        }
-        else {
+        } else {
             merged.push(Object.assign({}, field));
         }
     }
@@ -9007,93 +9294,94 @@ function mergeFields(original, updated) {
     return merged;
 }
 
-function MAM (client) {
-    client.getHistorySearchForm = (jid, opts = {}) => __awaiter(this, void 0, void 0, function* () {
-        const res = yield client.sendIQ({
-            archive: {
-                type: 'query',
-                version: opts.version
-            },
-            to: jid,
-            type: 'get'
-        });
-        return res.archive.form;
-    });
-    client.searchHistory = (jidOrOpts, opts = {}) => __awaiter(this, void 0, void 0, function* () {
-        const queryid = client.nextId();
-        let jid = '';
-        if (typeof jidOrOpts === 'string') {
-            jid = jidOrOpts;
-        }
-        else {
-            jid = jidOrOpts.to || '';
-            opts = jidOrOpts;
-        }
-        opts.queryId = queryid;
-        const form = opts.form || {};
-        form.type = 'submit';
-        const fields = form.fields || [];
-        const defaultFields = [
-            {
-                name: 'FORM_TYPE',
-                type: 'hidden',
-                value: NS_MAM_2
-            }
-        ];
-        if (opts.with) {
-            defaultFields.push({
-                name: 'with',
-                type: 'text-single',
-                value: opts.with
-            });
-        }
-        if (opts.start) {
-            defaultFields.push({
-                name: 'start',
-                type: 'text-single',
-                value: opts.start.toISOString()
-            });
-        }
-        if (opts.end) {
-            defaultFields.push({
-                name: 'end',
-                type: 'text-single',
-                value: opts.end.toISOString()
-            });
-        }
-        form.fields = mergeFields(defaultFields, fields);
-        opts.form = form;
-        const allowed = allowedResponders(client.jid, jid);
-        const results = [];
-        const collector = (msg) => {
-            if (allowed.has(msg.from) && msg.archive && msg.archive.queryId === queryid) {
-                results.push(msg.archive);
-            }
-        };
-        client.on('mam:item', collector);
-        try {
-            const resp = yield client.sendIQ({
-                archive: opts,
-                id: queryid,
+function MAM(client) {
+    client.getHistorySearchForm = (jid, opts = {}) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const res = yield client.sendIQ({
+                archive: {
+                    type: 'query',
+                    version: opts.version
+                },
                 to: jid,
-                type: 'set'
+                type: 'get'
             });
-            return Object.assign(Object.assign({}, resp.archive), { results });
-        }
-        finally {
-            client.off('mam:item', collector);
-        }
-    });
-    client.getHistoryPreferences = () => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            archive: {
-                type: 'preferences'
-            },
-            type: 'get'
+            return res.archive.form;
         });
-        return resp.archive;
-    });
-    client.setHistoryPreferences = (opts) => {
+    client.searchHistory = (jidOrOpts, opts = {}) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const queryid = client.nextId();
+            let jid = '';
+            if (typeof jidOrOpts === 'string') {
+                jid = jidOrOpts;
+            } else {
+                jid = jidOrOpts.to || '';
+                opts = jidOrOpts;
+            }
+            opts.queryId = queryid;
+            const form = opts.form || {};
+            form.type = 'submit';
+            const fields = form.fields || [];
+            const defaultFields = [
+                {
+                    name: 'FORM_TYPE',
+                    type: 'hidden',
+                    value: NS_MAM_2
+                }
+            ];
+            if (opts.with) {
+                defaultFields.push({
+                    name: 'with',
+                    type: 'text-single',
+                    value: opts.with
+                });
+            }
+            if (opts.start) {
+                defaultFields.push({
+                    name: 'start',
+                    type: 'text-single',
+                    value: opts.start.toISOString()
+                });
+            }
+            if (opts.end) {
+                defaultFields.push({
+                    name: 'end',
+                    type: 'text-single',
+                    value: opts.end.toISOString()
+                });
+            }
+            form.fields = mergeFields(defaultFields, fields);
+            opts.form = form;
+            const allowed = allowedResponders(client.jid, jid);
+            const results = [];
+            const collector = msg => {
+                if (allowed.has(msg.from) && msg.archive && msg.archive.queryId === queryid) {
+                    results.push(msg.archive);
+                }
+            };
+            client.on('mam:item', collector);
+            try {
+                const resp = yield client.sendIQ({
+                    archive: opts,
+                    id: queryid,
+                    to: jid,
+                    type: 'set'
+                });
+                return Object.assign(Object.assign({}, resp.archive), { results });
+            } finally {
+                client.off('mam:item', collector);
+            }
+        });
+    client.getHistoryPreferences = () =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                archive: {
+                    type: 'preferences'
+                },
+                type: 'get'
+            });
+            return resp.archive;
+        });
+    client.setHistoryPreferences = opts => {
         return client.sendIQ({
             archive: Object.assign({ type: 'preferences' }, opts),
             type: 'set'
@@ -9108,14 +9396,15 @@ function MAM (client) {
 
 const ACK_TYPES = new Set(['chat', 'headline', 'normal']);
 const ALLOWED_CHAT_STATE_TYPES = new Set(['chat', 'groupchat', 'normal']);
-const isReceivedCarbon = (msg) => !!msg.carbon && msg.carbon.type === 'received';
-const isSentCarbon = (msg) => !!msg.carbon && msg.carbon.type === 'sent';
-const isChatState = (msg) => !!msg.chatState;
-const isReceiptMessage = (msg) => !!msg.receipt;
-const hasRTT = (msg) => !!msg.rtt;
-const isCorrection = (msg) => !!msg.replace;
-const isMarkable = (msg, client) => msg.marker && msg.marker.type === 'markable' && client.config.chatMarkers !== false;
-const isFormsMessage = (msg) => !!msg.forms && msg.forms.length > 0;
+const isReceivedCarbon = msg => !!msg.carbon && msg.carbon.type === 'received';
+const isSentCarbon = msg => !!msg.carbon && msg.carbon.type === 'sent';
+const isChatState = msg => !!msg.chatState;
+const isReceiptMessage = msg => !!msg.receipt;
+const hasRTT = msg => !!msg.rtt;
+const isCorrection = msg => !!msg.replace;
+const isMarkable = (msg, client) =>
+    msg.marker && msg.marker.type === 'markable' && client.config.chatMarkers !== false;
+const isFormsMessage = msg => !!msg.forms && msg.forms.length > 0;
 function toggleCarbons(client, action) {
     return __awaiter(this, void 0, void 0, function* () {
         yield client.sendIQ({
@@ -9139,7 +9428,7 @@ function sendMarker(client, msg, marker) {
         });
     }
 }
-function Messaging (client) {
+function Messaging(client) {
     client.disco.addFeature(NS_ATTENTION_0);
     client.disco.addFeature(NS_CHAT_MARKERS_0);
     client.disco.addFeature(NS_CHAT_STATES);
@@ -9148,11 +9437,17 @@ function Messaging (client) {
     client.disco.addFeature(NS_RTT_0);
     client.enableCarbons = () => toggleCarbons(client, 'enable');
     client.disableCarbons = () => toggleCarbons(client, 'disable');
-    client.markReceived = (msg) => sendMarker(client, msg, 'received');
-    client.markDisplayed = (msg) => sendMarker(client, msg, 'displayed');
-    client.markAcknowledged = (msg) => sendMarker(client, msg, 'acknowledged');
+    client.markReceived = msg => sendMarker(client, msg, 'received');
+    client.markDisplayed = msg => sendMarker(client, msg, 'displayed');
+    client.markAcknowledged = msg => sendMarker(client, msg, 'acknowledged');
     client.getAttention = (jid, opts = {}) => {
-        return client.sendMessage(Object.assign(Object.assign({}, opts), { requestingAttention: true, to: jid, type: 'headline' }));
+        return client.sendMessage(
+            Object.assign(Object.assign({}, opts), {
+                requestingAttention: true,
+                to: jid,
+                type: 'headline'
+            })
+        );
     };
     client.on('message', msg => {
         if (msg.carbon && equalBare(msg.from, client.jid)) {
@@ -9194,9 +9489,11 @@ function Messaging (client) {
         }
         if (isReceiptMessage(msg)) {
             const sendReceipts = client.config.sendReceipts !== false;
-            if (sendReceipts &&
+            if (
+                sendReceipts &&
                 ACK_TYPES.has(msg.type || 'normal') &&
-                msg.receipt.type === 'request') {
+                msg.receipt.type === 'request'
+            ) {
                 client.sendMessage({
                     id: msg.id,
                     receipt: {
@@ -9217,7 +9514,7 @@ function Messaging (client) {
 function isMUCPresence(pres) {
     return !!pres.muc;
 }
-function MUC (client) {
+function MUC(client) {
     client.disco.addFeature(NS_MUC);
     client.disco.addFeature(NS_MUC_DIRECT_INVITE);
     client.disco.addFeature(NS_HATS_0);
@@ -9293,8 +9590,10 @@ function MUC (client) {
         if (!isMUCPresence(pres)) {
             return;
         }
-        const isSelf = pres.muc.statusCodes && pres.muc.statusCodes.indexOf(MUCStatusCode.SelfPresence) >= 0;
-        const isNickChange = pres.muc.statusCodes && pres.muc.statusCodes.indexOf(MUCStatusCode.NickChanged) >= 0;
+        const isSelf =
+            pres.muc.statusCodes && pres.muc.statusCodes.indexOf(MUCStatusCode.SelfPresence) >= 0;
+        const isNickChange =
+            pres.muc.statusCodes && pres.muc.statusCodes.indexOf(MUCStatusCode.NickChanged) >= 0;
         if (pres.type === 'error') {
             client.emit('muc:error', pres);
             return;
@@ -9304,8 +9603,7 @@ function MUC (client) {
             if (isSelf) {
                 if (isNickChange) {
                     client.joinedRooms.get(room).nick = pres.muc.nick;
-                }
-                else {
+                } else {
                     client.emit('muc:leave', pres);
                     client.joinedRooms.delete(room);
                     client.leavingRooms.delete(room);
@@ -9333,41 +9631,46 @@ function MUC (client) {
             }
         }
     });
-    client.joinRoom = (room, nick, opts = {}) => __awaiter(this, void 0, void 0, function* () {
-        room = toBare(room);
-        client.joiningRooms.set(room, {
-            nick: nick || '',
-            presence: opts
-        });
-        if (!nick) {
-            try {
-                nick = yield client.getReservedNick(room);
-                client.joiningRooms.get(room).nick = nick;
-            }
-            catch (err) {
-                throw new Error('Room nick required');
-            }
-        }
-        return new Promise((resolve, reject) => {
-            function joined(pres) {
-                if (equalBare(pres.from, room)) {
-                    client.off('muc:join', joined);
-                    client.off('muc:failed', failed);
-                    resolve(pres);
+    client.joinRoom = (room, nick, opts = {}) =>
+        __awaiter(this, void 0, void 0, function* () {
+            room = toBare(room);
+            client.joiningRooms.set(room, {
+                nick: nick || '',
+                presence: opts
+            });
+            if (!nick) {
+                try {
+                    nick = yield client.getReservedNick(room);
+                    client.joiningRooms.get(room).nick = nick;
+                } catch (err) {
+                    throw new Error('Room nick required');
                 }
             }
-            function failed(pres) {
-                if (equalBare(pres.from, room)) {
-                    client.off('muc:join', joined);
-                    client.off('muc:failed', failed);
-                    reject(pres);
+            return new Promise((resolve, reject) => {
+                function joined(pres) {
+                    if (equalBare(pres.from, room)) {
+                        client.off('muc:join', joined);
+                        client.off('muc:failed', failed);
+                        resolve(pres);
+                    }
                 }
-            }
-            client.on('muc:join', joined);
-            client.on('muc:failed', failed);
-            client.sendPresence(Object.assign(Object.assign({}, opts), { muc: Object.assign(Object.assign({}, opts.muc), { type: 'join' }), to: createFull(room, nick) }));
+                function failed(pres) {
+                    if (equalBare(pres.from, room)) {
+                        client.off('muc:join', joined);
+                        client.off('muc:failed', failed);
+                        reject(pres);
+                    }
+                }
+                client.on('muc:join', joined);
+                client.on('muc:failed', failed);
+                client.sendPresence(
+                    Object.assign(Object.assign({}, opts), {
+                        muc: Object.assign(Object.assign({}, opts.muc), { type: 'join' }),
+                        to: createFull(room, nick)
+                    })
+                );
+            });
         });
-    });
     client.leaveRoom = (room, nick, opts = {}) => {
         room = toBare(room);
         nick = nick || client.joinedRooms.get(room).nick;
@@ -9394,7 +9697,13 @@ function MUC (client) {
             }
             client.on('muc:leave', leave);
             client.on('presence:error', leaveError);
-            client.sendPresence(Object.assign(Object.assign({}, opts), { id, to: createFull(room, nick), type: 'unavailable' }));
+            client.sendPresence(
+                Object.assign(Object.assign({}, opts), {
+                    id,
+                    to: createFull(room, nick),
+                    type: 'unavailable'
+                })
+            );
         });
     };
     client.ban = (room, occupantRealJID, reason) => {
@@ -9442,8 +9751,10 @@ function MUC (client) {
                 if (!allowed.has(toBare(pres.from))) {
                     return;
                 }
-                if (!pres.muc.statusCodes ||
-                    !pres.muc.statusCodes.includes(MUCStatusCode.SelfPresence)) {
+                if (
+                    !pres.muc.statusCodes ||
+                    !pres.muc.statusCodes.includes(MUCStatusCode.SelfPresence)
+                ) {
                     return;
                 }
                 client.off('muc:available', success);
@@ -9458,8 +9769,7 @@ function MUC (client) {
                 client.off(`presence:id:${id}`, errorOrNoChange);
                 if (pres.type === 'error') {
                     reject(pres);
-                }
-                else {
+                } else {
                     resolve(pres);
                 }
             }
@@ -9478,22 +9788,21 @@ function MUC (client) {
             type: 'groupchat'
         });
     };
-    client.getReservedNick = (room) => __awaiter(this, void 0, void 0, function* () {
-        try {
-            const info = yield client.getDiscoInfo(room, 'x-roomuser-item');
-            const identity = info.identities[0];
-            if (identity.name) {
-                return identity.name;
-            }
-            else {
+    client.getReservedNick = room =>
+        __awaiter(this, void 0, void 0, function* () {
+            try {
+                const info = yield client.getDiscoInfo(room, 'x-roomuser-item');
+                const identity = info.identities[0];
+                if (identity.name) {
+                    return identity.name;
+                } else {
+                    throw new Error('No nickname reserved');
+                }
+            } catch (err) {
                 throw new Error('No nickname reserved');
             }
-        }
-        catch (err) {
-            throw new Error('No nickname reserved');
-        }
-    });
-    client.requestRoomVoice = (room) => {
+        });
+    client.requestRoomVoice = room => {
         client.sendMessage({
             forms: [
                 {
@@ -9557,19 +9866,20 @@ function MUC (client) {
             type: 'get'
         });
     };
-    client.getRoomConfig = (room) => __awaiter(this, void 0, void 0, function* () {
-        const result = yield client.sendIQ({
-            muc: {
-                type: 'configure'
-            },
-            to: room,
-            type: 'get'
+    client.getRoomConfig = room =>
+        __awaiter(this, void 0, void 0, function* () {
+            const result = yield client.sendIQ({
+                muc: {
+                    type: 'configure'
+                },
+                to: room,
+                type: 'get'
+            });
+            if (!result.muc.form) {
+                throw new Error('No configuration form returned');
+            }
+            return result.muc.form;
         });
-        if (!result.muc.form) {
-            throw new Error('No configuration form returned');
-        }
-        return result.muc.form;
-    });
     client.configureRoom = (room, form = {}) => {
         return client.sendIQ({
             muc: {
@@ -9605,46 +9915,48 @@ function MUC (client) {
             return result.muc.name;
         });
     };
-    client.getBookmarks = () => __awaiter(this, void 0, void 0, function* () {
-        const res = yield client.getPrivateData('bookmarks');
-        if (!res || !res.rooms) {
-            return [];
-        }
-        return res.rooms;
-    });
-    client.setBookmarks = (bookmarks) => {
+    client.getBookmarks = () =>
+        __awaiter(this, void 0, void 0, function* () {
+            const res = yield client.getPrivateData('bookmarks');
+            if (!res || !res.rooms) {
+                return [];
+            }
+            return res.rooms;
+        });
+    client.setBookmarks = bookmarks => {
         return client.setPrivateData('bookmarks', {
             rooms: bookmarks
         });
     };
-    client.addBookmark = (bookmark) => __awaiter(this, void 0, void 0, function* () {
-        const mucs = yield client.getBookmarks();
-        const updated = [];
-        let updatedExisting = false;
-        for (const muc of mucs) {
-            if (equalBare(muc.jid, bookmark.jid)) {
-                updated.push(Object.assign(Object.assign({}, muc), bookmark));
-                updatedExisting = true;
+    client.addBookmark = bookmark =>
+        __awaiter(this, void 0, void 0, function* () {
+            const mucs = yield client.getBookmarks();
+            const updated = [];
+            let updatedExisting = false;
+            for (const muc of mucs) {
+                if (equalBare(muc.jid, bookmark.jid)) {
+                    updated.push(Object.assign(Object.assign({}, muc), bookmark));
+                    updatedExisting = true;
+                } else {
+                    updated.push(muc);
+                }
             }
-            else {
-                updated.push(muc);
+            if (!updatedExisting) {
+                updated.push(bookmark);
             }
-        }
-        if (!updatedExisting) {
-            updated.push(bookmark);
-        }
-        return client.setBookmarks(updated);
-    });
-    client.removeBookmark = (jid) => __awaiter(this, void 0, void 0, function* () {
-        const existingMucs = yield client.getBookmarks();
-        const updated = existingMucs.filter(muc => {
-            return !equalBare(muc.jid, jid);
+            return client.setBookmarks(updated);
         });
-        return client.setBookmarks(updated);
-    });
+    client.removeBookmark = jid =>
+        __awaiter(this, void 0, void 0, function* () {
+            const existingMucs = yield client.getBookmarks();
+            const updated = existingMucs.filter(muc => {
+                return !equalBare(muc.jid, jid);
+            });
+            return client.setBookmarks(updated);
+        });
 }
 
-function PEP (client) {
+function PEP(client) {
     client.disco.addFeature(NS_ACTIVITY);
     client.disco.addFeature(NS_GEOLOC);
     client.disco.addFeature(NS_MOOD);
@@ -9655,22 +9967,22 @@ function PEP (client) {
     client.disco.addFeature(NS_PEP_NOTIFY(NS_MOOD));
     client.disco.addFeature(NS_PEP_NOTIFY(NS_NICK));
     client.disco.addFeature(NS_PEP_NOTIFY(NS_TUNE));
-    client.publishActivity = (data) => {
+    client.publishActivity = data => {
         return client.publish('', NS_ACTIVITY, Object.assign({ itemType: NS_ACTIVITY }, data));
     };
-    client.publishGeoLoc = (data) => {
+    client.publishGeoLoc = data => {
         return client.publish('', NS_GEOLOC, Object.assign({ itemType: NS_GEOLOC }, data));
     };
-    client.publishMood = (mood) => {
+    client.publishMood = mood => {
         return client.publish('', NS_MOOD, Object.assign({ itemType: NS_MOOD }, mood));
     };
-    client.publishNick = (nick) => {
+    client.publishNick = nick => {
         return client.publish('', NS_NICK, {
             itemType: NS_NICK,
             nick
         });
     };
-    client.publishTune = (tune) => {
+    client.publishTune = tune => {
         return client.publish('', NS_TUNE, Object.assign({ itemType: NS_TUNE }, tune));
     };
     client.on('pubsub:published', msg => {
@@ -9718,7 +10030,7 @@ function isPubsubPurge(msg) {
     return msg.pubsub.eventType === 'purge';
 }
 function isPubsubDelete(msg) {
-    return msg.pubsub.eventType === 'purge';
+    return msg.pubsub.eventType === 'delete';
 }
 function isPubsubSubscription(msg) {
     return msg.pubsub.eventType === 'subscription';
@@ -9732,7 +10044,7 @@ function isPubsubAffiliation(msg) {
     }
     return (!msg.pubsub.context || msg.pubsub.context === 'user') && !!msg.pubsub.affiliations;
 }
-function PubSub (client) {
+function PubSub(client) {
     client.disco.addFeature(`${NS_SHIM}#SubID`, NS_SHIM);
     client.on('message', msg => {
         if (isPubsubAffiliation(msg)) {
@@ -9768,57 +10080,57 @@ function PubSub (client) {
             return;
         }
     });
-    client.subscribeToNode = (jid, opts) => __awaiter(this, void 0, void 0, function* () {
-        const subscribe = {};
-        let form;
-        if (typeof opts === 'string') {
-            subscribe.node = opts;
-            subscribe.jid = toBare(client.jid);
-        }
-        else {
-            subscribe.node = opts.node;
-            subscribe.jid = opts.jid || (opts.useBareJID ? toBare(client.jid) : client.jid);
-            form = opts.options;
-        }
-        const resp = yield client.sendIQ({
-            pubsub: {
-                context: 'user',
-                subscribe,
-                subscriptionOptions: form ? { form } : undefined
-            },
-            to: jid,
-            type: 'set'
+    client.subscribeToNode = (jid, opts) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const subscribe = {};
+            let form;
+            if (typeof opts === 'string') {
+                subscribe.node = opts;
+                subscribe.jid = toBare(client.jid);
+            } else {
+                subscribe.node = opts.node;
+                subscribe.jid = opts.jid || (opts.useBareJID ? toBare(client.jid) : client.jid);
+                form = opts.options;
+            }
+            const resp = yield client.sendIQ({
+                pubsub: {
+                    context: 'user',
+                    subscribe,
+                    subscriptionOptions: form ? { form } : undefined
+                },
+                to: jid,
+                type: 'set'
+            });
+            const sub = resp.pubsub.subscription || {};
+            if (resp.pubsub.subscriptionOptions) {
+                sub.options = resp.pubsub.subscriptionOptions.form;
+            }
+            return sub;
         });
-        const sub = resp.pubsub.subscription || {};
-        if (resp.pubsub.subscriptionOptions) {
-            sub.options = resp.pubsub.subscriptionOptions.form;
-        }
-        return sub;
-    });
-    client.unsubscribeFromNode = (jid, opts) => __awaiter(this, void 0, void 0, function* () {
-        const unsubscribe = {};
-        if (typeof opts === 'string') {
-            unsubscribe.node = opts;
-            unsubscribe.jid = toBare(client.jid);
-        }
-        else {
-            unsubscribe.node = opts.node;
-            unsubscribe.subid = opts.subid;
-            unsubscribe.jid = opts.jid || (opts.useBareJID ? toBare(client.jid) : client.jid);
-        }
-        const resp = yield client.sendIQ({
-            pubsub: {
-                context: 'user',
-                unsubscribe
-            },
-            to: jid,
-            type: 'set'
+    client.unsubscribeFromNode = (jid, opts) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const unsubscribe = {};
+            if (typeof opts === 'string') {
+                unsubscribe.node = opts;
+                unsubscribe.jid = toBare(client.jid);
+            } else {
+                unsubscribe.node = opts.node;
+                unsubscribe.subid = opts.subid;
+                unsubscribe.jid = opts.jid || (opts.useBareJID ? toBare(client.jid) : client.jid);
+            }
+            const resp = yield client.sendIQ({
+                pubsub: {
+                    context: 'user',
+                    unsubscribe
+                },
+                to: jid,
+                type: 'set'
+            });
+            if (!resp.pubsub || !resp.pubsub.subscription) {
+                return Object.assign(Object.assign({}, unsubscribe), { state: 'none' });
+            }
+            return resp.pubsub.subscription;
         });
-        if (!resp.pubsub || !resp.pubsub.subscription) {
-            return Object.assign(Object.assign({}, unsubscribe), { state: 'none' });
-        }
-        return resp.pubsub.subscription;
-    });
     client.publish = (jid, node, item, id) => {
         return client.sendIQ({
             pubsub: {
@@ -9835,37 +10147,39 @@ function PubSub (client) {
             type: 'set'
         });
     };
-    client.getItem = (jid, node, id) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            pubsub: {
-                context: 'user',
-                fetch: {
-                    items: [{ id }],
-                    node
-                }
-            },
-            to: jid,
-            type: 'get'
-        });
-        return resp.pubsub.fetch.items[0];
-    });
-    client.getItems = (jid, node, opts = {}) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            pubsub: {
-                context: 'user',
-                fetch: {
-                    max: opts.max,
-                    node
+    client.getItem = (jid, node, id) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                pubsub: {
+                    context: 'user',
+                    fetch: {
+                        items: [{ id }],
+                        node
+                    }
                 },
-                paging: opts
-            },
-            to: jid,
-            type: 'get'
+                to: jid,
+                type: 'get'
+            });
+            return resp.pubsub.fetch.items[0];
         });
-        const result = resp.pubsub.fetch;
-        result.paging = resp.pubsub.paging;
-        return result;
-    });
+    client.getItems = (jid, node, opts = {}) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                pubsub: {
+                    context: 'user',
+                    fetch: {
+                        max: opts.max,
+                        node
+                    },
+                    paging: opts
+                },
+                to: jid,
+                type: 'get'
+            });
+            const result = resp.pubsub.fetch;
+            result.paging = resp.pubsub.paging;
+            return result;
+        });
     client.retract = (jid, node, id, notify) => {
         return client.sendIQ({
             pubsub: {
@@ -9903,40 +10217,42 @@ function PubSub (client) {
             type: 'set'
         });
     };
-    client.createNode = (jid, node, config) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            pubsub: {
-                configure: config
-                    ? {
-                        form: config
+    client.createNode = (jid, node, config) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                pubsub: {
+                    configure: config
+                        ? {
+                              form: config
+                          }
+                        : undefined,
+                    context: 'user',
+                    create: {
+                        node
                     }
-                    : undefined,
-                context: 'user',
-                create: {
+                },
+                to: jid,
+                type: 'set'
+            });
+            if (!resp.pubsub || !resp.pubsub.create) {
+                return {
                     node
-                }
-            },
-            to: jid,
-            type: 'set'
+                };
+            }
+            return resp.pubsub.create;
         });
-        if (!resp.pubsub || !resp.pubsub.create) {
-            return {
-                node
-            };
-        }
-        return resp.pubsub.create;
-    });
-    client.getSubscriptions = (jid, opts = {}) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            pubsub: {
-                context: 'user',
-                subscriptions: opts
-            },
-            to: jid,
-            type: 'get'
+    client.getSubscriptions = (jid, opts = {}) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                pubsub: {
+                    context: 'user',
+                    subscriptions: opts
+                },
+                to: jid,
+                type: 'get'
+            });
+            return resp.pubsub.subscriptions;
         });
-        return resp.pubsub.subscriptions;
-    });
     client.getAffiliations = (jid, node) => {
         return client.sendIQ({
             pubsub: {
@@ -9951,8 +10267,7 @@ function PubSub (client) {
     client.getNodeSubscribers = (jid, node, opts = {}) => {
         if (typeof node === 'string') {
             opts.node = node;
-        }
-        else {
+        } else {
             opts = Object.assign(Object.assign({}, opts), node);
         }
         return client.sendIQ({
@@ -9977,19 +10292,20 @@ function PubSub (client) {
             type: 'set'
         });
     };
-    client.getNodeAffiliations = (jid, node) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            pubsub: {
-                affiliations: {
-                    node
+    client.getNodeAffiliations = (jid, node) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                pubsub: {
+                    affiliations: {
+                        node
+                    },
+                    context: 'owner'
                 },
-                context: 'owner'
-            },
-            to: jid,
-            type: 'get'
+                to: jid,
+                type: 'get'
+            });
+            return resp.pubsub.affiliations;
         });
-        return resp.pubsub.affiliations;
-    });
     client.updateNodeAffiliations = (jid, node, items) => {
         return client.sendIQ({
             pubsub: {
@@ -10003,56 +10319,60 @@ function PubSub (client) {
             type: 'set'
         });
     };
-    client.getNodeConfig = (jid, node) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            pubsub: {
-                configure: {
-                    node
+    client.getNodeConfig = (jid, node) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                pubsub: {
+                    configure: {
+                        node
+                    },
+                    context: 'owner'
                 },
-                context: 'owner'
-            },
-            to: jid,
-            type: 'get'
+                to: jid,
+                type: 'get'
+            });
+            return resp.pubsub.configure.form || {};
         });
-        return resp.pubsub.configure.form || {};
-    });
-    client.getDefaultNodeConfig = (jid) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            pubsub: {
-                context: 'owner',
-                defaultConfiguration: {}
-            },
-            to: jid,
-            type: 'get'
-        });
-        return resp.pubsub.defaultConfiguration.form || {};
-    });
-    client.configureNode = (jid, node, config) => __awaiter(this, void 0, void 0, function* () {
-        return client.sendIQ({
-            pubsub: {
-                configure: {
-                    form: config,
-                    node
+    client.getDefaultNodeConfig = jid =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                pubsub: {
+                    context: 'owner',
+                    defaultConfiguration: {}
                 },
-                context: 'owner'
-            },
-            to: jid,
-            type: 'set'
+                to: jid,
+                type: 'get'
+            });
+            return resp.pubsub.defaultConfiguration.form || {};
         });
-    });
-    client.getDefaultSubscriptionOptions = (jid) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            pubsub: {
-                defaultSubscriptionOptions: {}
-            },
-            to: jid,
-            type: 'get'
+    client.configureNode = (jid, node, config) =>
+        __awaiter(this, void 0, void 0, function* () {
+            return client.sendIQ({
+                pubsub: {
+                    configure: {
+                        form: config,
+                        node
+                    },
+                    context: 'owner'
+                },
+                to: jid,
+                type: 'set'
+            });
         });
-        return resp.pubsub.defaultSubscriptionOptions.form || {};
-    });
+    client.getDefaultSubscriptionOptions = jid =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                pubsub: {
+                    defaultSubscriptionOptions: {}
+                },
+                to: jid,
+                type: 'get'
+            });
+            return resp.pubsub.defaultSubscriptionOptions.form || {};
+        });
 }
 
-function Roster (client) {
+function Roster(client) {
     client.on('iq:set:roster', iq => {
         const allowed = allowedResponders(client.jid);
         if (!allowed.has(iq.from)) {
@@ -10082,58 +10402,60 @@ function Roster (client) {
         });
         client.sendIQResult(iq);
     });
-    client.getRoster = () => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            roster: {
-                version: client.config.rosterVer
-            },
-            type: 'get'
-        });
-        if (resp.roster) {
-            const version = resp.roster.version;
-            if (version) {
-                client.config.rosterVer = version;
-                client.emit('roster:ver', version);
+    client.getRoster = () =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                roster: {
+                    version: client.config.rosterVer
+                },
+                type: 'get'
+            });
+            if (resp.roster) {
+                const version = resp.roster.version;
+                if (version) {
+                    client.config.rosterVer = version;
+                    client.emit('roster:ver', version);
+                }
+                resp.roster.items = resp.roster.items || [];
+                return resp.roster;
+            } else {
+                return { items: [] };
             }
-            resp.roster.items = resp.roster.items || [];
-            return resp.roster;
-        }
-        else {
-            return { items: [] };
-        }
-    });
-    client.updateRosterItem = (item) => __awaiter(this, void 0, void 0, function* () {
-        yield client.sendIQ({
-            roster: {
-                items: [item]
-            },
-            type: 'set'
         });
-    });
-    client.removeRosterItem = (jid) => {
+    client.updateRosterItem = item =>
+        __awaiter(this, void 0, void 0, function* () {
+            yield client.sendIQ({
+                roster: {
+                    items: [item]
+                },
+                type: 'set'
+            });
+        });
+    client.removeRosterItem = jid => {
         return client.updateRosterItem({ jid, subscription: 'remove' });
     };
-    client.subscribe = (jid) => {
+    client.subscribe = jid => {
         client.sendPresence({ type: 'subscribe', to: jid });
     };
-    client.unsubscribe = (jid) => {
+    client.unsubscribe = jid => {
         client.sendPresence({ type: 'unsubscribe', to: jid });
     };
-    client.acceptSubscription = (jid) => {
+    client.acceptSubscription = jid => {
         client.sendPresence({ type: 'subscribed', to: jid });
     };
-    client.denySubscription = (jid) => {
+    client.denySubscription = jid => {
         client.sendPresence({ type: 'unsubscribed', to: jid });
     };
-    client.getBlocked = () => __awaiter(this, void 0, void 0, function* () {
-        const result = yield client.sendIQ({
-            blockList: {
-                action: 'list'
-            },
-            type: 'get'
+    client.getBlocked = () =>
+        __awaiter(this, void 0, void 0, function* () {
+            const result = yield client.sendIQ({
+                blockList: {
+                    action: 'list'
+                },
+                type: 'get'
+            });
+            return Object.assign({ jids: [] }, result.blockList);
         });
-        return Object.assign({ jids: [] }, result.blockList);
-    });
     function toggleBlock(action, jid) {
         return __awaiter(this, void 0, void 0, function* () {
             yield client.sendIQ({
@@ -10145,126 +10467,138 @@ function Roster (client) {
             });
         });
     }
-    client.block = (jid) => __awaiter(this, void 0, void 0, function* () { return toggleBlock('block', jid); });
-    client.unblock = (jid) => __awaiter(this, void 0, void 0, function* () { return toggleBlock('unblock', jid); });
-    client.goInvisible = (probe = false) => __awaiter(this, void 0, void 0, function* () {
-        yield client.sendIQ({
-            type: 'set',
-            visiblity: {
-                probe,
-                type: 'invisible'
-            }
+    client.block = jid =>
+        __awaiter(this, void 0, void 0, function* () {
+            return toggleBlock('block', jid);
         });
-    });
-    client.goVisible = () => __awaiter(this, void 0, void 0, function* () {
-        yield client.sendIQ({
-            type: 'set',
-            visiblity: {
-                type: 'visible'
-            }
+    client.unblock = jid =>
+        __awaiter(this, void 0, void 0, function* () {
+            return toggleBlock('unblock', jid);
         });
-    });
+    client.goInvisible = (probe = false) =>
+        __awaiter(this, void 0, void 0, function* () {
+            yield client.sendIQ({
+                type: 'set',
+                visiblity: {
+                    probe,
+                    type: 'invisible'
+                }
+            });
+        });
+    client.goVisible = () =>
+        __awaiter(this, void 0, void 0, function* () {
+            yield client.sendIQ({
+                type: 'set',
+                visiblity: {
+                    type: 'visible'
+                }
+            });
+        });
 }
 
-function SASL (client) {
-    client.registerFeature('sasl', 100, (features, done) => __awaiter(this, void 0, void 0, function* () {
-        const mech = client.sasl.createMechanism(features.sasl.mechanisms);
-        const saslHandler = (sasl) => __awaiter(this, void 0, void 0, function* () {
-            if (!mech) {
-                return;
-            }
-            switch (sasl.type) {
-                case 'success': {
-                    client.features.negotiated.sasl = true;
-                    client.off('sasl', saslHandler);
-                    client.emit('auth:success', client.config.credentials);
-                    if (client.transport) {
-                        client.transport.authenticated = true;
+function SASL(client) {
+    client.registerFeature('sasl', 100, (features, done) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const mech = client.sasl.createMechanism(features.sasl.mechanisms);
+            const saslHandler = sasl =>
+                __awaiter(this, void 0, void 0, function* () {
+                    if (!mech) {
+                        return;
                     }
-                    done('restart');
-                    return;
-                }
-                case 'challenge': {
-                    mech.processChallenge(sasl.value);
-                    try {
-                        const credentials = (yield client.getCredentials());
-                        const resp = mech.createResponse(credentials);
-                        if (resp || resp === '') {
-                            client.send('sasl', {
-                                type: 'response',
-                                value: resp
-                            });
-                        }
-                        else {
-                            client.send('sasl', {
-                                type: 'response'
-                            });
-                        }
-                        const cacheable = mech.getCacheableCredentials();
-                        if (cacheable) {
-                            if (!client.config.credentials) {
-                                client.config.credentials = {};
+                    switch (sasl.type) {
+                        case 'success': {
+                            client.features.negotiated.sasl = true;
+                            client.off('sasl', saslHandler);
+                            client.emit('auth:success', client.config.credentials);
+                            if (client.transport) {
+                                client.transport.authenticated = true;
                             }
-                            client.config.credentials = Object.assign(Object.assign({}, client.config.credentials), cacheable);
-                            client.emit('credentials:update', client.config.credentials);
+                            done('restart');
+                            return;
+                        }
+                        case 'challenge': {
+                            mech.processChallenge(sasl.value);
+                            try {
+                                const credentials = yield client.getCredentials();
+                                const resp = mech.createResponse(credentials);
+                                if (resp || resp === '') {
+                                    client.send('sasl', {
+                                        type: 'response',
+                                        value: resp
+                                    });
+                                } else {
+                                    client.send('sasl', {
+                                        type: 'response'
+                                    });
+                                }
+                                const cacheable = mech.getCacheableCredentials();
+                                if (cacheable) {
+                                    if (!client.config.credentials) {
+                                        client.config.credentials = {};
+                                    }
+                                    client.config.credentials = Object.assign(
+                                        Object.assign({}, client.config.credentials),
+                                        cacheable
+                                    );
+                                    client.emit('credentials:update', client.config.credentials);
+                                }
+                            } catch (err) {
+                                console.error(err);
+                                client.send('sasl', {
+                                    type: 'abort'
+                                });
+                            }
+                            return;
+                        }
+                        case 'failure':
+                        case 'abort': {
+                            client.off('sasl', saslHandler);
+                            client.emit('auth:failed');
+                            done('disconnect', 'authentication failed');
+                            return;
                         }
                     }
-                    catch (err) {
-                        console.error(err);
-                        client.send('sasl', {
-                            type: 'abort'
-                        });
-                    }
-                    return;
-                }
-                case 'failure':
-                case 'abort': {
-                    client.off('sasl', saslHandler);
-                    client.emit('auth:failed');
-                    done('disconnect', 'authentication failed');
-                    return;
-                }
+                });
+            if (!mech) {
+                client.off('sasl', saslHandler);
+                client.emit('auth:failed');
+                return done('disconnect', 'authentication failed');
             }
-        });
-        if (!mech) {
-            client.off('sasl', saslHandler);
-            client.emit('auth:failed');
-            return done('disconnect', 'authentication failed');
-        }
-        client.on('sasl', saslHandler);
-        client.once('--reset-stream-features', () => {
-            client.features.negotiated.sasl = false;
-            client.off('sasl', saslHandler);
-        });
-        try {
-            const credentials = (yield client.getCredentials());
-            client.send('sasl', {
-                mechanism: mech.name,
-                type: 'auth',
-                value: mech.createResponse(credentials)
+            client.on('sasl', saslHandler);
+            client.once('--reset-stream-features', () => {
+                client.features.negotiated.sasl = false;
+                client.off('sasl', saslHandler);
             });
-        }
-        catch (err) {
-            console.error(err);
-            client.send('sasl', {
-                type: 'abort'
-            });
-        }
-    }));
+            try {
+                const credentials = yield client.getCredentials();
+                client.send('sasl', {
+                    mechanism: mech.name,
+                    type: 'auth',
+                    value: mech.createResponse(credentials)
+                });
+            } catch (err) {
+                console.error(err);
+                client.send('sasl', {
+                    type: 'abort'
+                });
+            }
+        })
+    );
 }
 
-function Sharing (client) {
+function Sharing(client) {
     client.disco.addFeature(NS_BOB);
-    client.getBits = (jid, cid) => __awaiter(this, void 0, void 0, function* () {
-        const result = yield client.sendIQ({
-            bits: {
-                cid
-            },
-            to: jid,
-            type: 'get'
+    client.getBits = (jid, cid) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const result = yield client.sendIQ({
+                bits: {
+                    cid
+                },
+                to: jid,
+                type: 'get'
+            });
+            return result.bits;
         });
-        return result.bits;
-    });
     function getUploadParameters(jid) {
         return __awaiter(this, void 0, void 0, function* () {
             const disco = yield client.getDiscoInfo(jid);
@@ -10274,7 +10608,11 @@ function Sharing (client) {
             let maxSize;
             for (const form of disco.extensions || []) {
                 const fields = form.fields || [];
-                if (fields.some(field => field.name === 'FORM_TYPE' && field.value === NS_HTTP_UPLOAD_0)) {
+                if (
+                    fields.some(
+                        field => field.name === 'FORM_TYPE' && field.value === NS_HTTP_UPLOAD_0
+                    )
+                ) {
                     const sizeField = fields.find(field => field.name === 'max-file-size');
                     if (sizeField) {
                         maxSize = parseInt(sizeField.value, 10);
@@ -10287,31 +10625,33 @@ function Sharing (client) {
             }
         });
     }
-    client.getUploadService = (domain = getDomain(client.jid)) => __awaiter(this, void 0, void 0, function* () {
-        const domainParameters = yield getUploadParameters(domain);
-        if (domainParameters) {
-            return domainParameters;
-        }
-        const disco = yield client.getDiscoItems(domain);
-        for (const item of disco.items || []) {
-            if (!item.jid) {
-                continue;
+    client.getUploadService = (domain = getDomain(client.jid)) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const domainParameters = yield getUploadParameters(domain);
+            if (domainParameters) {
+                return domainParameters;
             }
-            const itemParameters = yield getUploadParameters(item.jid);
-            if (itemParameters) {
-                return itemParameters;
+            const disco = yield client.getDiscoItems(domain);
+            for (const item of disco.items || []) {
+                if (!item.jid) {
+                    continue;
+                }
+                const itemParameters = yield getUploadParameters(item.jid);
+                if (itemParameters) {
+                    return itemParameters;
+                }
             }
-        }
-        throw new Error('No upload service discovered on: ' + domain);
-    });
-    client.getUploadSlot = (uploadService, uploadRequest) => __awaiter(this, void 0, void 0, function* () {
-        const resp = yield client.sendIQ({
-            httpUpload: Object.assign({ type: 'request' }, uploadRequest),
-            to: uploadService,
-            type: 'get'
+            throw new Error('No upload service discovered on: ' + domain);
         });
-        return resp.httpUpload;
-    });
+    client.getUploadSlot = (uploadService, uploadRequest) =>
+        __awaiter(this, void 0, void 0, function* () {
+            const resp = yield client.sendIQ({
+                httpUpload: Object.assign({ type: 'request' }, uploadRequest),
+                to: uploadService,
+                type: 'get'
+            });
+            return resp.httpUpload;
+        });
 }
 
 function core(client) {
@@ -10322,7 +10662,7 @@ function core(client) {
     client.use(HostMeta);
     client.use(SASL);
 }
-function Plugins (client) {
+function Plugins(client) {
     client.use(Account);
     client.use(Messaging);
     client.use(Avatar);
@@ -10468,7 +10808,11 @@ const _StreamError = {
     element: 'error',
     fields: {
         alternateLanguageText: childAlternateLanguageText(NS_STREAMS, 'text'),
-        condition: childEnum(NS_STREAMS, Object.values(StreamErrorCondition), StreamErrorCondition.UndefinedCondition),
+        condition: childEnum(
+            NS_STREAMS,
+            Object.values(StreamErrorCondition),
+            StreamErrorCondition.UndefinedCondition
+        ),
         seeOtherHost: childText(NS_STREAMS, StreamErrorCondition.SeeOtherHost),
         text: childText(NS_STREAMS, 'text')
     },
@@ -10483,7 +10827,11 @@ const _StanzaError = Object.values(StreamType).map(streamNS => ({
     fields: {
         alternateLanguageText: childAlternateLanguageText(NS_STANZAS, 'text'),
         by: JIDAttribute('by'),
-        condition: childEnum(NS_STANZAS, Object.values(StanzaErrorCondition), StanzaErrorCondition.UndefinedCondition),
+        condition: childEnum(
+            NS_STANZAS,
+            Object.values(StanzaErrorCondition),
+            StanzaErrorCondition.UndefinedCondition
+        ),
         gone: childText(NS_STANZAS, StanzaErrorCondition.Gone),
         redirect: childText(NS_STANZAS, StanzaErrorCondition.Redirect),
         text: childText(NS_STANZAS, 'text'),
@@ -10504,7 +10852,7 @@ const baseIQFields = new Set([
     'error',
     'streamType'
 ]);
-const _IQ = Object.values(StreamType).map((streamNS) => ({
+const _IQ = Object.values(StreamType).map(streamNS => ({
     childrenExportOrder: {
         error: 200000
     },
@@ -10517,12 +10865,10 @@ const _IQ = Object.values(StreamType).map((streamNS) => ({
         payloadType: {
             order: -10000,
             importer(xml, context) {
-                if (context.data.type !== 'get' &&
-                    context.data.type !== 'set') {
+                if (context.data.type !== 'get' && context.data.type !== 'set') {
                     return;
                 }
-                const childCount = xml.children.filter(child => typeof child !== 'string')
-                    .length;
+                const childCount = xml.children.filter(child => typeof child !== 'string').length;
                 if (childCount !== 1) {
                     return 'invalid-payload-count';
                 }
@@ -10779,8 +11125,14 @@ const Protocol$5 = [
         aliases: [{ path: 'message.forms', multiple: true }],
         element: 'x',
         fields: {
-            instructions: Object.assign(Object.assign({}, multipleChildText(null, 'instructions')), { exportOrder: 2 }),
-            reported: Object.assign(Object.assign({}, splicePath(null, 'reported', 'dataformField', true)), { exportOrder: 3 }),
+            instructions: Object.assign(
+                Object.assign({}, multipleChildText(null, 'instructions')),
+                { exportOrder: 2 }
+            ),
+            reported: Object.assign(
+                Object.assign({}, splicePath(null, 'reported', 'dataformField', true)),
+                { exportOrder: 3 }
+            ),
             title: Object.assign(Object.assign({}, childText(null, 'title')), { exportOrder: 1 }),
             type: attribute('type')
         },
@@ -10800,7 +11152,9 @@ const Protocol$5 = [
             description: childText(null, 'desc'),
             label: attribute('label'),
             name: attribute('var'),
-            rawValues: Object.assign(Object.assign({}, multipleChildText(null, 'value')), { exporter: () => null }),
+            rawValues: Object.assign(Object.assign({}, multipleChildText(null, 'value')), {
+                exporter: () => null
+            }),
             required: childBoolean(null, 'required'),
             type: attribute('type'),
             value: {
@@ -10832,28 +11186,30 @@ const Protocol$5 = [
                 exporter(xml, data, context) {
                     const converter = multipleChildText(null, 'value');
                     let outputData = [];
-                    const rawData = context.data && context.data.rawValues
-                        ? context.data.rawValues[0]
-                        : undefined;
+                    const rawData =
+                        context.data && context.data.rawValues
+                            ? context.data.rawValues[0]
+                            : undefined;
                     if (typeof data === 'boolean') {
                         if (rawData === 'true' || rawData === 'false') {
                             outputData = [rawData];
-                        }
-                        else {
+                        } else {
                             outputData = [data ? '1' : '0'];
                         }
-                    }
-                    else if (!Array.isArray(data)) {
+                    } else if (!Array.isArray(data)) {
                         outputData = [data.toString()];
-                    }
-                    else {
+                    } else {
                         for (const value of data) {
                             outputData.push(value.toString());
                         }
                     }
-                    converter.exporter(xml, outputData, Object.assign({}, context, {
-                        namespace: NS_DATAFORM
-                    }));
+                    converter.exporter(
+                        xml,
+                        outputData,
+                        Object.assign({}, context, {
+                            namespace: NS_DATAFORM
+                        })
+                    );
                 }
             }
         },
@@ -11199,7 +11555,10 @@ const Protocol$a = [
         legacyMUC: {
             exporter(xml, value, context) {
                 const out = context.registry
-                    ? context.registry.export('message.muc', Object.assign(Object.assign({}, value), { type: 'direct-invite' }))
+                    ? context.registry.export(
+                          'message.muc',
+                          Object.assign(Object.assign({}, value), { type: 'direct-invite' })
+                      )
                     : undefined;
                 if (out) {
                     xml.appendChild(out);
@@ -11216,7 +11575,10 @@ const Protocol$a = [
                     return;
                 }
                 return context.registry
-                    ? context.registry.import(confElement, Object.assign(Object.assign({}, context), { path: 'message' }))
+                    ? context.registry.import(
+                          confElement,
+                          Object.assign(Object.assign({}, context), { path: 'message' })
+                      )
                     : undefined;
             },
             importOrder: -1
@@ -11422,7 +11784,9 @@ const Protocol$f = [
         aliases: [{ path, multiple: true }],
         element: 'ORG',
         fields: {
-            units: Object.assign(Object.assign({}, multipleChildText(null, 'ORGUNIT')), { order: 2 }),
+            units: Object.assign(Object.assign({}, multipleChildText(null, 'ORGUNIT')), {
+                order: 2
+            }),
             value: Object.assign(Object.assign({}, childText(null, 'ORGNAME')), { order: 1 })
         },
         namespace: NS_VCARD_TEMP,
@@ -11573,7 +11937,7 @@ const Protocol$h = {
 };
 
 // ====================================================================
-const dateOrPresenceAttribute = (name) => ({
+const dateOrPresenceAttribute = name => ({
     importer(xml) {
         const data = xml.getAttribute(name);
         if (data === 'presence') {
@@ -11587,8 +11951,7 @@ const dateOrPresenceAttribute = (name) => ({
         let data;
         if (typeof value === 'string') {
             data = value;
-        }
-        else {
+        } else {
             data = value.toISOString();
         }
         xml.setAttribute(name, data);
@@ -12345,15 +12708,21 @@ const Protocol$w = {
         version: attribute('ver'),
         // XEP-0206
         xmppRestart: namespacedBooleanAttribute('xmpp', NS_BOSH_XMPP, 'restart', undefined, {
-            writeValue: (value) => {
+            writeValue: value => {
                 return value ? 'true' : 'false';
             }
         }),
-        xmppRestartLogic: namespacedBooleanAttribute('xmpp', NS_BOSH_XMPP, 'restartlogic', undefined, {
-            writeValue: (value) => {
-                return value ? 'true' : 'false';
+        xmppRestartLogic: namespacedBooleanAttribute(
+            'xmpp',
+            NS_BOSH_XMPP,
+            'restartlogic',
+            undefined,
+            {
+                writeValue: value => {
+                    return value ? 'true' : 'false';
+                }
             }
-        }),
+        ),
         xmppVersion: namespacedAttribute('xmpp', NS_BOSH_XMPP, 'version')
     },
     namespace: NS_BOSH,
@@ -12451,8 +12820,7 @@ var XEP0153 = extendPresence({
             const photo = findAll(update[0], NS_VCARD_TEMP_UPDATE, 'photo');
             if (photo.length) {
                 return photo[0].getText();
-            }
-            else {
+            } else {
                 return true;
             }
         },
@@ -12460,11 +12828,9 @@ var XEP0153 = extendPresence({
             const update = findOrCreate(xml, NS_VCARD_TEMP_UPDATE, 'x');
             if (value === '') {
                 findOrCreate(update, NS_VCARD_TEMP_UPDATE, 'photo');
-            }
-            else if (value === true) {
+            } else if (value === true) {
                 return;
-            }
-            else if (value) {
+            } else if (value) {
                 const photo = findOrCreate(update, NS_VCARD_TEMP_UPDATE, 'photo');
                 photo.children.push(value);
             }
@@ -12554,13 +12920,22 @@ function rtcpFeedback() {
             for (const fb of values) {
                 let child;
                 if (fb.type === 'trr-int') {
-                    child = createElement(NS_JINGLE_RTP_RTCP_FB_0, 'rtcp-fb-trr-int', context.namespace, xml);
+                    child = createElement(
+                        NS_JINGLE_RTP_RTCP_FB_0,
+                        'rtcp-fb-trr-int',
+                        context.namespace,
+                        xml
+                    );
                     if (fb.parameter) {
                         valueExporter(child, fb.parameter, context);
                     }
-                }
-                else {
-                    child = createElement(NS_JINGLE_RTP_RTCP_FB_0, 'rtcp-fb', context.namespace, xml);
+                } else {
+                    child = createElement(
+                        NS_JINGLE_RTP_RTCP_FB_0,
+                        'rtcp-fb',
+                        context.namespace,
+                        xml
+                    );
                     typeExporter(child, fb.type, context);
                     if (fb.parameter) {
                         subtypeExporter(child, fb.parameter, context);
@@ -12587,8 +12962,13 @@ const Protocol$C = [
         fields: {
             media: attribute('media'),
             rtcpFeedback: Object.assign(Object.assign({}, rtcpFeedback()), { exportOrder: 3 }),
-            rtcpMux: Object.assign(Object.assign({}, childBoolean(null, 'rtcp-mux')), { exportOrder: 1 }),
-            rtcpReducedSize: Object.assign(Object.assign({}, childBoolean(null, 'rtcp-reduced-size')), { exportOrder: 2 }),
+            rtcpMux: Object.assign(Object.assign({}, childBoolean(null, 'rtcp-mux')), {
+                exportOrder: 1
+            }),
+            rtcpReducedSize: Object.assign(
+                Object.assign({}, childBoolean(null, 'rtcp-reduced-size')),
+                { exportOrder: 2 }
+            ),
             ssrc: attribute('ssrc')
         },
         namespace: NS_JINGLE_RTP_1,
@@ -12786,7 +13166,7 @@ const Protocol$D = [
 ];
 
 // ====================================================================
-const ice = (transportType) => [
+const ice = transportType => [
     {
         element: 'transport',
         fields: {
@@ -13073,58 +13453,62 @@ const Protocol$L = {
 
 // ====================================================================
 const versions = {
-    '2': NS_DISCO_EXTERNAL_2,
-    '1': NS_DISCO_EXTERNAL_1
+    2: NS_DISCO_EXTERNAL_2,
+    1: NS_DISCO_EXTERNAL_1
 };
 const Protocol$M = [];
 for (const [version, namespace] of Object.entries(versions)) {
-    Protocol$M.push({
-        aliases: ['iq.externalServiceCredentials'],
-        defaultType: '2',
-        element: 'credentials',
-        fields: {
-            expires: childDateAttribute(null, 'service', 'expires'),
-            host: childAttribute(null, 'service', 'host'),
-            name: childAttribute(null, 'service', 'name'),
-            password: childAttribute(null, 'service', 'password'),
-            port: childIntegerAttribute(null, 'service', 'port'),
-            restricted: childBooleanAttribute(null, 'service', 'restricted'),
-            transport: childAttribute(null, 'service', 'transport'),
-            type: childAttribute(null, 'service', 'type'),
-            username: childAttribute(null, 'service', 'username')
+    Protocol$M.push(
+        {
+            aliases: ['iq.externalServiceCredentials'],
+            defaultType: '2',
+            element: 'credentials',
+            fields: {
+                expires: childDateAttribute(null, 'service', 'expires'),
+                host: childAttribute(null, 'service', 'host'),
+                name: childAttribute(null, 'service', 'name'),
+                password: childAttribute(null, 'service', 'password'),
+                port: childIntegerAttribute(null, 'service', 'port'),
+                restricted: childBooleanAttribute(null, 'service', 'restricted'),
+                transport: childAttribute(null, 'service', 'transport'),
+                type: childAttribute(null, 'service', 'type'),
+                username: childAttribute(null, 'service', 'username')
+            },
+            namespace,
+            type: version,
+            typeField: 'version'
         },
-        namespace,
-        type: version,
-        typeField: 'version'
-    }, {
-        aliases: ['iq.externalServices'],
-        defaultType: '2',
-        element: 'services',
-        fields: {
-            type: attribute('type')
+        {
+            aliases: ['iq.externalServices'],
+            defaultType: '2',
+            element: 'services',
+            fields: {
+                type: attribute('type')
+            },
+            namespace,
+            type: version,
+            typeField: 'version'
         },
-        namespace,
-        type: version,
-        typeField: 'version'
-    }, {
-        aliases: [{ path: 'iq.externalServices.services', multiple: true }],
-        defaultType: '2',
-        element: 'service',
-        fields: {
-            expires: dateAttribute('expires'),
-            host: attribute('host'),
-            name: attribute('name'),
-            password: attribute('password'),
-            port: integerAttribute('port'),
-            restricted: booleanAttribute('restricted'),
-            transport: attribute('transport'),
-            type: attribute('type'),
-            username: attribute('username')
-        },
-        namespace,
-        type: version,
-        typeField: 'version'
-    });
+        {
+            aliases: [{ path: 'iq.externalServices.services', multiple: true }],
+            defaultType: '2',
+            element: 'service',
+            fields: {
+                expires: dateAttribute('expires'),
+                host: attribute('host'),
+                name: attribute('name'),
+                password: attribute('password'),
+                port: integerAttribute('port'),
+                restricted: booleanAttribute('restricted'),
+                transport: attribute('transport'),
+                type: attribute('type'),
+                username: attribute('username')
+            },
+            namespace,
+            type: version,
+            typeField: 'version'
+        }
+    );
 }
 
 // ====================================================================
@@ -13383,8 +13767,12 @@ const Protocol$U = [
 
 // ====================================================================
 const Protocol$V = [
-    ...Object.values(StreamType).map(streamNS => addAlias(streamNS, 'message', ['forward.message'])),
-    ...Object.values(StreamType).map(streamNS => addAlias(streamNS, 'presence', ['forward.presence'])),
+    ...Object.values(StreamType).map(streamNS =>
+        addAlias(streamNS, 'message', ['forward.message'])
+    ),
+    ...Object.values(StreamType).map(streamNS =>
+        addAlias(streamNS, 'presence', ['forward.presence'])
+    ),
     ...Object.values(StreamType).map(streamNS => addAlias(streamNS, 'iq', ['forward.iq'])),
     addAlias(NS_DELAY, 'delay', ['forward.delay']),
     {
@@ -13486,8 +13874,8 @@ var XEP0308 = extendMessage({
 
 // ====================================================================
 const versions$1 = {
-    '2': NS_MAM_2,
-    '1': NS_MAM_1
+    2: NS_MAM_2,
+    1: NS_MAM_1
 };
 const Protocol$Y = [
     addAlias(NS_DATAFORM, 'x', ['iq.archive.form']),
@@ -13495,59 +13883,64 @@ const Protocol$Y = [
     addAlias(NS_RSM, 'set', ['iq.archive.paging'])
 ];
 for (const [version, namespace] of Object.entries(versions$1)) {
-    Protocol$Y.push({
-        defaultType: 'query',
-        defaultVersion: '2',
-        element: 'query',
-        fields: {
-            node: attribute('node'),
-            queryId: attribute('queryid')
+    Protocol$Y.push(
+        {
+            defaultType: 'query',
+            defaultVersion: '2',
+            element: 'query',
+            fields: {
+                node: attribute('node'),
+                queryId: attribute('queryid')
+            },
+            namespace,
+            path: 'iq.archive',
+            type: 'query',
+            typeField: 'type',
+            version,
+            versionField: 'version'
         },
-        namespace,
-        path: 'iq.archive',
-        type: 'query',
-        typeField: 'type',
-        version,
-        versionField: 'version'
-    }, {
-        element: 'fin',
-        fields: {
-            complete: booleanAttribute('complete'),
-            stable: booleanAttribute('stable')
+        {
+            element: 'fin',
+            fields: {
+                complete: booleanAttribute('complete'),
+                stable: booleanAttribute('stable')
+            },
+            namespace,
+            path: 'iq.archive',
+            type: 'result',
+            version
         },
-        namespace,
-        path: 'iq.archive',
-        type: 'result',
-        version
-    }, {
-        element: 'prefs',
-        fields: {
-            default: attribute('default'),
-            always: deepMultipleChildText([
-                { namespace: null, element: 'always' },
-                { namespace: null, element: 'jid' }
-            ]),
-            never: deepMultipleChildText([
-                { namespace: null, element: 'never' },
-                { namespace: null, element: 'jid' }
-            ])
+        {
+            element: 'prefs',
+            fields: {
+                default: attribute('default'),
+                always: deepMultipleChildText([
+                    { namespace: null, element: 'always' },
+                    { namespace: null, element: 'jid' }
+                ]),
+                never: deepMultipleChildText([
+                    { namespace: null, element: 'never' },
+                    { namespace: null, element: 'jid' }
+                ])
+            },
+            namespace,
+            path: 'iq.archive',
+            type: 'preferences',
+            version
         },
-        namespace,
-        path: 'iq.archive',
-        type: 'preferences',
-        version
-    }, {
-        element: 'result',
-        defaultType: '2',
-        fields: {
-            id: attribute('id'),
-            queryId: attribute('queryid')
-        },
-        namespace,
-        path: 'message.archive',
-        type: version,
-        typeField: 'version'
-    });
+        {
+            element: 'result',
+            defaultType: '2',
+            fields: {
+                id: attribute('id'),
+                queryId: attribute('queryid')
+            },
+            namespace,
+            path: 'message.archive',
+            type: version,
+            typeField: 'version'
+        }
+    );
 }
 
 // ====================================================================
@@ -13678,7 +14071,9 @@ function processingHints() {
                 xml.appendChild(createElement(NS_HINTS, 'no-copy', context.namespace, xml));
             }
             if (value.noPermanentStore) {
-                xml.appendChild(createElement(NS_HINTS, 'no-permanent-store', context.namespace, xml));
+                xml.appendChild(
+                    createElement(NS_HINTS, 'no-permanent-store', context.namespace, xml)
+                );
             }
             if (value.noStore) {
                 xml.appendChild(createElement(NS_HINTS, 'no-store', context.namespace, xml));
@@ -14062,9 +14457,9 @@ const Protocol$1a = [
     Protocol$19
 ];
 
-var index$3 = /*#__PURE__*/Object.freeze({
+var index$3 = /*#__PURE__*/ Object.freeze({
     __proto__: null,
-    'default': Protocol$1a
+    default: Protocol$1a
 });
 
 class RequestChannel {
@@ -14082,30 +14477,31 @@ class RequestChannel {
             while (attempts <= this.maxRetries) {
                 attempts += 1;
                 try {
-                    const res = yield timeoutPromise(nativeFetch(this.stream.url, {
-                        body,
-                        headers: {
-                            'Content-Type': this.stream.contentType
-                        },
-                        method: 'POST'
-                    }), this.maxTimeout, () => new Error('Request timed out'));
+                    const res = yield timeoutPromise(
+                        nativeFetch(this.stream.url, {
+                            body,
+                            headers: {
+                                'Content-Type': this.stream.contentType
+                            },
+                            method: 'POST'
+                        }),
+                        this.maxTimeout,
+                        () => new Error('Request timed out')
+                    );
                     if (!res.ok) {
                         throw new Error('HTTP Status Error: ' + res.status);
                     }
                     const result = yield res.text();
                     this.active = false;
                     return result;
-                }
-                catch (err) {
+                } catch (err) {
                     if (attempts === 1) {
                         continue;
-                    }
-                    else if (attempts < this.maxRetries) {
+                    } else if (attempts < this.maxRetries) {
                         const backoff = Math.min(this.maxTimeout, Math.pow(attempts, 2) * 1000);
                         yield sleep(backoff + Math.random() * 1000);
                         continue;
-                    }
-                    else {
+                    } else {
                         this.active = false;
                         throw err;
                     }
@@ -14163,7 +14559,7 @@ class BOSH extends Duplex {
             rootKey: 'bosh',
             wrappedStream: true
         });
-        parser.on('error', (err) => {
+        parser.on('error', err => {
             const streamError = {
                 condition: StreamErrorCondition.InvalidXML
             };
@@ -14171,7 +14567,7 @@ class BOSH extends Duplex {
             this.send('error', streamError);
             return this.disconnect();
         });
-        parser.on('data', (e) => {
+        parser.on('data', e => {
             if (e.event === 'stream-start') {
                 this.stream = e.stanza;
                 if (e.stanza.type === 'terminate') {
@@ -14184,8 +14580,7 @@ class BOSH extends Duplex {
                         this.client.emit('stream:end');
                         this.push(null);
                     }
-                }
-                else if (!this.hasStream) {
+                } else if (!this.hasStream) {
                     this.hasStream = true;
                     this.stream = e.stanza;
                     this.sid = e.stanza.sid || this.sid;
@@ -14243,8 +14638,7 @@ class BOSH extends Duplex {
             this._send({
                 type: 'terminate'
             });
-        }
-        else {
+        } else {
             this.stream = undefined;
             this.sid = undefined;
             this.rid = undefined;
@@ -14256,7 +14650,10 @@ class BOSH extends Duplex {
         return __awaiter(this, void 0, void 0, function* () {
             let output;
             if (data) {
-                output = (_a = this.stanzas.export(dataOrName, data)) === null || _a === void 0 ? void 0 : _a.toString();
+                output =
+                    (_a = this.stanzas.export(dataOrName, data)) === null || _a === void 0
+                        ? void 0
+                        : _a.toString();
             }
             if (!output) {
                 return;
@@ -14281,23 +14678,25 @@ class BOSH extends Duplex {
                 return;
             }
             const rid = this.rid++;
-            const header = this.stanzas.export('bosh', Object.assign(Object.assign({}, boshData), { rid, sid: this.sid }));
+            const header = this.stanzas.export(
+                'bosh',
+                Object.assign(Object.assign({}, boshData), { rid, sid: this.sid })
+            );
             let body;
             if (payload) {
                 body = [header.openTag(), payload, header.closeTag()].join('');
-            }
-            else {
+            } else {
                 body = header.toString();
             }
             this.client.emit('raw', 'outgoing', body);
             this.sendingChannel
                 .send(rid, body)
                 .then(result => {
-                this.process(result);
-            })
+                    this.process(result);
+                })
                 .catch(err => {
-                this.end(err);
-            });
+                    this.end(err);
+                });
             this.toggleChannel();
         });
     }
@@ -14309,19 +14708,19 @@ class BOSH extends Duplex {
             const rid = this.rid++;
             const body = this.stanzas
                 .export('bosh', {
-                rid,
-                sid: this.sid
-            })
+                    rid,
+                    sid: this.sid
+                })
                 .toString();
             this.client.emit('raw', 'outgoing', body);
             this.pollingChannel
                 .send(rid, body)
                 .then(result => {
-                this.process(result);
-            })
+                    this.process(result);
+                })
                 .catch(err => {
-                this.end(err);
-            });
+                    this.end(err);
+                });
         });
     }
     scheduleRequests() {
@@ -14339,8 +14738,7 @@ class BOSH extends Duplex {
                 const [data, done] = this.queue.shift();
                 this._send({}, data);
                 done();
-            }
-            else {
+            } else {
                 this.scheduleRequests();
             }
             return;
@@ -14398,7 +14796,7 @@ class WSConnection extends Duplex {
             registry: this.stanzas,
             wrappedStream: false
         });
-        this.parser.on('data', (e) => {
+        this.parser.on('data', e => {
             const name = e.kind;
             const stanzaObj = e.stanza;
             if (name === 'stream') {
@@ -14414,7 +14812,7 @@ class WSConnection extends Duplex {
             }
             this.push({ kind: e.kind, stanza: e.stanza });
         });
-        this.parser.on('error', (err) => {
+        this.parser.on('error', err => {
             const streamError = {
                 condition: StreamErrorCondition.InvalidXML
             };
@@ -14448,8 +14846,7 @@ class WSConnection extends Duplex {
         if (this.socket && !this.closing && this.hasStream && clean) {
             this.closing = true;
             this.write(this.closeHeader());
-        }
-        else {
+        } else {
             this.hasStream = false;
             this.stream = undefined;
             if (this.socket) {
@@ -14469,7 +14866,10 @@ class WSConnection extends Duplex {
         return __awaiter(this, void 0, void 0, function* () {
             let output;
             if (data) {
-                output = (_a = this.stanzas.export(dataOrName, data)) === null || _a === void 0 ? void 0 : _a.toString();
+                output =
+                    (_a = this.stanzas.export(dataOrName, data)) === null || _a === void 0
+                        ? void 0
+                        : _a.toString();
             }
             if (!output) {
                 return;
@@ -14543,7 +14943,7 @@ class Client extends EventEmitter {
         this.sm.on('end-resend', () => this.outgoingDataQueue.resume());
         // Create message:* flavors of stanza:* SM events
         for (const type of ['acked', 'hibernated', 'failed']) {
-            this.on(`stanza:${type}`, (data) => {
+            this.on(`stanza:${type}`, data => {
                 if (data.kind === 'message') {
                     this.emit(`message:${type}`, data.stanza);
                 }
@@ -14553,106 +14953,121 @@ class Client extends EventEmitter {
             bosh: BOSH,
             websocket: WSConnection
         };
-        this.incomingDataQueue = priorityQueue((task, done) => __awaiter(this, void 0, void 0, function* () {
-            const { kind, stanza } = task;
-            this.emit(kind, stanza);
-            if (stanza.id) {
-                this.emit((kind + ':id:' + stanza.id), stanza);
-            }
-            if (kind === 'message' || kind === 'presence' || kind === 'iq') {
-                this.emit('stanza', stanza);
-                yield this.sm.handle();
-            }
-            else if (kind === 'sm') {
-                if (stanza.type === 'ack') {
-                    yield this.sm.process(stanza);
-                    this.emit('stream:management:ack', stanza);
-                }
-                if (stanza.type === 'request') {
-                    this.sm.ack();
-                }
-            }
-            if (done) {
-                done();
-            }
-        }), 1);
-        this.outgoingDataQueue = priorityQueue((task, done) => __awaiter(this, void 0, void 0, function* () {
-            var _a;
-            const { kind, stanza, replay } = task;
-            const ackRequest = replay || (yield this.sm.track(kind, stanza));
-            if (kind === 'message') {
-                if (replay) {
-                    this.emit('message:retry', stanza);
-                }
-                else {
-                    this.emit('message:sent', stanza, false);
-                }
-            }
-            try {
-                if (!this.transport) {
-                    throw new Error('Missing transport');
-                }
-                yield this.transport.send(kind, stanza);
-                if (ackRequest) {
-                    (_a = this.transport) === null || _a === void 0 ? void 0 : _a.send('sm', { type: 'request' });
-                }
-            }
-            catch (err) {
-                if (['message', 'presence', 'iq'].includes(kind)) {
-                    if (!this.sm.started || !this.sm.resumable) {
-                        this.emit('stanza:failed', {
-                            kind,
-                            stanza
-                        });
+        this.incomingDataQueue = priorityQueue(
+            (task, done) =>
+                __awaiter(this, void 0, void 0, function* () {
+                    const { kind, stanza } = task;
+                    this.emit(kind, stanza);
+                    if (stanza.id) {
+                        this.emit(kind + ':id:' + stanza.id, stanza);
                     }
-                    else if (this.sm.resumable && !this.transport) {
-                        this.emit('stanza:hibernated', {
-                            kind,
-                            stanza
-                        });
+                    if (kind === 'message' || kind === 'presence' || kind === 'iq') {
+                        this.emit('stanza', stanza);
+                        yield this.sm.handle();
+                    } else if (kind === 'sm') {
+                        if (stanza.type === 'ack') {
+                            yield this.sm.process(stanza);
+                            this.emit('stream:management:ack', stanza);
+                        }
+                        if (stanza.type === 'request') {
+                            this.sm.ack();
+                        }
                     }
-                }
-            }
-            if (done) {
-                done();
-            }
-        }), 1);
+                    if (done) {
+                        done();
+                    }
+                }),
+            1
+        );
+        this.outgoingDataQueue = priorityQueue(
+            (task, done) =>
+                __awaiter(this, void 0, void 0, function* () {
+                    var _a;
+                    const { kind, stanza, replay } = task;
+                    const ackRequest = replay || (yield this.sm.track(kind, stanza));
+                    if (kind === 'message') {
+                        if (replay) {
+                            this.emit('message:retry', stanza);
+                        } else {
+                            this.emit('message:sent', stanza, false);
+                        }
+                    }
+                    try {
+                        if (!this.transport) {
+                            throw new Error('Missing transport');
+                        }
+                        yield this.transport.send(kind, stanza);
+                        if (ackRequest) {
+                            (_a = this.transport) === null || _a === void 0
+                                ? void 0
+                                : _a.send('sm', { type: 'request' });
+                        }
+                    } catch (err) {
+                        if (['message', 'presence', 'iq'].includes(kind)) {
+                            if (!this.sm.started || !this.sm.resumable) {
+                                this.emit('stanza:failed', {
+                                    kind,
+                                    stanza
+                                });
+                            } else if (this.sm.resumable && !this.transport) {
+                                this.emit('stanza:hibernated', {
+                                    kind,
+                                    stanza
+                                });
+                            }
+                        }
+                    }
+                    if (done) {
+                        done();
+                    }
+                }),
+            1
+        );
         this.on('stream:data', (json, kind) => {
-            this.incomingDataQueue.push({
-                kind,
-                stanza: json
-            }, 0);
+            this.incomingDataQueue.push(
+                {
+                    kind,
+                    stanza: json
+                },
+                0
+            );
         });
-        this.on('--transport-disconnected', () => __awaiter(this, void 0, void 0, function* () {
-            const drains = [];
-            if (!this.incomingDataQueue.idle()) {
-                drains.push(this.incomingDataQueue.drain());
-            }
-            if (!this.outgoingDataQueue.idle()) {
-                drains.push(this.outgoingDataQueue.drain());
-            }
-            yield Promise.all(drains);
-            yield this.sm.hibernate();
-            if (this.transport) {
-                delete this.transport;
-            }
-            this.emit('--reset-stream-features');
-            if (!this.sessionTerminating && this.config.autoReconnect) {
-                this.reconnectAttempts += 1;
-                clearTimeout(this.reconnectTimer);
-                // [VOWEL]: extra debug
-                const delay = 1000 *
-                    Math.min(Math.pow(2, this.reconnectAttempts) + Math.random(), this.config.maxReconnectBackoff || 32);
-                this.emit('debug', `scheduled reconnect timer in: ${delay}ms`);
-                this.reconnectTimer = setTimeout(() => {
+        this.on('--transport-disconnected', () =>
+            __awaiter(this, void 0, void 0, function* () {
+                const drains = [];
+                if (!this.incomingDataQueue.idle()) {
+                    drains.push(this.incomingDataQueue.drain());
+                }
+                if (!this.outgoingDataQueue.idle()) {
+                    drains.push(this.outgoingDataQueue.drain());
+                }
+                yield Promise.all(drains);
+                yield this.sm.hibernate();
+                if (this.transport) {
+                    delete this.transport;
+                }
+                this.emit('--reset-stream-features');
+                if (!this.sessionTerminating && this.config.autoReconnect) {
+                    this.reconnectAttempts += 1;
+                    clearTimeout(this.reconnectTimer);
                     // [VOWEL]: extra debug
-                    this.emit('debug', 'reconnect timer - calling connect');
-                    this.connect();
-                }, delay);
-            }
-            this.emit('disconnected');
-        }));
-        this.on('iq', (iq) => {
+                    const delay =
+                        1000 *
+                        Math.min(
+                            Math.pow(2, this.reconnectAttempts) + Math.random(),
+                            this.config.maxReconnectBackoff || 32
+                        );
+                    this.emit('debug', `scheduled reconnect timer in: ${delay}ms`);
+                    this.reconnectTimer = setTimeout(() => {
+                        // [VOWEL]: extra debug
+                        this.emit('debug', 'reconnect timer - calling connect');
+                        this.connect();
+                    }, delay);
+                }
+                this.emit('disconnected');
+            })
+        );
+        this.on('iq', iq => {
             const iqType = iq.type;
             const payloadType = iq.payloadType;
             const iqEvent = 'iq:' + iqType + ':' + payloadType;
@@ -14677,14 +15092,14 @@ class Client extends EventEmitter {
             }
         });
         this.on('message', msg => {
-            const isChat = (msg.alternateLanguageBodies && msg.alternateLanguageBodies.length) ||
+            const isChat =
+                (msg.alternateLanguageBodies && msg.alternateLanguageBodies.length) ||
                 (msg.links && msg.links.length);
             const isMarker = msg.marker && msg.marker.type !== 'markable';
             if (isChat && !isMarker) {
                 if (msg.type === 'chat' || msg.type === 'normal') {
                     this.emit('chat', msg);
-                }
-                else if (msg.type === 'groupchat') {
+                } else if (msg.type === 'groupchat') {
                     this.emit('groupchat', msg);
                 }
             }
@@ -14692,7 +15107,7 @@ class Client extends EventEmitter {
                 this.emit('message:error', msg);
             }
         });
-        this.on('presence', (pres) => {
+        this.on('presence', pres => {
             let presType = pres.type || 'available';
             if (presType === 'error') {
                 presType = 'presence:error';
@@ -14709,10 +15124,21 @@ class Client extends EventEmitter {
     }
     updateConfig(opts = {}) {
         const currConfig = this.config || {};
-        this.config = Object.assign(Object.assign({ allowResumption: true, jid: '', transports: {
-                bosh: true,
-                websocket: true
-            }, useStreamManagement: true }, currConfig), opts);
+        this.config = Object.assign(
+            Object.assign(
+                {
+                    allowResumption: true,
+                    jid: '',
+                    transports: {
+                        bosh: true,
+                        websocket: true
+                    },
+                    useStreamManagement: true
+                },
+                currConfig
+            ),
+            opts
+        );
         if (!this.config.server) {
             this.config.server = getDomain(this.config.jid);
         }
@@ -14732,8 +15158,7 @@ class Client extends EventEmitter {
             super.emit(`raw:${args[0]}`, args[1]);
             super.emit('raw:*', `raw:${args[0]}`, args[1]);
             super.emit('*', `raw:${args[0]}`, args[1]);
-        }
-        else {
+        } else {
             super.emit('*', name, ...args);
         }
         return res;
@@ -14769,25 +15194,36 @@ class Client extends EventEmitter {
                 }
                 if (typeof conf === 'string') {
                     conf = { url: conf };
-                }
-                else if (conf === true) {
+                } else if (conf === true) {
                     if (!endpoints) {
                         try {
                             endpoints = yield this.discoverBindings(this.config.server);
-                        }
-                        catch (err) {
+                        } catch (err) {
                             console.error(err);
                             continue;
                         }
                     }
-                    endpoints[name] = (endpoints[name] || []).filter(url => url.startsWith('wss:') || url.startsWith('https:'));
+                    endpoints[name] = (endpoints[name] || []).filter(
+                        url => url.startsWith('wss:') || url.startsWith('https:')
+                    );
                     if (!endpoints[name] || !endpoints[name].length) {
                         continue;
                     }
                     conf = { url: endpoints[name][0] };
                 }
                 this.transport = new this.transports[name](this, this.sm, this.stanzas);
-                this.transport.connect(Object.assign({ acceptLanguages: this.config.acceptLanguages || ['en'], jid: this.config.jid, lang: this.config.lang || 'en', server: this.config.server, url: conf.url }, conf));
+                this.transport.connect(
+                    Object.assign(
+                        {
+                            acceptLanguages: this.config.acceptLanguages || ['en'],
+                            jid: this.config.jid,
+                            lang: this.config.lang || 'en',
+                            server: this.config.server,
+                            url: conf.url
+                        },
+                        conf
+                    )
+                );
                 return;
             }
             console.error('No endpoints found for the requested transports.');
@@ -14808,8 +15244,7 @@ class Client extends EventEmitter {
             this.sessionStarted = false;
             if (this.transport) {
                 this.transport.disconnect();
-            }
-            else {
+            } else {
                 this.emit('--transport-disconnected');
             }
             this.outgoingDataQueue.resume();
@@ -14822,7 +15257,9 @@ class Client extends EventEmitter {
     send(kind, stanza, replay = false) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
-                this.outgoingDataQueue.push({ kind, stanza, replay }, replay ? 0 : 1, err => err ? reject(err) : resolve());
+                this.outgoingDataQueue.push({ kind, stanza, replay }, replay ? 0 : 1, err =>
+                    err ? reject(err) : resolve()
+                );
             });
         });
     }
@@ -14842,7 +15279,7 @@ class Client extends EventEmitter {
         const allowed = allowedResponders(this.jid, data.to);
         const respEvent = 'iq:id:' + iq.id;
         const request = new Promise((resolve, reject) => {
-            const handler = (res) => {
+            const handler = res => {
                 // Only process result from the correct responder
                 if (!allowed.has(res.from)) {
                     return;
@@ -14856,8 +15293,7 @@ class Client extends EventEmitter {
                 this.off(respEvent, handler);
                 if (res.type === 'result') {
                     resolve(res);
-                }
-                else {
+                } else {
                     reject(res);
                 }
             };
@@ -14865,16 +15301,38 @@ class Client extends EventEmitter {
         });
         this.send('iq', iq);
         const timeout = this.config.timeout || 15;
-        return timeoutPromise(request, timeout * 1000, () => (Object.assign(Object.assign({}, iq), { to: undefined, from: undefined, error: {
-                condition: 'timeout',
-                text: `Request timed out after ${timeout} seconds.`
-            }, id: iq.id, type: 'error' })));
+        return timeoutPromise(request, timeout * 1000, () =>
+            Object.assign(Object.assign({}, iq), {
+                to: undefined,
+                from: undefined,
+                error: {
+                    condition: 'timeout',
+                    text: `Request timed out after ${timeout} seconds.`
+                },
+                id: iq.id,
+                type: 'error'
+            })
+        );
     }
     sendIQResult(original, reply) {
-        this.send('iq', Object.assign(Object.assign({}, reply), { id: original.id, to: original.from, type: 'result' }));
+        this.send(
+            'iq',
+            Object.assign(Object.assign({}, reply), {
+                id: original.id,
+                to: original.from,
+                type: 'result'
+            })
+        );
     }
     sendIQError(original, error) {
-        this.send('iq', Object.assign(Object.assign({}, error), { id: original.id, to: original.from, type: 'error' }));
+        this.send(
+            'iq',
+            Object.assign(Object.assign({}, error), {
+                id: original.id,
+                to: original.from,
+                type: 'error'
+            })
+        );
     }
     sendStreamError(error) {
         this.emit('stream:error', error);
@@ -14886,7 +15344,17 @@ class Client extends EventEmitter {
         const requestedJID = parse(this.config.jid || '');
         const username = creds.username || requestedJID.local;
         const server = creds.host || requestedJID.domain;
-        return Object.assign({ host: server, password: this.config.password, realm: server, serviceName: server, serviceType: 'xmpp', username }, creds);
+        return Object.assign(
+            {
+                host: server,
+                password: this.config.password,
+                realm: server,
+                serviceName: server,
+                serviceType: 'xmpp',
+                username
+            },
+            creds
+        );
     }
 }
 
@@ -14947,9 +15415,9 @@ class DisplayBuffer {
         this.sequenceNumber = 0;
         this.onStateChange =
             onStateChange ||
-                function noop() {
-                    return;
-                };
+            function noop() {
+                return;
+            };
         this.ignoreWaits = ignoreWaits;
         this.buffer = [];
         this.resetActionQueue();
@@ -14981,14 +15449,12 @@ class DisplayBuffer {
         if (event.event === 'cancel' || event.event === 'init') {
             this.resetActionQueue();
             return;
-        }
-        else if (event.event === 'reset' || event.event === 'new') {
+        } else if (event.event === 'reset' || event.event === 'new') {
             this.resetActionQueue();
             if (event.seq !== undefined) {
                 this.sequenceNumber = event.seq;
             }
-        }
-        else if (event.seq !== this.sequenceNumber) {
+        } else if (event.seq !== this.sequenceNumber) {
             this.synced = false;
         }
         if (event.actions) {
@@ -15035,7 +15501,12 @@ class DisplayBuffer {
         this.emitState();
     }
     emitState(additional = {}) {
-        this.onStateChange(Object.assign({ cursorPosition: this.cursorPosition, synced: this.synced, text: this.text }, additional));
+        this.onStateChange(
+            Object.assign(
+                { cursorPosition: this.cursorPosition, synced: this.synced, text: this.text },
+                additional
+            )
+        );
     }
     /**
      * Reset the processing state and queue.
@@ -15055,29 +15526,26 @@ class DisplayBuffer {
             if (action.type === 'insert') {
                 this.insert(action.text, action.position);
                 return done();
-            }
-            else if (action.type === 'erase') {
+            } else if (action.type === 'erase') {
                 this.erase(action.length, action.position);
                 return done();
-            }
-            else if (action.type === 'wait') {
+            } else if (action.type === 'wait') {
                 if (this.ignoreWaits) {
                     return done();
                 }
                 if (action.duration > 700) {
                     action.duration = 700;
                 }
-                const waitTime = action.duration - (currentTime - action.baseTime) + this.timeDeficit;
+                const waitTime =
+                    action.duration - (currentTime - action.baseTime) + this.timeDeficit;
                 if (waitTime <= 0) {
                     this.timeDeficit = waitTime;
                     return done();
-                }
-                else {
+                } else {
                     this.timeDeficit = 0;
                     setTimeout(() => done(), waitTime);
                 }
-            }
-            else {
+            } else {
                 return done();
             }
         }, 1);
@@ -15096,9 +15564,9 @@ class InputBuffer {
         this.changedBetweenResets = false;
         this.onStateChange =
             onStateChange ||
-                function noop() {
-                    return;
-                };
+            function noop() {
+                return;
+            };
         this.ignoreWaits = ignoreWaits;
         this.buffer = [];
         this.actionQueue = [];
@@ -15135,8 +15603,7 @@ class InputBuffer {
             this.lastActionTime = now;
             this.lastResetTime = now;
             this.changedBetweenResets = false;
-        }
-        else if (actions.length) {
+        } else if (actions.length) {
             const wait = now - (this.lastActionTime || now);
             if (wait > 0 && !this.ignoreWaits) {
                 this.actionQueue.push({
@@ -15149,8 +15616,7 @@ class InputBuffer {
             }
             this.lastActionTime = now;
             this.changedBetweenResets = true;
-        }
-        else {
+        } else {
             this.lastActionTime = now;
         }
     }
@@ -15198,8 +15664,7 @@ class InputBuffer {
             event.event = 'new';
             this.isStarting = false;
             this.lastResetTime = Date.now();
-        }
-        else if (this.isReset) {
+        } else if (this.isReset) {
             event.event = 'reset';
             this.isReset = false;
         }
@@ -15222,7 +15687,7 @@ class InputBuffer {
     }
 }
 
-var RTT = /*#__PURE__*/Object.freeze({
+var RTT = /*#__PURE__*/ Object.freeze({
     __proto__: null,
     diff: diff,
     DisplayBuffer: DisplayBuffer,
@@ -15236,4 +15701,19 @@ function createClient(opts) {
     return client;
 }
 
-export { Client, Constants, JID, index as JXT, index$2 as Jingle, Namespaces, RTT, index$1 as SASL, index$3 as Stanzas, Utils, VERSION$1 as VERSION, core, createClient, getHostMeta };
+export {
+    Client,
+    Constants,
+    JID,
+    index as JXT,
+    index$2 as Jingle,
+    Namespaces,
+    RTT,
+    index$1 as SASL,
+    index$3 as Stanzas,
+    Utils,
+    VERSION$1 as VERSION,
+    core,
+    createClient,
+    getHostMeta
+};

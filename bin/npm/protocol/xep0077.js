@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0077: In-Band Registration
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0077.html
 // Version: 2.4 (2012-01-253)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     jxt_1.extendStreamFeatures({
         inbandRegistration: jxt_1.childBoolean(Namespaces_1.NS_INBAND_REGISTRATION, 'register')

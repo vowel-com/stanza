@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0261: Jingle In-Band Bytestreams Transport Method
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0047.html
 // Version: 1.0 (2011-09-23)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = {
     element: 'transport',
     fields: {

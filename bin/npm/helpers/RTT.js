@@ -1,9 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
 exports.InputBuffer = exports.DisplayBuffer = exports.diff = void 0;
-const tslib_1 = require("tslib");
-const async_1 = require("async");
-const punycode_1 = tslib_1.__importDefault(require("punycode"));
+const tslib_1 = require('tslib');
+const async_1 = require('async');
+const punycode_1 = tslib_1.__importDefault(require('punycode'));
 /**
  * Calculate the erase and insert actions needed to describe the user's edit operation.
  *
@@ -62,9 +62,9 @@ class DisplayBuffer {
         this.sequenceNumber = 0;
         this.onStateChange =
             onStateChange ||
-                function noop() {
-                    return;
-                };
+            function noop() {
+                return;
+            };
         this.ignoreWaits = ignoreWaits;
         this.buffer = [];
         this.resetActionQueue();
@@ -96,14 +96,12 @@ class DisplayBuffer {
         if (event.event === 'cancel' || event.event === 'init') {
             this.resetActionQueue();
             return;
-        }
-        else if (event.event === 'reset' || event.event === 'new') {
+        } else if (event.event === 'reset' || event.event === 'new') {
             this.resetActionQueue();
             if (event.seq !== undefined) {
                 this.sequenceNumber = event.seq;
             }
-        }
-        else if (event.seq !== this.sequenceNumber) {
+        } else if (event.seq !== this.sequenceNumber) {
             this.synced = false;
         }
         if (event.actions) {
@@ -175,29 +173,26 @@ class DisplayBuffer {
             if (action.type === 'insert') {
                 this.insert(action.text, action.position);
                 return done();
-            }
-            else if (action.type === 'erase') {
+            } else if (action.type === 'erase') {
                 this.erase(action.length, action.position);
                 return done();
-            }
-            else if (action.type === 'wait') {
+            } else if (action.type === 'wait') {
                 if (this.ignoreWaits) {
                     return done();
                 }
                 if (action.duration > 700) {
                     action.duration = 700;
                 }
-                const waitTime = action.duration - (currentTime - action.baseTime) + this.timeDeficit;
+                const waitTime =
+                    action.duration - (currentTime - action.baseTime) + this.timeDeficit;
                 if (waitTime <= 0) {
                     this.timeDeficit = waitTime;
                     return done();
-                }
-                else {
+                } else {
                     this.timeDeficit = 0;
                     setTimeout(() => done(), waitTime);
                 }
-            }
-            else {
+            } else {
                 return done();
             }
         }, 1);
@@ -217,9 +212,9 @@ class InputBuffer {
         this.changedBetweenResets = false;
         this.onStateChange =
             onStateChange ||
-                function noop() {
-                    return;
-                };
+            function noop() {
+                return;
+            };
         this.ignoreWaits = ignoreWaits;
         this.buffer = [];
         this.actionQueue = [];
@@ -256,8 +251,7 @@ class InputBuffer {
             this.lastActionTime = now;
             this.lastResetTime = now;
             this.changedBetweenResets = false;
-        }
-        else if (actions.length) {
+        } else if (actions.length) {
             const wait = now - (this.lastActionTime || now);
             if (wait > 0 && !this.ignoreWaits) {
                 this.actionQueue.push({
@@ -270,8 +264,7 @@ class InputBuffer {
             }
             this.lastActionTime = now;
             this.changedBetweenResets = true;
-        }
-        else {
+        } else {
             this.lastActionTime = now;
         }
     }
@@ -319,8 +312,7 @@ class InputBuffer {
             event.event = 'new';
             this.isStarting = false;
             this.lastResetTime = Date.now();
-        }
-        else if (this.isReset) {
+        } else if (this.isReset) {
             event.event = 'reset';
             this.isReset = false;
         }

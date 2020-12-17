@@ -1,9 +1,9 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const DiscoManager_1 = tslib_1.__importDefault(require("../helpers/DiscoManager"));
-const JID = tslib_1.__importStar(require("../JID"));
-const Namespaces_1 = require("../Namespaces");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const tslib_1 = require('tslib');
+const DiscoManager_1 = tslib_1.__importDefault(require('../helpers/DiscoManager'));
+const JID = tslib_1.__importStar(require('../JID'));
+const Namespaces_1 = require('../Namespaces');
 function default_1(client) {
     client.disco = new DiscoManager_1.default();
     client.disco.addFeature(Namespaces_1.NS_DISCO_INFO);

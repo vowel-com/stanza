@@ -1,8 +1,8 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-const tslib_1 = require("tslib");
-const JID = tslib_1.__importStar(require("../JID"));
-const Namespaces_1 = require("../Namespaces");
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+const tslib_1 = require('tslib');
+const JID = tslib_1.__importStar(require('../JID'));
+const Namespaces_1 = require('../Namespaces');
 function default_1(client) {
     client.disco.addFeature(Namespaces_1.NS_BOB);
     client.getBits = async (jid, cid) => {
@@ -23,7 +23,12 @@ function default_1(client) {
         let maxSize;
         for (const form of disco.extensions || []) {
             const fields = form.fields || [];
-            if (fields.some(field => field.name === 'FORM_TYPE' && field.value === Namespaces_1.NS_HTTP_UPLOAD_0)) {
+            if (
+                fields.some(
+                    field =>
+                        field.name === 'FORM_TYPE' && field.value === Namespaces_1.NS_HTTP_UPLOAD_0
+                )
+            ) {
                 const sizeField = fields.find(field => field.name === 'max-file-size');
                 if (sizeField) {
                     maxSize = parseInt(sizeField.value, 10);

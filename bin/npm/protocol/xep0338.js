@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0338: Jingle Grouping Framework
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0338.html
 // Version: 0.2 (2017-09-11)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     {
         aliases: [{ path: 'iq.jingle.groups', multiple: true }],

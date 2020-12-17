@@ -1,16 +1,19 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0363: HTTP File Upload
 // --------------------------------------------------------------------
 // Source: https://xmpp.org/extensions/xep-0363.html
 // Version: 0.5.0 (2018-02-15)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     jxt_1.extendStanzaError({
-        httpUploadError: jxt_1.childEnum(Namespaces_1.NS_HTTP_UPLOAD_0, ['file-too-large', 'retry']),
+        httpUploadError: jxt_1.childEnum(Namespaces_1.NS_HTTP_UPLOAD_0, [
+            'file-too-large',
+            'retry'
+        ]),
         httpUploadMaxFileSize: jxt_1.deepChildInteger([
             { namespace: Namespaces_1.NS_HTTP_UPLOAD_0, element: 'file-too-large' },
             { namespace: Namespaces_1.NS_HTTP_UPLOAD_0, element: 'max-file-size' }

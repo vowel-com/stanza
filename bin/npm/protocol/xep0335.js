@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 // ====================================================================
 // XEP-0335: JSON Containers
 // --------------------------------------------------------------------
@@ -11,9 +11,9 @@
 // Source: https://xmpp.org/extensions/xep-0432.html
 // Version: 0.1.0 (2020-02-25)
 // ====================================================================
-Object.defineProperty(exports, "__esModule", { value: true });
-const jxt_1 = require("../jxt");
-const Namespaces_1 = require("../Namespaces");
+Object.defineProperty(exports, '__esModule', { value: true });
+const jxt_1 = require('../jxt');
+const Namespaces_1 = require('../Namespaces');
 const Protocol = [
     jxt_1.extendMessage({
         json: jxt_1.childJSON(Namespaces_1.NS_JSON_0, 'json')
