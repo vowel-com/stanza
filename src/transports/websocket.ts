@@ -154,7 +154,7 @@ export default class WSConnection extends Duplex implements Transport {
             if (this.socket) {
                 this.end();
                 // [VOWEL]: extra debug
-                this.emit('debug', 'WS socket.close');
+                this.client.emit('debug', 'WS socket.close');
                 this.socket.close();
                 if (this.client.transport === this) {
                     this.client.emit('--transport-disconnected');
