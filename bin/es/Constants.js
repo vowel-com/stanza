@@ -6,7 +6,7 @@ import {
     NS_JINGLE_RTP_INFO_1,
     NS_SERVER
 } from './Namespaces';
-export const VERSION = '0.1.2';
+export const VERSION = '0.1.3';
 // ====================================================================
 // Frequently Used Values
 // ====================================================================

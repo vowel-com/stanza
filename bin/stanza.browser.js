@@ -9769,7 +9769,7 @@ window.XMPP = (function (e) {
                 }
                 var dr = Object.freeze({
                     __proto__: null,
-                    VERSION: '0.1.2',
+                    VERSION: '0.1.3',
                     StreamType: Ls,
                     SASLFailureCondition: Ms,
                     StreamErrorCondition: Ds,
@@ -9869,7 +9869,7 @@ window.XMPP = (function (e) {
                             e.sendIQResult(t, {
                                 softwareVersion: e.config.softwareVersion || {
                                     name: 'stanzajs.org',
-                                    version: '0.1.2'
+                                    version: '0.1.3'
                                 }
                             })
                         ),
@@ -16277,8 +16277,23 @@ window.XMPP = (function (e) {
                                 this.client.emit('raw', 'incoming', n),
                                     this.parser && this.parser.write(n);
                             }),
+                            (this.socket.onerror = e => {
+                                let t = '';
+                                if ('error' === e.type) {
+                                    const n = e;
+                                    t = JSON.stringify({
+                                        message: n.message,
+                                        filename: n.filename,
+                                        lineno: n.lineno,
+                                        colno: n.colno,
+                                        error: n.error
+                                    });
+                                }
+                                this.client.emit('debug', 'WS socket.onerror: ' + t),
+                                    this.push(null);
+                            }),
                             (this.socket.onclose = () => {
-                                this.emit('debug', 'WS socket.onclose'), this.push(null);
+                                this.client.emit('debug', 'WS socket.onclose'), this.push(null);
                             });
                     }
                     disconnect(e = !0) {
@@ -16289,7 +16304,7 @@ window.XMPP = (function (e) {
                                   (this.stream = void 0),
                                   this.socket &&
                                       (this.end(),
-                                      this.emit('debug', 'WS socket.close'),
+                                      this.client.emit('debug', 'WS socket.close'),
                                       this.socket.close(),
                                       this.client.transport === this &&
                                           this.client.emit('--transport-disconnected')),
@@ -16900,7 +16915,7 @@ window.XMPP = (function (e) {
                         }
                     }
                 });
-                const Uo = '0.1.2';
+                const Uo = '0.1.3';
                 function zo(e) {
                     const t = new Mo(e);
                     return t.use(Xr), t;

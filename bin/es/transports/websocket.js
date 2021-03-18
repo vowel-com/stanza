@@ -88,9 +88,34 @@ export default class WSConnection extends Duplex {
                 this.parser.write(data);
             }
         };
-        this.socket.onclose = () => {
+        this.socket.onerror = event => {
             // [VOWEL]: extra debug
-            this.emit('debug', 'WS socket.onclose');
+            let extraErrorMsg = '';
+            if (event.type === 'error') {
+                const errorEvent = event;
+                extraErrorMsg = JSON.stringify({
+                    message: errorEvent.message,
+                    filename: errorEvent.filename,
+                    lineno: errorEvent.lineno,
+                    colno: errorEvent.colno,
+                    error: errorEvent.error
+                });
+            }
+            this.client.emit('debug', 'WS socket.onerror: ' + extraErrorMsg);
+            // According to the spec[1], the onerror should be followed by onclose, but in cases when
+            // the connection fails initially that doesn't seem to be the case on Chrome 89. The initial case that was
+            // observed is when websocket was blocked due to CORS security policy.
+            // [1]: https://html.spec.whatwg.org/multipage/web-sockets.html#feedback-from-the-protocol%3Aconcept-websocket-closed
+            //
+            // Close the connection and trigger a retry
+            this.push(null);
+        };
+        this.socket.onclose = () => {
+            // [VOWEL] consider passing status codes[1] if will be hard to filter out false positives for websocket
+            // alerting:
+            // https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent#Status_codes
+            // [VOWEL]: extra debug
+            this.client.emit('debug', 'WS socket.onclose');
             this.push(null);
         };
     }
@@ -106,7 +131,7 @@ export default class WSConnection extends Duplex {
             if (this.socket) {
                 this.end();
                 // [VOWEL]: extra debug
-                this.emit('debug', 'WS socket.close');
+                this.client.emit('debug', 'WS socket.close');
                 this.socket.close();
                 if (this.client.transport === this) {
                     this.client.emit('--transport-disconnected');
